@@ -7,9 +7,13 @@ use Rap2hpoutre\LaravelStripeConnect\StripeConnect;
 use Stripe\Account as StripeAccount;
 use Stripe\Stripe as StripeBase;
 use Stripe\OAuth as StripeOAuth;
+
 use App\User;
 use App\Models\RVTypes;
+use App\Models\Booking;
+
 use Auth;
+use DB;
 use Cloudder;
 use Redirect;
 use Input;
@@ -34,11 +38,11 @@ class HomeController extends Controller
      */
     public function index()
     {
-        $user = User::find(Auth::user()->id);
+		$user = User::find(Auth::user()->id);
 		$rvtypes = RVTypes::all();
-		
-        
-        return view('home')
+
+
+		return view('home')
 			->with('user', $user)
 			->with('rvtypes', $rvtypes);
     }
@@ -130,6 +134,40 @@ class HomeController extends Controller
 		
 		return view('dashboard.traveller.favorites')
 			->with('listings', $favorites);
+	}
+	
+	
+	public function upcomingTrips()
+	{
+		$now = \Carbon\Carbon::now()->format('Y-m-d');
+		$listings = Booking::where('traveller_id', '=', Auth::user()->id)
+			->where('end_date', '>', $now)
+			->leftJoin('listings', 'listings.id', '=', 'bookings.listing_id')
+			->leftJoin('listing_addresses', 'listing_addresses.id', '=', 'listings.id')
+			->leftJoin(DB::raw("(select url, listing_id 
+							from `listings_images` 
+							where `primary` = 1 LIMIT 1) as `list_images`"), 'list_images.listing_id', '=', 'listings.id')
+			->get();
+		
+		return view('dashboard.traveller.upcoming')
+			->with('listings', $listings);
+	}
+	
+	public function pastTrips()
+	{
+		$now = \Carbon\Carbon::now()->format('Y-m-d');
+		$listings = Booking::where('traveller_id', '=', Auth::user()->id)
+			->where('end_date', '<', $now)
+			->whereNotNull('transaction_id')
+			->leftJoin('listings', 'listings.id', '=', 'bookings.listing_id')
+			->leftJoin('listing_addresses', 'listing_addresses.id', '=', 'listings.id')
+			->leftJoin(DB::raw("(select url, listing_id 
+							from `listings_images` 
+							where `primary` = 1 LIMIT 1) as `list_images`"), 'list_images.listing_id', '=', 'listings.id')
+			->get();
+		
+		return view('dashboard.traveller.past')
+			->with('listings', $listings);
 	}
 }
 

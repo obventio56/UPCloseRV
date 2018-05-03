@@ -206,5 +206,35 @@ class Listing extends Model
 	}
 	
 
-    
+    public function getRating()
+	{
+		return $this->calculateRating($this->id);
+	}
+	
+	public function getTotalReviews()
+	{
+		return Review::where('listing_id', '=', $this->id)->count();
+	}
+	
+	public static function calculateRating($id)
+	{
+		$reviews = Review::where('listing_id', '=', $id)->get();
+		$total_points = 0;
+		$iterator = 0;
+		
+			
+		foreach($reviews as $review){
+			
+			$total_points += $review->stars;
+			$iterator++;
+		}
+		
+		if($iterator > 0 && $total_points > 0){
+			
+			return round($total_points / $iterator);
+			
+		}
+		
+		return 0;
+	}
 }

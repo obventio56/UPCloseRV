@@ -77,6 +77,8 @@ Route::get('/dashboard/listings/page/7/{id}', 'ListingController@editPage7')->na
 	// Favorite Listing
 	Route::post('/dashboard/listing/favorite', 'HomeController@favorite')->name('favorite-listing');
 	Route::get('/dashboard/favorites', 'HomeController@favorites')->name('favorited-listings');
+	Route::get('/dashboard/upcoming-trips', 'HomeController@upcomingTrips')->name('upcoming-trips');
+	Route::get('/dashboard/past-trips', 'HomeController@pastTrips')->name('past-trips');
 
 
 // Searching

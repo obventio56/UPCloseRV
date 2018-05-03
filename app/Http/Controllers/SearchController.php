@@ -6,6 +6,7 @@ use App\Models\Amenities;
 use App\Models\Listing;
 use App\Models\ListingAddress;
 use App\Models\ListingImages;
+use App\Models\Review;
 use App\Models\RVTypes;
 use App\Models\Favorite;
 use Illuminate\Http\Request;
@@ -33,7 +34,7 @@ class SearchController extends Controller
     public function search(Request $request)
     {
 		
-        $location = $this::geocode($request->search);
+    $location = $this::geocode($request->search);
 		$rvTypes = RVTypes::all();
 		$amenities = Amenities::all();
 		
@@ -124,7 +125,14 @@ class SearchController extends Controller
     */
 	public function listing($id)
 	{
-		$listing = Listing::where('id', '=', $id)->first();
+		$listing = Listing::where('id', '=', $id)			
+			->leftJoin(DB::raw("(select traveller_photo as host_url, name as host_name, host_description, id as host_id
+							from `users` LIMIT 1) as `host`"), 'host.host_id', '=', 'listings.user_id')
+			->leftJoin(DB::raw("(select id as address_id, city, state, lat, lng
+							from `listing_addresses` LIMIT 1) as `address`"), 'address.address_id', '=', 'listings.id')
+			->first();
+		$listing->rating = $listing->getRating();
+		$listing->reviews = $listing->getTotalReviews();
 		
 		// Ensure the listing is published/active.
 		if(!$listing->published){
@@ -153,6 +161,7 @@ class SearchController extends Controller
 		
 		// Grab the listing owner's other listings
 		$other_listings = Listing::where('user_id', '=', $listing->user_id)
+			  ->where('id', '!=', $listing->id)
 			  ->leftJoin(DB::raw("(select city, state, id as listing_id 
 							from `listing_addresses` LIMIT 1) as `list_address`"), 'list_address.listing_id', '=', 'listings.id')
 			  ->leftJoin(DB::raw("(select url, listing_id 

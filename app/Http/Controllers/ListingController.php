@@ -10,6 +10,7 @@ use App\Models\ListingAddress;
 use App\Models\ListingImages;
 use App\Models\ListingException;
 use App\Models\Booking;
+use App\Models\Review;
 use App\Models\RVTypes;
 use App\Models\Amenities;
 use Cloudder;
