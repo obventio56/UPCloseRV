@@ -28,7 +28,7 @@
     <link rel="shortcut icon" href="<?php echo $siteurl; ?>/favicon.ico" type="image/x-icon">
 	<link rel="icon" href="<?php echo $siteurl; ?>/favicon.ico" type="image/x-icon">
 
-    
+   <script src="js/app.js"></script> 
 </head>
 <div class="error-browser">You are seeing a condensed version of this website. Our developers spent countless hours developing this website with the latest industry trends. To fully appreciate this website, we recommend using <a href="https://www.mozilla.org/en-US/firefox/" target="_blank">FireFox</a> or <a href="https://www.google.com/chrome/" target="_blank">Chrome</a> as your main browser. (FYI: IE11 is old & only <a href="https://www.w3counter.com/globalstats.php" target="_blank">2.9% of the world</a> uses it!)</div>
 

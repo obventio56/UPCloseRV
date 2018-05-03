@@ -8,8 +8,8 @@
         </ul>
         <div id="first-tab" class="tab-content">        
             <a href="{{ route('home') }}" class="h8" id="listingz">Your profile</a>
-            <a href="" class="h8" id="trips">Your upcoming trips</a>
-            <a href="" class="h8" id="previous">Previous Trips</a>
+            <a href="{{ route('upcoming-trips') }}" class="h8" id="trips">Your upcoming trips</a>
+            <a href="{{ route('past-trips') }}" class="h8" id="previous">Previous Trips</a>
             <a href="{{ route('favorited-listings') }}" class="h8" id="saved">Saved Listings</a>
             <a href="{{ route('messages') }}" class="h8" id="reviews">Messages</a>
             <a href="" class="h8" id="support">Support</a>

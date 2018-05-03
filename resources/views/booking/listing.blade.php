@@ -14,7 +14,16 @@
 					<a class="button love favorite-listing"> Save for later </a>
 				@endif
 			@endguest
-				<div class="rating"><span class="star"></span><span class="star"></span><span class="star"></span><span class="star"></span><span></span> 49</div><br/>
+				<div class="rating">
+					@for($i = 0; $i < 5; $i++)
+						@if($i < $listing->rating)
+							<span class="star"></span>
+						@else
+							<span></span>
+						@endif
+					@endfor
+					{{ $listing->reviews }}
+				</div><br/>
 				<h1 class="h3">{{ $listing->name }}</h1>@if($listing->verified)<span class="verified">Verified</span>@endif
 				<p class="h11">
 					@if($listing->day_rental)
@@ -112,18 +121,18 @@
 					<h4 class="h10">About The Owner</h4>
 					<div class="grid">
 						<div class="g">
-							<div class="profile-pic" style="background-image: url(/img/vw-rv.jpg);"></div>
-							<p class="name h11">Holly Tritt</p>
+							<div class="profile-pic" style="background-image: url({{ $listing->host_url }});"></div>
+							<p class="name h11">{{ $listing->host_name }}</p>
 							<a class="message h12" href="#">Message Owner</a>
 						</div>
 						
 						<div class="g">
-							<p>We love living in central PA. Our house is sandwiched between a corn field and a large creek. Enjoy! We love living in central PA. Our house is sandwiched between a corn field and a large creek. Enjoy! </p>
+							<p>{{ $listing->host_description }}</p>
 						</div>
 					</div>
 				</div>
 				
-				@if(isset($other_listings))
+				@if($other_listings->count())
 				<div class="other-props">
 					<h4 class="h10">See other properties owned by this person</h4>
 					@foreach($other_listings as $listing)
@@ -141,25 +150,21 @@
 					@endforeach
 				</div>
 				@endif
+				@if(isset($reviews))
 				<div class="reviews">
 					<h5 class="h10">Reviews</h5>
 					
-					@if(isset($reviews))
 						@foreach($reviews as $review)
 							<div class="review">
 								<div class="rating"><span class="star"></span><span class="star"></span><span class="star"></span><span class="star"></span><span></span></div>
 								<p class="rev-content">{{ $review->review }}<span>-{{ $review->name }}</span></p>
 							</div>
 						@endforeach
-					@else
-					<p>
-						 This property does not currently have any reviews.
-					</p>
-					@endif
+
 					
 					<!--<a class="button listing more" id="loadMore">More</a>-->
 				</div>
-				
+				@endif
 				
 			</div>
 			
@@ -264,12 +269,12 @@
 <script>
       function initMap() {
         var locations = [
-      ['Bondi Beach', -33.890542, 151.274856, 4]
+      {'{{ $listing->name }}', {{ $listing->lat }},  {{ $listing->lng }} }
     ];
 
     var map = new google.maps.Map(document.getElementById('map'), {
       zoom: 12,
-      center: new google.maps.LatLng(-33.890542, 151.274856),
+      center: new google.maps.LatLng({{ $listing->lat }}, {{ $listing->lng }}),
       mapTypeId: google.maps.MapTypeId.ROADMAP, 
       styles: [
     {
@@ -366,7 +371,7 @@
     });
     
     
-    var iconBase = 'http://upclose-front.developingpixels.com/assets/img/';
+    var iconBase = 'http://upclose.developingpixels.com/assets/img/';
 
     var infowindow = new google.maps.InfoWindow();
 

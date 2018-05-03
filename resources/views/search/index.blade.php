@@ -73,6 +73,8 @@
 			
 			
 			<div class="prop-list">
+        
+        
 				@foreach($listings as $listing)
 				<div class="prop">
 					<div class="grid">
@@ -106,6 +108,11 @@
 				</div>
 				@endforeach
    
+    <listing-component
+      v-for="listing in listingsList"
+      v-bind:listing="listing"
+      v-bind:key="listing.id">
+    </listing-component>
 			</div>
 			
 		</div>
@@ -116,12 +123,38 @@
 
 @section('scripts')
 <script>
-      function initMap() {
-        var locations = [
-		@foreach($listings as $listing)
-      		['{{ $listing->name }}', {{ $listing->lat }}, {{ $listing->lng }}, 1],
-		@endforeach
+  
+    var locations = [
+		  @foreach($listings as $listing)
+      {
+        'id': {{$listing->id}}, 
+        'url': '{{ route('view-listing', ['id' => $listing->listid]) }}',
+        'image_url': '{{ (isset($listing->url)? $listing->url : '') }}',
+        'city': '{{$listing->city}}',
+        'state': '{{$listing->state}}',
+        'name': '{{$listing->name}}',
+        'property_type_id': {{$listing->property_type_id}},
+        'max_vehicle_length': '{{$listing->max_vehicle_length}}',
+        'month_rental': {{$listing->month_rental}},
+        'month_pricing': '{{$listing->month_pricing}}',
+        'day_rental': {{$listing->day_rental}},
+        'day_pricing': '{{$listing->day_pricing}}',
+        'lat': {{$listing->lat}},
+        'lng': {{$listing->lng}}
+      }
+		  @endforeach
     ];
+
+
+    const listingsApp = new Vue({
+        el: '#listing-page',
+        data: {
+          listingsList: locations
+        }
+    });
+  
+  
+    function initMap() {
 
     var map = new google.maps.Map(document.getElementById('map'), {
       zoom: 10,
@@ -231,14 +264,14 @@
 
     for (i = 0; i < locations.length; i++) {  
       marker = new google.maps.Marker({
-        position: new google.maps.LatLng(locations[i][1], locations[i][2]),
+        position: new google.maps.LatLng(locations[i].lat, locations[i].lng),
         map: map, 
         icon: iconBase + 'map-icon.svg'
       });
 
       google.maps.event.addListener(marker, 'click', (function(marker, i) {
         return function() {
-          infowindow.setContent(locations[i][0]);
+          infowindow.setContent(locations[i].name);
           infowindow.open(map, marker);
         }
       })(marker, i));
