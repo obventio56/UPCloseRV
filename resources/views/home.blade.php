@@ -48,7 +48,8 @@
 					</div>
 					
 					<div class="one">
-						
+						<label>Let others know a little about you</label>
+						<textarea name="description">{{ $user->host_description }}</textarea>
 					</div>
 				
 				</div>

@@ -50,6 +50,7 @@ class HomeController extends Controller
         $user->name = $request->name;
 		$user->traveller_rv_type_id = $request->rvType;
 		$user->traveller_rv_size = $request->rvSize;
+		$user->host_description = $request->description;
 		
 		$user->save();
         
