@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-<section id="admin-dash">
+<section id="admin-dash" class="photo-upload">
 	<div class="grid">
 		<div class="content rv">
 			@component('components.breadcrumbs.dashboard')
@@ -10,11 +10,10 @@
 			<br />
 			
 			@component('components.menus.dashboard.listing', ['listing' => $listing]) @endcomponent	
-		</div>
-		<div class="content wizy">			
 
+		<div class="content wizy">			
             <h1 class="h2">Show off your property with photos!</h1>
-            <p>All about my property will be written here. It is the best! You will love staying here. All about my property will be written here. It is the best! You will love staying here. All about my property will be written here. It is the best! You will love staying here. All about my property will be written here. It is the best! You will love staying here. All about my property will be written here. It is the best! You will love staying here.</p>
+            <p>You'll want to share some quality photos of your property so your visitors know what to expect on their arrival. Share photos of where their RV will be parked as well as any special attributes about your property (farm, creek, sightseeing, etc). Please don't upload photos larger than 1MB. We encourage you to add 3-5 photos.</p>
             
 			<div class="one photo-upload">   
                 <form class="style lister dropzone" method="POST" action="{{ route('store-listing-p6') }}" id="my-awesome-dropzone">
@@ -31,9 +30,11 @@
 						Save
 					</button>
 				</div>
-			
 			@foreach($images as $image)
-				<img @if($image->primary) style="border: 4px solid #50CEBE;" @endif src="{{ $image->url }}" />
+			<div class="image-wrapper">
+<!-- 				<img @if($image->primary) style="border: 4px solid #50CEBE;" @endif src="{{ $image->url }}" /> -->
+				
+				<div class="uploaded-img-container @if($image->primary) primary @endif" style="background-image: url({{ $image->url }})"></div>
 			
 				@if(!$image->primary)
 					<div class="make-primary-image">
@@ -54,8 +55,11 @@
 						<input type="submit" value="Remove image" />
 					</form>
 				</div>
+			</div>
 			@endforeach
         </div>    
+			
+		</div>
         @component('components.sidebars.dashboard')
 			@component('components.sidebars.listings')
 		

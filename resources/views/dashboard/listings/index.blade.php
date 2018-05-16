@@ -33,7 +33,10 @@
 				@if(isset($listing->month_pricing))
 					<p class="h8">${{ $listing->month_pricing }} per month</p>
 				@endif
-					<div class="rating"><span class="star"></span><span class="star"></span><span class="star"></span><span class="star"></span><span></span> 49</div>
+					<div class="rating">
+						@component('components.misc.rating', ['rating' => $listing->stars]) @endcomponent
+						{{ $listing->total_reviews }}
+					</div>
 					<a href="{{ route('manage-listing', ['id' => $listing->id]) }}" class="button listing">Manage</a>
 				</div>
 			</div>

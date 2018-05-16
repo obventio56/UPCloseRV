@@ -1,0 +1,18 @@
+taxonomies: false
+title: For Travelers
+fields:
+  title:
+    type: title
+    display: Title
+    localizable: true
+  preview_text:
+    type: textarea
+    display: Preview Text
+  cb:
+    type: partial
+    display: CB
+    fieldset: builder
+  seo:
+    type: partial
+    display: Seo
+    fieldset: seo

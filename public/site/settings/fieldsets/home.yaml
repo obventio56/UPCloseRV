@@ -1,0 +1,28 @@
+taxonomies: false
+title: Home
+fields:
+  title:
+    type: title
+    display: Title
+    localizable: true
+  hero_image:
+    type: assets
+    display: Hero Image
+    container: main
+    folder: img
+    restrict: false
+    max_files: 1
+  how_it_works:
+    type: text
+    display: How It Works Title
+  how_it_works_content:
+    type: textarea
+    display: How It Works Content
+  seo:
+    type: partial
+    display: SEO
+    fieldset: seo
+  h_builder:
+    type: partial
+    display: Builder
+    fieldset: builder

@@ -11,11 +11,11 @@
 	<div class="prop-list">
 			
 		<div class="outer-prob">
-			@if(isset($listings))
+			@if($listings->count())
 
 			@else
 				<p>
-					You do not currently have any past trips.
+					You do not currently have any upcoming trips.
 				</p>
 			@endif
             @foreach($listings as $listing)
@@ -40,7 +40,7 @@
                         <p class="h8">${{ $listing->month_pricing }} per month</p>
                     @endif
 
-						<a href="{{ route('view-listing', $listing->id) }}" class="button listing">View</a>
+						<a href="{{ route('view-booking', $listing->booking_id) }}" class="button listing">View</a>
 					</div>
 				</div>
 			</div>

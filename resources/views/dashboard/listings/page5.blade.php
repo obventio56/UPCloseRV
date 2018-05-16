@@ -10,7 +10,8 @@
 			<br />
 			@component('components.menus.dashboard.listing', ['listing' => $listing]) @endcomponent	
             <h1 class="h2">Address & Directions</h1>
-            <p> </p>
+            <p>Are there any special instructions to help your visitors get to your property? Let them know below. Provide your address and explain where they should go when arriving.
+</p>
              
                 <form class="style lister" method="POST" action="{{ route('store-listing-p5') }}">
                     {{ csrf_field() }}

@@ -1,0 +1,18 @@
+taxonomies: false
+title: Property Owners
+fields:
+  title:
+    type: title
+    display: Title
+    localizable: true
+  preview_text:
+    type: textarea
+    display: Preview Text
+  builder:
+    type: partial
+    display: Builder
+    fieldset: builder
+  seo:
+    type: partial
+    display: Seo
+    fieldset: seo

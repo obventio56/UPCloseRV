@@ -1,0 +1,25 @@
+<section class="text-hero no-padding">
+	<div class="container">
+		<h1 class="h4">{{title}}</h1>
+	</div>
+</section>
+
+
+<section id="read-more" class="no-back">
+	<div class="container">
+		<div class="grid">
+			
+			{{ collection from="property-owners" }}
+			
+			<div class="article">
+<!-- 				<div class="feat-img" style="background-image: url({{ assets:og_image }}{{ url }}{{ /assets:og_image }});"></div> -->
+				<h2 class="h3">{{ title }}</h2>
+				<p>{{ preview_text }}</p>
+				<a href="{{ url }}" class="button listing">View</a>
+			</div>
+			
+			{{ /collection }}
+			
+		</div>
+	</div>
+</section>

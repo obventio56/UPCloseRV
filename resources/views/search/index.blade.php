@@ -10,7 +10,7 @@
 		<div class="property-list">
 			<div class="filter">
 				<form class="filt" id="filter-form" method="GET">
-					<input type="text" name="search" placeholder="Search by city, zip code" value="{{ $request->search }}"><br />
+					<input type="hidden" name="search" placeholder="Search by city, zip code" value="{{ $request->search }}"><br />
 					<div class="filter-block date-picker">
 						<div class="input">
 							<div class="result">Arrival: <input class="date" onupdate="this.form.submit()" name="arrival" type="text" value="{{ (isset($request->arrival)? $request->arrival : '')}}"/></div>
@@ -27,9 +27,9 @@
 					
 					<div class="filter-block">
 						<select name="rvTypes" onchange="this.form.submit()">
-						  <option value="">Vehicle Type</option>
+						  <option value="">Any Vehicle Type</option>
 							@foreach($rvTypes as $rvType)
-						  <option value="{{ $rvType->id }}">{{ $rvType->name }}</option>
+						  <option value="{{ $rvType->id }}" {{ ((isset($request->rvTypes) && $request->rvTypes == $rvType->id)? 'selected' : '') }}>{{ $rvType->name }}</option>
 							@endforeach
 						</select>
 					</div>
@@ -43,10 +43,10 @@
 					</div>
 					
 					<div class="filter-block short" id="amenities">
-						<select name="amenities" onchange="location.reload()">
+						<select name="amenities" onchange="this.form.submit()">
 						  <option value="">Amenities</option>
 						@foreach($amenities as $amenity)
-							<option value="{{ $amenity->id }}">{{ $amenity->name }}</option>
+							<option value="{{ $amenity->id }}" {{ ((isset($request->amenities) && $request->amenities == $amenity->id)? 'selected' : '') }}>{{ $amenity->name }}</option>
 						@endforeach
 						</select>
 					</div>
@@ -72,51 +72,10 @@
 			</div><!-- Filter -->
 			
 			
-			<div class="prop-list">
-        
-        
-				@foreach($listings as $listing)
-				<div class="prop">
-					<div class="grid">
-						<div class="prop-img" style="background-image: url({{ (isset($listing->url)? $listing->url : '') }});"></div>
-						<div class="big-deats">
-							<p class="h10">{{ $listing->city }}, {{ $listing->state }}</p>
-							<p class="h2">{{ $listing->name }}</p>
-							<p class="h11">
-								@if($listing->property_type_id == 1)
-									Privately Owned
-								@elseif($listing->property_type_id == 2)
-									Public Park
-								@else
-									Commercially Owned
-								@endif
-								<span>Fits {{ $listing->max_vehicle_length }}' RV or smaller</span>
-							</p>
-							<a href="" class="button love">Save for later</a>
-						</div>
-						<div class="small-deats">
-							@if($listing->month_rental)
-								<p class="h8">${{ $listing->month_pricing }} per month</p>
-							@endif
-							@if($listing->day_rental)
-								<p class="h8">${{ $listing->day_pricing }} per night</p>
-							@endif
-							<div class="rating"><span class="star"></span><span class="star"></span><span class="star"></span><span class="star"></span><span></span> 49</div>
-							<a href="{{ route('view-listing', ['id' => $listing->listid]) }}" class="button listing">View</a>
-						</div>
-					</div>
-				</div>
-				@endforeach
-   
-    <listing-component
-      v-for="listing in listingsList"
-      v-bind:listing="listing"
-      v-bind:key="listing.id">
-    </listing-component>
+        <listings-component v-bind:listings="locations" v-bind:selected-index="selectedIndex">
+        </listings-component>
 			</div>
-			
 		</div>
-	</div>
 </section>
 @endsection
 
@@ -124,37 +83,7 @@
 @section('scripts')
 <script>
   
-    var locations = [
-		  @foreach($listings as $listing)
-      {
-        'id': {{$listing->id}}, 
-        'url': '{{ route('view-listing', ['id' => $listing->listid]) }}',
-        'image_url': '{{ (isset($listing->url)? $listing->url : '') }}',
-        'city': '{{$listing->city}}',
-        'state': '{{$listing->state}}',
-        'name': '{{$listing->name}}',
-        'property_type_id': {{$listing->property_type_id}},
-        'max_vehicle_length': '{{$listing->max_vehicle_length}}',
-        'month_rental': {{$listing->month_rental}},
-        'month_pricing': '{{$listing->month_pricing}}',
-        'day_rental': {{$listing->day_rental}},
-        'day_pricing': '{{$listing->day_pricing}}',
-        'lat': {{$listing->lat}},
-        'lng': {{$listing->lng}}
-      }
-		  @endforeach
-    ];
-
-
-    const listingsApp = new Vue({
-        el: '#listing-page',
-        data: {
-          listingsList: locations
-        }
-    });
-  
-  
-    function initMap() {
+  function initMap(locations, listingsApp) {
 
     var map = new google.maps.Map(document.getElementById('map'), {
       zoom: 10,
@@ -266,11 +195,14 @@
       marker = new google.maps.Marker({
         position: new google.maps.LatLng(locations[i].lat, locations[i].lng),
         map: map, 
-        icon: iconBase + 'map-icon.svg'
+        icon: iconBase + 'map-icon.svg',
+        listIndex: i
       });
 
       google.maps.event.addListener(marker, 'click', (function(marker, i) {
         return function() {
+          console.log("clicked")
+          listingsApp.selectedIndex = i
           infowindow.setContent(locations[i].name);
           infowindow.open(map, marker);
         }
@@ -278,10 +210,51 @@
     }       
     
      
-        
+}  
+  
+  
+window.onload = function () {
+    
+    var locations = [
+		  @foreach($listings as $listings_index => $listing)
+      {
+        'listingId': "{{$listing->listid}}",
+        'listingsIndex': {{$listings_index}},
+        'url': "{{ route('view-listing', ['id' => $listing->listid]) }}",
+        'image_url': '{{ $listing->url }}',
+        'city': '{{$listing->city}}',
+        'state': '{{$listing->state}}',
+        'name': "{!! $listing->name !!}",
+        'property_type_id': {{$listing->property_type_id}},
+        'max_vehicle_length': '{{$listing->max_vehicle_length}}',
+        'month_rental': {{$listing->month_rental}},
+        'month_pricing': '{{$listing->month_pricing}}',
+        'day_rental': {{$listing->day_rental}},
+        'day_pricing': '{{$listing->day_pricing}}',
+        'stars': {{ $listing->stars }},
+        @if(isset($listing->total_reviews))
+        'reviews': {{ $listing->total_reviews }},
+        @endif
+        'lat': {{$listing->lat}},
+        'lng': {{$listing->lng}}
+      },
+		  @endforeach
+    ];
+  
+  
+    const listingsApp = new Vue({
+      el: '#listing-page',
+      data: {
+        locations: locations, 
+        selectedIndex: -1
       }
+    }); 
+  
+    initMap(locations, listingsApp);
+  
+}
     </script>
     <script async defer
-    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCyXHeiC9HRgVmhWkHPyBaM4bM7FC3TuGw&callback=initMap">
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCyXHeiC9HRgVmhWkHPyBaM4bM7FC3TuGw">
     </script>
 @endsection

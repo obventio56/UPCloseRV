@@ -1,0 +1,20 @@
+<section class="text-hero no-padding">
+	<div class="container">
+		<h1 class="h4">{{title}}</h1>
+	</div>
+</section>
+
+
+<section id="read-more" class="no-back partners">
+	<div class="container">
+		<div class="grid">
+			{{partners}}
+			<div class="article">
+				<div class="feat-img" style="background-image: url({{logo}});"></div>
+				<p>{{blurb}}</p>
+				<a href="{{website}}" target="_blank" class="h12"><img src="{{ site_url }}{{ theme:asset src="img/list.svg" }}"> {{website}}</a>
+			</div>
+			{{/partners}}			
+		</div>
+	</div>
+</section>

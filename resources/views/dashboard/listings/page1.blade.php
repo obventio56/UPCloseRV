@@ -10,15 +10,14 @@
 			<br />
 			@component('components.menus.dashboard.listing', ['listing' => $listing]) @endcomponent	
             <h1 class="h2">Basic Info</h1>
-            <p> </p>
-             
+            <p>Here you will share some basic information about your property regarding type and size. You will also provide a description of what your property is like.</p>
                 <form class="style lister" method="POST" action="{{ route('store-listing-p1') }}">
                     {{ csrf_field() }}
                   <input type="hidden" name="id" value="{{ $listing->id }}">  
                     
                 <div class="one">
-                    <label>Property name</label>
-		            <input type="text" class="two" name="name" placeholder="Wood Creek, Carlisle PA" value="{{ $listing->name }}">
+                    <p class="h">Property Name</p>
+		            <input type="text" class="two" name="name" placeholder="Wood Creek, Carlisle PA" value="{{ $listing->name }}" required>
                         @if ($errors->has('name'))
                             <span class="help-block">
                                 <strong>{{ $errors->first('name') }}</strong>
@@ -112,7 +111,8 @@
 					
                     
                    <div class="one">
-                        <label>What length of vehicle do you want to allow on your property?</label>
+                        <p class="h">What length of vehicle do you want to allow on your property?</p>
+                        <label>Enter the number of feet only, we'll take care of the rest</label>
                         <input type="text" class="two" name="vehicleLength" placeholder="45" value="{{ $listing->max_vehicle_length }}">
                             @if ($errors->has('vehicleLength'))
                                 <span class="help-block">
@@ -125,7 +125,7 @@
 
                     <div class="one">
                         <p class="h">Describe your property</p>
-                        <p>Tips: make sure to explain what a renter could expect when renting from you.</p>
+                        <label>Make sure to explain what a renter could expect when renting from you.</label>
 
                         <textarea name="description" placeholder="This is my message..." required>{{ $listing->description }} </textarea>
 

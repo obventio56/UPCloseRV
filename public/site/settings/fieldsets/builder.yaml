@@ -1,0 +1,177 @@
+taxonomies: false
+title: Content Builder
+fields:
+  c_builder:
+    type: replicator
+    display: Builder
+    sets:
+      polaroid:
+        display: Polaroid
+        fields:
+          polaroid_image:
+            type: assets
+            display: Polaroid Image
+            container: main
+            folder: img
+            restrict: false
+          image_position:
+            type: radio
+            display: Image Position
+            options:
+              left: Left
+              right: Right
+            inline: false
+          background_color:
+            type: radio
+            display: Background Color
+            options:
+              tan: Tan
+              blue: Blue
+            inline: false
+          section_title:
+            type: text
+            display: Section Title
+          section_content:
+            type: textarea
+            display: Section Content
+          cta_text:
+            type: text
+            display: CTA Text
+          cta_link:
+            type: text
+            display: CTA Link
+            instructions: |
+              All links should include http:// (or https://)
+              Example:
+              http://www.pixelandhammer.com
+          border_color:
+            type: radio
+            display: Border Color
+            options:
+              no-border: No Border
+              blue-border: Blue
+              white-border: White
+              transparent-border: Transparent
+            inline: false
+      search-section:
+        display: Search
+        fields:
+          search_title:
+            type: text
+            display: Search Title
+      image_block:
+        display: Image
+        fields:
+          image:
+            type: assets
+            display: Image
+            container: main
+            folder: /
+            restrict: false
+            max_files: 1
+      wysiwyg_b:
+        display: WYSIWYG
+        fields:
+          bard:
+            type: bard
+            display: Bard
+            spellcheck: true
+            allow_source: true
+            autoLink: false
+            target_blank: false
+            link_validation: false
+            force_plain_text: true
+            clean_pasted_html: false
+            restrict_assets: false
+      list_section:
+        display: List Section
+        fields:
+          list_title:
+            type: text
+            display: List Title
+        instructions: 'This will add a get started button and a custom title to the page. Example: http://upclose-front.developingpixels.com/assets/Screen-Shot-2018-04-20-at-9.38.05-AM.png'
+      video_section:
+        display: Video
+        fields:
+          youtube_code:
+            type: text
+            display: Youtube Code
+            instructions: |
+              Every youtube URL is the same! You want the code at the end of it. For example, the bold part of this URL:
+              https:/ /www. youtube .com/ watch?v= **TJOQYnumxDM**
+          video_thumb:
+            type: assets
+            display: Video Thumb
+            container: main
+            folder: /
+            restrict: false
+            max_files: 1
+        instructions: >
+          The video thumbnail is a full width image with the height being automatically displayed. Please use
+          a horrizontal sized image. If you can, make the image 1280px by 720px.
+      team_members:
+        display: Team Members
+        fields:
+          team:
+            type: grid
+            display: Team
+            fields:
+              full_name:
+                type: text
+                display: Full Name
+              position:
+                type: text
+                display: Position
+              profile_pic:
+                type: assets
+                display: Profile Pic
+                container: main
+                folder: /
+                restrict: false
+                max_files: 1
+            mode: table
+      hero_section:
+        display: Hero Section
+        fields:
+          image:
+            type: assets
+            display: Image
+            container: main
+            folder: /
+            restrict: false
+            max_files: 1
+      three_col:
+        display: Three Col
+        fields:
+          cols:
+            type: grid
+            display: Cols
+            fields:
+              top:
+                type: text
+                display: Top
+              content:
+                type: text
+                display: Content
+            mode: table
+            max_rows: 3
+      button_block:
+        display: Button
+        fields:
+          link:
+            type: text
+            display: Link
+            instructions: |
+              Full link of page you're linking too. Example:
+              http://www.google.com
+          color:
+            type: radio
+            display: Color
+            options:
+              brown: Brown
+              blue: Blue
+              green: Green
+            inline: false
+          text:
+            type: text
+            display: Text

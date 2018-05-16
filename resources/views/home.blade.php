@@ -4,14 +4,16 @@
 <section id="dash">
 	<div class="grid">
 		<div class="content rv">		
-			<div class="cookie-crisp"><a href="">Dashboard <i class="fas fa-chevron-right"></i></a>  Your Page Title</div>	
+			@component('components.breadcrumbs.dashboard')
+				  Your Profile
+			@endcomponent
 			
 			<h1 class="h6">Your Profile</h1>
 			<!--		YOUR PROFILE -->
 			<div class="dropper">
 				<form action="{{ route('profile-photo') }}" class="dropzone"  id="my-awesome-dropzone"
-					  @if(isset($user->traveller_photo))
-						style="background-image: url({{ $user->traveller_photo }}); background-size: cover; background-position: center;"  	
+					  @if(isset(Auth::user()->traveller_photo))
+						style="background-image: url({{ Auth::user()->traveller_photo }}); background-size: cover; background-position: center;"  	
 					  @endif
 					>
                     {{ csrf_field() }}
@@ -26,7 +28,7 @@
 				
 					<div class="one">
 						<label>Your name</label>
-						<input type="text" name="name" value="{{ Auth::user()->name }}">
+						<input type="text" name="name" value="{{ Auth::user()->name }}" required>
 					</div>
 					
 					<div class="two">
@@ -34,7 +36,7 @@
 						<select name="rvType">
 							@foreach($rvtypes as $type)
 						  		<option value="{{ $type->id }}" 
-										@if($user->traveller_rv_type_id == $type->id)
+										@if(Auth::user()->traveller_rv_type_id == $type->id)
 											selected
 										@endif
 									>{{ $type->name }}</option>
@@ -44,16 +46,16 @@
 					
 					<div class="two">
 						<label>Your RV Size in feet</label>
-						<input type="text" name="rvSize" value="{{ $user->traveller_rv_size }}" />
+						<input type="text" name="rvSize" value="{{ Auth::user()->traveller_rv_size }}" />
 					</div>
 					
 					<div class="one">
-						<label>Let others know a little about you</label>
-						<textarea name="description">{{ $user->host_description }}</textarea>
+						<label>Let others know a little about you. This will be shown on your listing's pages if you are a host.</label>
+						<textarea name="description">{{ Auth::user()->host_description }}</textarea>
 					</div>
 				
 				</div>
-				<input type="submit" value="Save" class="button" >
+				<input type="submit" value="Save" class="btn" >
 			</form>
 
 <!--		UPCOMING & PAST RESERVATIONS

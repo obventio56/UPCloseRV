@@ -10,14 +10,14 @@
 			<br />
 			@component('components.menus.dashboard.listing', ['listing' => $listing]) @endcomponent	
             <h1 class="h2">Rules & Policies</h1>
-            <p> </p>
+            <p>We give you the opportunity to make your own rules so you can control your property the way you'd like. Set guidelines for your travelers, check in and check out times, pet policies and how cancelation works.  </p>
              
                 <form class="style lister" method="POST" action="{{ route('store-listing-p3') }}">
                     {{ csrf_field() }}
                      <input type="hidden" name="id" value="{{ $listing->id }}">  
                     
                     <div class="one">
-                        <p class="h">Do you have any rules or guidelines that renter should know about before booking?</p>
+                        <p class="h">Do you have any rules or guidelines that the traveller should know about before booking?</p>
                         <p></p>
 
                         <textarea name="rules" placeholder="No running around the pool..." >{{ $listing->rules }}</textarea>

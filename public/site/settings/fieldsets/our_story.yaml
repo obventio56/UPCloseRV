@@ -1,0 +1,18 @@
+taxonomies: false
+title: Our Story
+fields:
+  hero_image:
+    type: assets
+    display: Hero Image
+    container: main
+    folder: /
+    restrict: false
+    max_files: 1
+  builder:
+    type: partial
+    display: Builder
+    fieldset: builder
+  seo:
+    type: partial
+    display: Seo
+    fieldset: seo

@@ -30,11 +30,26 @@ class Listing extends Model
 		return $this->hasOne('App\Models\ListingAddress');
 	}
 	
+	public function owner()
+	{
+		return $this->belongsTo('App\User');
+	}
+	
 	
 	// Functions
+	
+	public function getPrimaryImage()
+	{
+		$image = ListingImages::where('listing_id', '=', $this->id)
+			->where('primary', '=', '1')
+			->first();
+		
+		return $image->url;
+	}
 
 	// To pull only published listings.
-	public function scopeGetPublished($q){
+	public function scopeGetPublished($q)
+	{
 		return $q->where('listings.published', '=', '1')->get();
 	}
 	
@@ -137,7 +152,8 @@ class Listing extends Model
 			isset($address->address) &&
 			isset($address->lat) &&
 			isset($address->lng) &&
-			isset($user->stripe_acc)
+			isset($user->stripe_acc) &&
+			$this->admin_lock == 0
 		){
 			return true;
 		} 
@@ -148,28 +164,33 @@ class Listing extends Model
 	// Return why a listing can't be published
 	public function whyCantPublish()
 	{
-		$photos = ListingImages::where('listing_id', '=', $this->id)->get();
+		$photos = ListingImages::where('listing_id', '=', $this->id)->count();
 		$address = ListingAddress::where('id', '=', $this->id)->first();
 		$user = User::select('stripe_acc')->where('id', '=', $this->user_id)->first();
 		
-		$reasons = 'Your listing is missing... ';
-		if(!isset($this->name)) $reasons .= '<br/> -name';
-		if(!isset($this->property_type_id)) $reasons .= '<br/> -property type';
-		if(!isset($this->max_vehicle_length)) $reasons .= '<br/> -max vehicle length';
-		if(!isset($this->check_in)) $reasons .= '<br/> -checkin time';
-		if(!isset($this->check_out)) $reasons .= '<br/> -checkout time';
+		$reasons = [];
+		if(!isset($this->name)) $reasons[] = '<a class="custom-button listing h12" href="'.route('edit-listing-p1', ['id' => $this->id]).'">Give your listing a name</a>';
+		if(!isset($this->property_type_id)) $reasons[] = '<a class="custom-button listing h12" href="'.route('edit-listing-p1', ['id' => $this->id]).'">What type of property are you listing?</a>';
+		if(!isset($this->max_vehicle_length)) $reasons[] = '<a class="custom-button listing h12" href="'.route('edit-listing-p1', ['id' => $this->id]).'">What is the largest size of vehicle you can support?</a>';
+		if(!isset($this->check_in)) $reasons[] = '<a class="custom-button listing h12" href="'.route('edit-listing-p3', ['id' => $this->id]).'">Add a check in time for travellers</a>';
+		if(!isset($this->check_out)) $reasons[] = '<a class="custom-button listing h12" href="'.route('edit-listing-p3', ['id' => $this->id]).'">Add a check out time for travellers</a>';
 		if( 
 				!( $this->day_rental == 1 && isset($this->day_pricing) ) && 
 				!( $this->month_rental == 1 && isset($this->month_pricing) )
-			) $reasons .= '<br/> -pricing or rental type';
-		if(!isset($photos)) $reasons .= '<br/> -photos';
+			) $reasons[] = '<a class="custom-button listing h12" href="'.route('edit-listing-p4', ['id' => $this->id]).'">How much are you renting your property for?</a>';
+		if($photos == 0) $reasons[] = '<a class="custom-button listing h12" href="'.route('edit-listing-p6', ['id' => $this->id]).'">Add some photos of your property!</a>';
 		if(!isset($address->city) ||
 			!isset($address->state) ||
 			!isset($address->zipcode) ||
 			!isset($address->address) ||
 			!isset($address->lat) ||
-			!isset($address->lng)) $reasons .= '<br/> -valid address';
-		if(!isset($user->stripe_acc)) $reasons .= '<br/> -host verification';
+			!isset($address->lng)) $reasons[] = '<a class="custom-button listing h12" href="'.route('edit-listing-p5', ['id' => $this->id]).'">Add the full address to your property</a>';
+		if(!isset($user->stripe_acc)) $reasons[] = '<a class="custom-button payment h12" href="'.route('payment-dashboard').'">Complete the host onboarding to receive payments</a>';
+		if($this->admin_lock) $reasons[] = '<a class="custom-button profile h12 disabled" href="">Your listing needs to be unlocked by an admin!</a>';
+		
+		$incomplete = count($reasons);
+		$percentage = round(((10 - $incomplete)/10)*100);
+		$reasons['percentage'] = $percentage;
 		
 		return $reasons;
 	}

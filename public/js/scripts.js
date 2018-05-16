@@ -273,27 +273,7 @@ $('#calendar').fullCalendar({
   eventLimit: true, // allow "more" link when too many events
 });*/
 
-	// https://momentjs.com/docs/#/displaying/format/
-$('#calendar-in').fullCalendar({
-  editable: true,
-  eventLimit: true, // allow "more" link when too many events
-  selectable: true,
-  dayClick: function(date, jsEvent, view) {
-	  
-      $('#checkin-date').val(date.format());
-	  $('.checkin-date-view').html(date.format('MMMM Do Y'));
-    }
-});
 
-$('#calendar-out').fullCalendar({
-  editable: true,
-  eventLimit: true, // allow "more" link when too many events
-  selectable: true,
-  dayClick: function(date, jsEvent, view) {
-      $('#checkout-date').val(date.format());
-	  $('.checkout-date-view').html(date.format('MMMM Do Y'));
-    }
-});
    
 
 
@@ -305,7 +285,7 @@ $("#addScnt").click(
   }
 ) 
 
-
+/*
 
 $("#addScnt-l").click(
   function () {
@@ -313,7 +293,7 @@ $("#addScnt-l").click(
      var newDiv = $("<div>").append(someText);
      $('#conts').append(newDiv);
   }
-) 
+) */
 
 /*
 
@@ -351,8 +331,7 @@ $('#tabz-nav li').click(function(){
 $(document).on("click", ".cal-trigger", function(event){
     event.preventDefault();
     $(this).hide(500);
-    $(".check-in-out").toggle(800);
-    
+    $(".check-in-out").toggle(800); 
 });
 
 
@@ -360,8 +339,9 @@ $(document).on("click", ".cancel", function(event){
     event.preventDefault();
     $(".check-in-out").toggle(800);
     $(".cal-trigger").show(500);
-    
 });
+
+
    
 
 });

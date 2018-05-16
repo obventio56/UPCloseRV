@@ -1,0 +1,15 @@
+<section class="text-hero">
+	<div class="container">
+		<h1 class="h1">{{title}}</h1>
+	</div>
+</section>
+
+<section id="home-hero" class="video">
+	<video playsinline="" autoplay="" muted="" loop="" poster="{{ site_url }}{{ theme:asset src="img/poster.png" }}" id="bgvid">
+		<source src="{{ site_url }}{{ theme:asset src="video/rv.webm" }}" type="video/webm">
+		<source src="{{ site_url }}{{ theme:asset src="video/rv.mp4" }}" type="video/mp4">
+	    
+	</video>
+</section>
+
+{{ partial:cb }}

@@ -7,7 +7,7 @@
 			@component('components.breadcrumbs.dashboard')
 				  Past Trips
 			@endcomponent
-			<h1 class="h6">Your Past Trips</h1>
+			<h1 class="h6">Your Previous Trips</h1>
 	<div class="prop-list">
 			
 		<div class="outer-prob">
@@ -41,6 +41,9 @@
                     @endif
 
 						<a href="{{ route('view-listing', $listing->id) }}" class="button listing">View</a>
+						@if(!isset($listing->review))
+							<a href="{{ route('review-listing', [$listing->id]) }}">Review This Listing</a>
+						@endif
 					</div>
 				</div>
 			</div>
