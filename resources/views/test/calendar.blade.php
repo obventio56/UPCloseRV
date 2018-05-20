@@ -40,9 +40,9 @@ html, body {
  <div id="test-calendar"></div>
 
 
-<script src='{{ URL::to('/') }}/js/moment.js'></script>
+<script src='https://upclose.developingpixels.com/site/themes/upClose/js/moment.js'></script>
 <script src="//code.jquery.com/jquery-3.3.1.min.js"></script>
-<script src='{{ URL::to('/') }}/js/fullcalendar.min.js'></script>
+<script src='https://upclose.developingpixels.com/site/themes/upClose/js/fullcalendar.min.js'></script>
 
 <script>
 $(function() {

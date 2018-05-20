@@ -78,18 +78,22 @@
 	$(document).ready(function(){
 		$("#addScnt-l").click(
 		  function () {
-			 var someText = "<input type=\"text\"  name=\"nearby[]\" class=\"two\" placeholder=\"Another Park\" required> <input type=\"text\" name=\"location[]\" class=\"two\" placeholder=\"10 Miles Away\" required>";
+			 var someText = "<input type=\"text\"  name=\"nearby[]\" class=\"two\" placeholder=\"Another Park\" required> <input type=\"text\" name=\"location[]\" class=\"two\" placeholder=\"10 Miles Away\" required> <button class=\"removeFeature\"></button>";
 			 var newDiv = $("<div>").append(someText);
 			 $('#conts').append(newDiv);
 		  }
 		); 
 		$("#addScnt-2").click(
 		  function () {
-			 var someText = "<input type=\"text\"  name=\"nearby2[]\" class=\"two\" placeholder=\"Dumping Station\" required> <input type=\"text\" name=\"location2[]\" class=\"two\" placeholder=\"10 Miles Away\" required>";
+			 var someText = "<input type=\"text\"  name=\"nearby2[]\" class=\"two\" placeholder=\"Dumping Station\" required> <input type=\"text\" name=\"location2[]\" class=\"two\" placeholder=\"10 Miles Away\" required> <button class=\"removeFeature\"></button>";
 			 var newDiv = $("<div>").append(someText);
 			 $('#conts2').append(newDiv);
 		  }
 		); 
+    $("#conts .removeFeature, #conts2 .removeFeature").click( function() {
+      console.log("above")
+      $(this).parent().remove();
+    });
 	});
 </script>
 @endsection

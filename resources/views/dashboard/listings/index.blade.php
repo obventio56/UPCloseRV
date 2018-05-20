@@ -6,7 +6,8 @@
 		<div class="content rv">		
 			<div class="cookie-crisp"><a href="">Dashboard <i class="fas fa-chevron-right"></i></a>  Your Page Title</div>	
 			
-			<h1 class="h6">Your Listings</h1>
+			<h1 class="h6" id="new-listing-inline">Your Listings</h1>
+			<a href="{{ route('add-listing') }}" id="add-new-listing">Add A New Listing!</a>
 	<div class="prop-list">
 			
 		<div class="outer-prob">
@@ -16,7 +17,7 @@
 			</p>
 		@else 
 		@foreach($listings as $listing)
-		<div class="propb">
+		<div class="propb @if(!$listing->published) deactivated @endif">
 
 			<div class="grid">
 				<div class="prop-img" style="background-image: url({{ $listing->url }});"></div>
@@ -24,7 +25,7 @@
 					<p class="h10">{{ $listing->city }}, {{ $listing->state }}</p>
 					<p class="h2">{{ $listing->name }}</p>
 					<p class="h11">Privately Owned <span>Fits {{ $listing->max_vehicle_length }}' RV or smaller</span></p>
-					<p class="checkinout"></p>
+					<p class="deactivated-text">Deactived</p>
 				</div>
 				<div class="small-deats">
 				@if(isset($listing->day_pricing))
@@ -42,8 +43,6 @@
 			</div>
 		</div>
 			
-
-		
 		@endforeach
 	@endif
 		</div>				

@@ -172,8 +172,8 @@ class Listing extends Model
 		if(!isset($this->name)) $reasons[] = '<a class="custom-button listing h12" href="'.route('edit-listing-p1', ['id' => $this->id]).'">Give your listing a name</a>';
 		if(!isset($this->property_type_id)) $reasons[] = '<a class="custom-button listing h12" href="'.route('edit-listing-p1', ['id' => $this->id]).'">What type of property are you listing?</a>';
 		if(!isset($this->max_vehicle_length)) $reasons[] = '<a class="custom-button listing h12" href="'.route('edit-listing-p1', ['id' => $this->id]).'">What is the largest size of vehicle you can support?</a>';
-		if(!isset($this->check_in)) $reasons[] = '<a class="custom-button listing h12" href="'.route('edit-listing-p3', ['id' => $this->id]).'">Add a check in time for travellers</a>';
-		if(!isset($this->check_out)) $reasons[] = '<a class="custom-button listing h12" href="'.route('edit-listing-p3', ['id' => $this->id]).'">Add a check out time for travellers</a>';
+		if(!isset($this->check_in)) $reasons[] = '<a class="custom-button listing h12" href="'.route('edit-listing-p3', ['id' => $this->id]).'">Add a check in time for travelers</a>';
+		if(!isset($this->check_out)) $reasons[] = '<a class="custom-button listing h12" href="'.route('edit-listing-p3', ['id' => $this->id]).'">Add a check out time for travelers</a>';
 		if( 
 				!( $this->day_rental == 1 && isset($this->day_pricing) ) && 
 				!( $this->month_rental == 1 && isset($this->month_pricing) )

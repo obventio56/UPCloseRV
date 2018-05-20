@@ -5,7 +5,7 @@
 <section id="admin-dash">
 	<div class="grid">
 		<div class="content">		
-
+ <p class="h6 title">Listing Manager</p>
 		<table id="myTable">
 				  <thead>
 				    <tr>

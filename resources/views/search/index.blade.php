@@ -1,29 +1,39 @@
 @extends('layouts.app')
 
 @section('content')
-<section id="listing-page">
-	<div class="grid no-gap">
-		<div class="map">
-			<div id="map"></div>
-		</div>
-		
-		<div class="property-list">
-			<div class="filter">
+
+<div class="new-filter">
+	<div class="wrap">
+	<h2 class="h3">Filter By:</h2>
 				<form class="filt" id="filter-form" method="GET">
 					<input type="hidden" name="search" placeholder="Search by city, zip code" value="{{ $request->search }}"><br />
-					<div class="filter-block date-picker">
-						<div class="input">
-							<div class="result">Arrival: <input class="date" onupdate="this.form.submit()" name="arrival" type="text" value="{{ (isset($request->arrival)? $request->arrival : '')}}"/></div>
-						</div>
-						<div class="calendar"></div>
-					</div>
+					
+					
 					
 					<div class="filter-block date-picker">
-						<div class="input">
-							<div class="result">Departure: <input class="date" onupdate="this.form.submit()" name="departure" type="text" value="{{ (isset($request->departure)? $request->departure : '')}}" /></div>
+						<div class="input arr">
+							<div class="result">Arrival: <input id="arrival" name="arrival" type="text" value="{{ (isset($request->arrival)? $request->arrival : "")}}"/>
+								
+							</div>
 						</div>
-						<div class="calendar"></div>
+						<div class="calendar ar"></div>
 					</div>
+					
+					
+					
+					
+					
+					<div class="filter-block date-picker">
+						<div class="input dpp">
+							<div class="result">Departure: <input id="departure" name="departure" type="text" value="{{ (isset($request->departure)? $request->departure : "") }}"/>
+					
+							</div>
+						</div>
+						<div class="calendar dp"></div>
+					</div>
+					
+					
+					
 					
 					<div class="filter-block">
 						<select name="rvTypes" onchange="this.form.submit()">
@@ -34,6 +44,7 @@
 						</select>
 					</div>
 					
+<!--
 					<div class="filter-block short" id="price">
 						<div class="input">
 							<div class="result">Price:
@@ -41,15 +52,7 @@
 							</div>
 						</div>
 					</div>
-					
-					<div class="filter-block short" id="amenities">
-						<select name="amenities" onchange="this.form.submit()">
-						  <option value="">Amenities</option>
-						@foreach($amenities as $amenity)
-							<option value="{{ $amenity->id }}" {{ ((isset($request->amenities) && $request->amenities == $amenity->id)? 'selected' : '') }}>{{ $amenity->name }}</option>
-						@endforeach
-						</select>
-					</div>
+-->
 					
 					<div class="filter-block" id="stay-length">
 						<select name="rentalType" onchange="this.form.submit()">
@@ -69,11 +72,19 @@
 					</div>
 					
 				</form>
-			</div><!-- Filter -->
-			
-			
-        <listings-component v-bind:listings="locations" v-bind:selected-index="selectedIndex">
-        </listings-component>
+				</div>
+</div><!-- Filter -->
+
+
+<section id="listing-page">
+	<div class="grid no-gap">
+		<div class="map">
+			<div id="map"></div>
+		</div>
+		
+			<div class="property-list">
+		        <listings-component v-bind:listings="locations" v-bind:selected-index="selectedIndex">
+		        </listings-component>
 			</div>
 		</div>
 </section>
@@ -81,7 +92,10 @@
 
 
 @section('scripts')
+<script src="//cdnjs.cloudflare.com/ajax/libs/jqueryui/1.11.2/jquery-ui.min.js"></script>
 <script>
+	
+
   
   function initMap(locations, listingsApp) {
 
@@ -250,9 +264,47 @@ window.onload = function () {
       }
     }); 
   
-    initMap(locations, listingsApp);
-  
+    initMap(locations, listingsApp);  
 }
+$(document).ready(function(){
+	$(function() {
+	  $( ".calendar.dp" ).datepicker({
+			dateFormat: 'mm/dd/yy',
+			firstDay: 1
+		});
+
+		$(document).on('click', '.date-picker .input.dpp', function(e){
+			var $me = $(this),
+			$parent = $me.parents('.date-picker');
+			$parent.toggleClass('open');
+		});
+
+
+		$(".calendar.dp").on("change",function(){
+			$('input[name="departure"]').val($(this).val());
+			$('#filter-form').submit();
+		});
+
+	  $( ".calendar.ar" ).datepicker({
+			dateFormat: 'mm/dd/yy',
+			firstDay: 1
+		});
+
+		$(document).on('click', '.date-picker .input.arr', function(e){
+			var $me = $(this),
+					$parent = $me.parents('.date-picker');
+			$parent.toggleClass('open');
+		});
+
+
+		$(".calendar.ar").on("change",function(){
+			$('input[name="arrival"]').val($(this).val());
+			$('#filter-form').submit();
+		});
+	});
+});
+
+
     </script>
     <script async defer
     src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCyXHeiC9HRgVmhWkHPyBaM4bM7FC3TuGw">

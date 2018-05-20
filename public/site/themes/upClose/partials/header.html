@@ -49,15 +49,17 @@
     <link rel="shortcut icon" href="{{ site_url }}favicon.ico" type="image/x-icon">
 	<link rel="icon" href="{{ site_url }}favicon.ico" type="image/x-icon">
 	
+	<script src="//code.jquery.com/jquery-3.3.1.min.js"></script>
+	
 	
 	<script src="//upclose.developingpixels.com/js/app.js"></script>
 
 	
 	<script src="{{ site_url }}{{ theme:asset src="js/moment.js" }}"></script>
-	<script src="//code.jquery.com/jquery-3.3.1.min.js"></script>
+	
 	<script src="{{ site_url }}{{ theme:asset src="js/fullcalendar.min.js" }}"></script>
 	
-	<script src="//cdnjs.cloudflare.com/ajax/libs/jqueryui/1.11.2/jquery-ui.min.js"></script>
+	
 	<script src="{{ site_url }}{{ theme:asset src="js/scripts.js" }}"></script>
 	<script src="{{ site_url }}{{ theme:asset src="js/dropzone.js" }}"></script>
 	<script src="//cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.1.6/owl.carousel.min.js"></script>
@@ -90,9 +92,9 @@
 				</li>
 				<li><a href="/our-story">Our Story</a></li>
 				
-				<li><?php echo file_get_contents('https://upclose.developingpixels.com/ptemp/hlogin'); ?></li>
-				
 				<li><a href="/support">Support</a></li>
+				
+				<li><?php echo file_get_contents('https://upclose.developingpixels.com/ptemp/hlogin'); ?></li>
 			</ul>
 		</nav>
 		

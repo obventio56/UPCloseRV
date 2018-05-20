@@ -7,6 +7,11 @@ namespace App\Http\Controllers;
 use App\Http\Requests\ValidListing;
 use App\Http\Requests\ValidListingP1;
 use App\Http\Requests\ValidListingP2;
+use App\Http\Requests\ValidListingP3;
+use App\Http\Requests\ValidListingP4;
+use App\Http\Requests\ValidListingP5;
+use App\Http\Requests\ValidListingP6;
+use App\Http\Requests\ValidListingP7;
 use App\Models\Listing;
 use App\Models\ListingAddress;
 use App\Models\ListingImages;
@@ -219,7 +224,7 @@ class ListingController extends Controller
       
       
       
-   return Redirect::route('edit-listing-p1', [$id]);
+   return Redirect::route('edit-listing-p2', [$id]);
     
   }
 	
@@ -284,7 +289,7 @@ class ListingController extends Controller
     * @param Request request
     * @return response
     */
-	public function storePage3(Request $request)
+	public function storePage3(ValidListingP3 $request)
 	{
 		$listing = Listing::find($request->id);
 		
@@ -311,7 +316,7 @@ class ListingController extends Controller
     * @param Request request
     * @return response
     */
-	public function storePage4(Request $request)
+	public function storePage4(ValidListingP4 $request)
 	{
 		$listing = Listing::find($request->id);
 		
@@ -340,7 +345,7 @@ class ListingController extends Controller
     * @param Request request
     * @return response
     */
-    public function storePage5(Request $request)
+    public function storePage5(ValidListingP5 $request)
 	{
         // Grab the listing
         $listing = Listing::find($request->id);
@@ -369,7 +374,7 @@ class ListingController extends Controller
     }
     
     // Storing Section 6: Photos
-    public function storePage6(Request $request){
+    public function storePage6(ValidListingP6 $request){
         \Debugbar::disable();
         $file_url = "http://yourdomain/defaultimage.png";
         if ($request->hasFile('file') && $request->file('file')->isValid()){
@@ -432,7 +437,7 @@ class ListingController extends Controller
     * @param Request request
     * @return response
     */
-    public function storePage7(Request $request)
+    public function storePage7(ValidListingP7 $request)
 	{
         // Grab the listing
         $listing = Listing::find($request->id);

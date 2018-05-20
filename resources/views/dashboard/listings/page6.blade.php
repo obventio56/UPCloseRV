@@ -44,10 +44,7 @@
 							<input type="hidden" name="id" value="{{ $image->id }}">
 							<input type="submit" value="Make Primary Image">
 						</form>
-					</div>
-				@endif
-						
-				<div class="remove-image">
+					</div>@endif<div class="remove-image">
 					<form class="style lister" method="POST" action="{{ route('remove-listing-image') }}">
 						{{ csrf_field() }}
 						<input type="hidden" name="listing_id" value="{{ $listing->id }}">

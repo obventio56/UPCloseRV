@@ -3,6 +3,8 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use App\Models\Listing;
+use Auth;
 
     /**
      * This class is only for the initial creation of the Listing
@@ -18,7 +20,7 @@ class ValidListingP2 extends FormRequest
     {
 		$listing = Listing::find($this->id);
 		
-        return ($listing->user_id == Auth::user()->id || Auth::user()->ability('admin, client', 'edit-other-listings');
+        return ($listing->user_id == Auth::user()->id || Auth::user()->ability('admin, client', 'edit-other-listings'));
     }
 
     /**
@@ -29,11 +31,10 @@ class ValidListingP2 extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'required|max:500',
             'propertyType' => 'required',
-            'hostType' => 'required',
-			'vehicleLength' => 'numeric',
-			'description' => 'min:3'
+            'waterHookup' => 'required|numeric',
+            'sewerHookup' => 'required|numeric',
+			'electricHookup' => 'required|numeric'
         ];
     }
 }

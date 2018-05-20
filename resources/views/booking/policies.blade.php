@@ -84,7 +84,7 @@
 					<form method="POST" action="{{ route('confirm-booking') }}">
 						{{ csrf_field() }}
 						<input type="hidden" name="booking" value="{{ $booking->id }}" />
-						<button class="button round brown">Agree & Continue</button>
+						<button class="button round brown long">Agree & Continue</button>
 					</form>
 				@endif
 				

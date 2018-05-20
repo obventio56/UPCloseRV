@@ -124,9 +124,13 @@ class BookingController extends Controller
 	
 	public function policy($id)
 	{
+		
+		
 		$booking = Booking::find($id);
+		
 		$listing = Listing::find($booking->listing_id);
 		$language = Language::getArray();
+		
 		
 		$booking->calculateCost($listing->day_pricing, $listing->month_pricing, $listing->weeknight_discount);
 		
@@ -151,6 +155,10 @@ class BookingController extends Controller
 	{
 		$booking = Booking::find($id);
 		$listing = Listing::find($booking->listing_id);
+		
+		if($booking->traveller_id != Auth::user()->id){
+			return view('errors.403');		
+		}
 		
 		$booking->calculateCost($listing->day_pricing, $listing->month_pricing, $listing->weeknight_discount);
 		

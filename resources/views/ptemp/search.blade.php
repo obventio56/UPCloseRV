@@ -1,4 +1,4 @@
-<form action="{{ route('search') }}" method="GET" class="no-mobile">
-	<input type="text" name="search" placeholder="Search by city, zip code">
+<form action="{{ route('search') }}" method="GET">
+	<input type="text" name="search" placeholder="Find properties: Enter city or zip code">
 	<button></button>
 </form>

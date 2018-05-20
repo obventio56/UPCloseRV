@@ -7,5 +7,12 @@
         <a href="{{ route('admin-query') }}" class="h8" id="database">Database</a>
         <!--<a href="" class="h8" id="reviews">Manage Reviews</a>-->
     </div>
-    <a class="button listing">Log Out</a>
+	 <a href="{{ route('logout') }}" class="button listing"
+	  onclick="event.preventDefault();
+			   document.getElementById('logout-form').submit();">
+	  Log Out
+      </a>
+      <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+          {{ csrf_field() }}
+      </form>
 </div>

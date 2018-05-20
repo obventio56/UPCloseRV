@@ -34,7 +34,7 @@
 <script>
 $(function() {
     $('#calendar').fullCalendar({
-		    selectable: true,
+	selectable: true,
     header: {
       left: 'prev,next today',
       center: 'title',

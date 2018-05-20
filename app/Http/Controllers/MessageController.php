@@ -31,7 +31,9 @@ class MessageController extends Controller
           ->get([
               'messages.*',
               'toUser.name as toName',
-              'fromUser.name as fromName'
+              'fromUser.name as fromName',
+			  'toUser.traveller_photo as toUrl',
+			  'fromUser.traveller_photo as fromUrl'
           ]);
         
         // reorganize ALL the things. 

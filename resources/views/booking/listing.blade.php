@@ -15,8 +15,10 @@
 				@endif
 			@endguest
 				<div class="rating">
+					<a href="#review-section">
 					@component('components.misc.rating', ['rating' => $listing->rating]) @endcomponent
 					{{ $listing->reviews }}
+					</a>
 				</div><br/>
 				<h1 class="h3">{{ $listing->name }}</h1>@if($listing->verified)<span class="verified">Verified</span>@endif
 				<p class="h11">
@@ -24,10 +26,10 @@
 						${{ $listing->day_pricing }} per night 
 					@endif
 					@if($listing->day_rental && $listing->month_rental)
-					|
+					
 					@endif
 					@if($listing->month_rental)
-						${{ $listing->month_pricing }} per month
+						<span class="barz">${{ $listing->month_pricing }} per month</span>
 					@endif
 				</p>
 				
@@ -149,8 +151,11 @@
 					@endforeach
 				</div>
 				@endif
+				
+				
+				
 				@if($reviews->count())
-				<div class="reviews">
+				<div class="reviews" id="review-section">
 					<h5 class="h10">Reviews</h5>
 					
 						@foreach($reviews as $review)
@@ -603,6 +608,45 @@
 		
             });
      });
+     
+     
+     // Select all links with hashes
+$('a[href*="#"]')
+  // Remove links that don't actually link to anything
+  .not('[href="#"]')
+  .not('[href="#0"]')
+  .click(function(event) {
+    // On-page links
+    if (
+      location.pathname.replace(/^\//, '') == this.pathname.replace(/^\//, '') 
+      && 
+      location.hostname == this.hostname
+    ) {
+      // Figure out element to scroll to
+      var target = $(this.hash);
+      target = target.length ? target : $('[name=' + this.hash.slice(1) + ']');
+      // Does a scroll target exist?
+      if (target.length) {
+        // Only prevent default if animation is actually gonna happen
+        event.preventDefault();
+        $('html, body').animate({
+          scrollTop: target.offset().top
+        }, 1000, function() {
+          // Callback after animation
+          // Must change focus!
+          var $target = $(target);
+          $target.focus();
+          if ($target.is(":focus")) { // Checking if the target was focused
+            return false;
+          } else {
+            $target.attr('tabindex','-1'); // Adding tabindex for elements not focusable
+            $target.focus(); // Set focus again
+          };
+        });
+      }
+    }
+  });
+
 
     </script>
     <script async defer

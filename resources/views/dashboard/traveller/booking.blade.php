@@ -25,8 +25,10 @@
 				@endif
 			@endguest
 				<div class="rating">
+					<a href="#review-section">
 					@component('components.misc.rating', ['rating' => $listing->rating]) @endcomponent
 					{{ $listing->reviews }}
+					</a>
 				</div><br/>
 				<h1 class="h3">{{ $listing->name }}</h1>@if($listing->verified)<span class="verified">Verified</span>@endif
 				<p class="h11">
@@ -44,7 +46,7 @@
 				<div class="slide-cont">
 				  <div class="owl-carousel">
 					  @foreach($listing->images as $image)
-				    <div><img src="{{ $image->url }}"></div>
+				     <div class="slid" style="background-image: url({{ $image->url }})"></div>
 					  @endforeach
 				  </div>
 				</div>
@@ -160,7 +162,7 @@
 				</div>
 				@endif
 				@if($reviews->count())
-				<div class="reviews">
+				<div class="reviews" id="review-section">
 					<h5 class="h10">Reviews</h5>
 					
 						@foreach($reviews as $review)

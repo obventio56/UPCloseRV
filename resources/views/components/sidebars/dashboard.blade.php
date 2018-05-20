@@ -13,10 +13,8 @@
             <a href="{{ route('messages') }}" class="h8" id="reviews">Messages</a>
             <a href="{{ url('/') }}/support" class="h8" id="support">Support</a>
         </div>
-        
 
-        <div id="second-tab" class="tab-content">        
-            
+        <div id="second-tab" class="tab-content">
             <a href="{{ route('home') }}" class="h8" id="listingz">Your Profile</a>
             <a href="{{ route('view-own-listings') }}" class="h8" id="previous">Your Listings</a>
             <a href="{{ route('payment-dashboard') }}" class="h8" id="payments">Payment Dashboard</a>

@@ -32,6 +32,7 @@ class Booking extends Model
 			$this->pricing = $day_pricing;
 			$this->fee_percentage = 12;
 			
+			
 			if($weeknight_discount > 0){
 				$this->weeknights = $this->getWeeknightCount($this->start_date, $this->days);
 				$this->discount = round(($this->getWeeknightCount($this->start_date, $this->days) * ($weeknight_discount / 100) * $this->pricing), 2);
@@ -66,7 +67,7 @@ class Booking extends Model
 				// If friday or saturday, don't do anything
 			} else {
 				// It's a weeknight
-				$weeknight;
+				$weeknight++;
 			}
 			
 			// Iterate the day of the week
@@ -80,7 +81,6 @@ class Booking extends Model
 			$it++;
 			
 		}
-		
 		return $weeknight;
 	}
 	

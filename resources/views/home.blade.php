@@ -55,7 +55,7 @@
 					</div>
 				
 				</div>
-				<input type="submit" value="Save" class="btn" >
+				<input type="submit" value="Save" class="button brown round long" >
 			</form>
 
 <!--		UPCOMING & PAST RESERVATIONS

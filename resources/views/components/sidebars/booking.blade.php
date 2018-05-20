@@ -8,11 +8,12 @@
 					<h4 class="h10">Details</h4>
 					<div class="grid">
 						<div class="titles">
-							<p><span>Guest:</span> <span>up to @if($booking->days < 30) {{ $listing->day_guests }} @else {{ $listing->month_guests }} @endif</span></p>
-							<p><span>Check In:</span> <span>{{ $listing->check_in }} - {{ $booking->start_date }}</span></p>
-							<p><span>Check Out:</span> <span>{{ $listing->check_out }} - {{ $booking->end_date }}</span></p>
+							<p><span>Guests:</span> <span>up to @if($booking->days < 30) {{ $listing->day_guests }} @else {{ $listing->month_guests }} @endif</span></p>
+							<p><span>Check In:</span> <span>{{ $listing->check_in }} - {{ date('M dS, Y', strtotime($booking->start_date)) }}</span></p>
+							<p><span>Check Out:</span> <span>{{ $listing->check_out }} - {{ date('M dS, Y', strtotime($booking->end_date)) }}</span></p>
 							<h5 class="h10">Pricing</h5>
 							<p><span>Stay:</span> <span>{{ $booking->days }} nights x ${{ $booking->pricing }}/night</p>
+						
 							@if($booking->discount > 0)
 								<p><span>Weeknight Discount:</span> <span>${{ $booking->discount }}</p>
 							@endif

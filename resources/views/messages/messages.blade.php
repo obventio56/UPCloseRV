@@ -4,7 +4,7 @@
 <section id="dash">
 	<div class="grid">
 		<div class="content rv">		
-			<div class="cookie-crisp"><a href="">Dashboard <i class="fas fa-chevron-right"></i></a>  Your Page Title</div>	
+			<div class="cookie-crisp"><a href="">Dashboard <i class="fas fa-chevron-right"></i></a>  Messages</div>	
 			
 			<h1 class="h6">Your Messages</h1>
             <pre>
@@ -19,10 +19,14 @@
                 $count = count($thread);
             ?>
 
+
         <div class="messages-user">
 		<div class="indiv-message-con">
 			<div class="grid">
-				<div class="img" style="background-image: url(/img/vw-rv.jpg);"></div>
+				<div class="img" style="background-image: url(
+										@if(isset($most_recent->fromUrl)){{ $most_recent->fromUrl }}
+										@else /img/vw-rv.jpg
+										@endif);"></div>
 				<div class="message-preview">
 					<p class="name-of-user h8">{{ $most_recent->fromName }} <span class="h13">{{ $most_recent->message }}</span></p>
 				</div>
@@ -39,9 +43,9 @@
 					<div @if($message->to != Auth::user()->id) class="current" @endif>
 						<p>{{ $message->message }}</p>
 						@if($message->to == Auth::user()->id)
-                            <div class="them"><div class="img-off" style="background-image: url(/img/vw-rv.jpg);"></div><p>{{ $message->fromName }}</p></div>
+                            <div class="them"><div class="img-off" style="background-image: url({{ $message->fromUrl }});"></div><p>{{ $message->fromName }}</p></div>
                         @else
-                            <div class="me"><div class="img-off" style="background-image: url(/img/vw-rv.jpg);"></div><p>You</p></div>                        
+                            <div class="me"><div class="img-off" style="background-image: url({{ $message->fromUrl }});"></div><p>You</p></div>                        
                         @endif
 					</div>
 					@endforeach
@@ -56,22 +60,20 @@
                                 <strong>{{ $errors->first('message-'.$most_recent->thread) }}</strong>
                             </span>
                         @endif
-						<textarea id="message-{{ $most_recent->thread }}" name="message-{{ $message->thread }}" placeholder="This is my response..." required>
-                             {{ old('message-'.$most_recent->thread) }}
-                        </textarea>
+						<textarea id="message-{{ $most_recent->thread }}" name="message-{{ $message->thread }}" placeholder="This is my response..." required>{{ old('message-'.$most_recent->thread) }}</textarea>
                       @if($most_recent->to == Auth::user()->id)
                         <input type="hidden" name="to" value="{{ $most_recent->from }}" />
                       @else
                         <input type="hidden" name="to" value="{{ $most_recent->to }}" />
                       @endif
-                        <input type="hidden" name="thread" value="{{ $most_recent->thread }}" />
+                        <input type="hidden" name="thread" value="{{ $most_recent->thread }}"/>
                         <button type="submit" class="button listing">
                                     Reply
                         </button>
 					</form>
 				</div>
 				
-				<a class="collapse">Collapse</a>
+				<a class="collapse">Collapse <img src="/img/down.svg"></a>
 			</div>
 		</div>
 	</div>

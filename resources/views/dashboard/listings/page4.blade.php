@@ -15,6 +15,17 @@
                 <form class="style lister" method="POST" action="{{ route('store-listing-p4') }}">
                     {{ csrf_field() }}
                      <input type="hidden" name="id" value="{{ $listing->id }}">  
+					
+				<div class="one">
+                    <p class="h">Max Stay Length</p>
+                    <label>in days</label>
+		            <input type="text" class="two" name="maxStayLength" placeholder="EX: 45" value="{{ $listing->max_stay_length }}">
+                        @if ($errors->has('maxStayLength'))
+                            <span class="help-block">
+                                <strong>{{ $errors->first('maxStayLength') }}</strong>
+                            </span>
+                        @endif
+                </div>
                     
                     <div class="one">
                     <p class="h">Stay Lengths</p>
@@ -40,16 +51,7 @@
 
                 </div>
                     
-                <div class="one">
-                    <p class="h">Max Stay Length</p>
-                    <label>in days</label>
-		            <input type="text" class="two" name="maxStayLength" placeholder="45" value="{{ $listing->max_stay_length }}">
-                        @if ($errors->has('maxStayLength'))
-                            <span class="help-block">
-                                <strong>{{ $errors->first('maxStayLength') }}</strong>
-                            </span>
-                        @endif
-                </div>
+              
                     
   
                     <div class="one">
@@ -58,29 +60,31 @@
 
                             <div class="two">
                                 <label>Price</label>
-                                $<input type="text" name="dayPricing" value="{{ $listing->day_pricing }}" placeholder="25">
+                                <span id="dollar-sign">$</span>
+                                <input type="text" name="dayPricing" value="{{ $listing->day_pricing }}" placeholder="EX: 25">
                             </div>
 
                             <div class="two">
                                 <label>For up to how many renters?</label>
-                                <input type="text" name="dayGuests" value="{{ $listing->day_guests }}" placeholder="6">
+                                <input type="text" name="dayGuests" value="{{ $listing->day_guests }}" placeholder="EX: 6">
                             </div>
                         </div>
                     </div>
                     
                     
                     <div class="one">
-                        <p class="h">How much is your listing for 1 month?</p>
+                        <p class="h">How much is your listing for 1 month? <span class="note">*Note, if your property does not allow for monthly rentals please leave this section blank.</span></p>
                         <div class="grid">
 
                             <div class="two">
                                 <label>Price</label>
-                                $<input type="text" name="monthPricing" value="{{ $listing->month_pricing }}" placeholder="500">
+                                <span id="dollar-sign">$</span>
+                                <input type="text" name="monthPricing" value="{{ $listing->month_pricing }}" placeholder="EX: 500">
                             </div>
 
                             <div class="two">
                                 <label>For up to how many renters?</label>
-                                <input type="text" name="monthGuests" value="{{ $listing->month_guests }}" placeholder="6">
+                                <input type="text" name="monthGuests" value="{{ $listing->month_guests }}" placeholder="EX: 6">
                             </div>
                         </div>
                     </div>

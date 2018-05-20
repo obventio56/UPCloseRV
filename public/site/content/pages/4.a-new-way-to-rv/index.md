@@ -6,7 +6,7 @@ c_builder:
     section_title: Getting Up Close
     section_content: 'The reason you have a RV is to travel and get close to the place you want to visit. '
     cta_text: FInd a property
-    cta_link: http://www.google.com
+    cta_link: https://upclose.developingpixels.com/for-travelers
     border_color: no-border
     polaroid_image:
       - /assets/img/group-left-1.png
@@ -40,6 +40,11 @@ c_builder:
     cta_text: Sign up for free
     cta_link: http://upclose-front.developingpixels.com/
     border_color: no-border
+  - 
+    type: button_block
+    link: http://www.facebook.com
+    color: blue
+    text: "Levi's Button"
 seo_title: How It Works | A New Way To RV | UpClose RV
 meta_description: >
   Sesame snaps jelly sweet sesame snaps croissant jelly beans. Wafer gummi bears biscuit dragée.

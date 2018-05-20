@@ -125,7 +125,7 @@
                     </div>
                     
                   <div class="one">  
-                    <button class="button round brown">Save</button>
+                    <button class="button round brown">Continue</button>
                   </div> 
                     
                     
@@ -133,9 +133,7 @@
         </div> 
 
         @component('components.sidebars.dashboard')
-			@component('components.sidebars.listings')
-		
-			@endcomponent  
+
 		@endcomponent  
 	</div>
 </section> 

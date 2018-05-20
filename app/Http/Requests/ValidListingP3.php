@@ -9,7 +9,7 @@ use Auth;
     /**
      * This class is only for the initial creation of the Listing
      */
-class ValidListingP1 extends FormRequest
+class ValidListingP3 extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -31,11 +31,8 @@ class ValidListingP1 extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'required|max:500',
-            'propertyType' => 'required',
-            'hostType' => 'required',
-			'vehicleLength' => 'numeric',
-			'description' => 'min:3'
+            'pets' => 'required|numeric',
+            'cancelPolicy' => 'required|numeric'
         ];
     }
 }

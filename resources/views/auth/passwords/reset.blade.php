@@ -15,21 +15,21 @@
 								<strong>{{ $errors->first('email') }}</strong>
 							</span>
 						@endif
-						<input type="email" class="two" name="email" value="{{ $email or old('email') }}" placeholder="Email" required>
+						<input type="email" class="one" name="email" value="{{ $email or old('email') }}" placeholder="Email" required>
 
 						@if ($errors->has('password'))
 							<span class="help-block">
 								<strong>{{ $errors->first('password') }}</strong>
 							</span>
 						@endif
-						<input type="password" class="two" name="password" placeholder="Password" required>
+						<input type="password" class="one" name="password" placeholder="Your New Password" required>
 						
 						@if ($errors->has('password_confirmation'))
 							<span class="help-block">
 								<strong>{{ $errors->first('password_confirmation') }}</strong>
 							</span>
 						@endif
-						<input type="password" class="two" name="password_confirmation" placeholder="Password" required>
+						<input type="password" class="one" name="password_confirmation" placeholder="Confirm Password" required>
 						
 						
 						<button class="button brown round">Reset Password</button>

@@ -24,6 +24,7 @@ else
    
    
    
+/*
 $(function() {
   $( ".calendar" ).datepicker({
 		dateFormat: 'mm/dd/yy',
@@ -44,6 +45,10 @@ $(function() {
 		$parent.find('.result').children('span').html($selected);
 	});
 });
+*/
+
+
+
 
 
 //Tabs functionality
@@ -264,10 +269,12 @@ $('#showLess').click(function () {
     $('div.review').not(':lt(3)').hide();
 });
 
+/*
 $('#calendar').fullCalendar({
   editable: true,
   eventLimit: true, // allow "more" link when too many events
 });
+*/
 
 $(function() {                       //run when the DOM is ready
   $(".launch-toast").click(function() {  //use a class, since your ID gets mangled
@@ -304,6 +311,8 @@ $(document).on("click", ".cancel", function(event){
     $(".check-in-out").toggle(800);
     $(".cal-trigger").show(500);
 });
+
+
 
 
    
