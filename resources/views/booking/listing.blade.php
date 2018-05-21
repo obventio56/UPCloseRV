@@ -144,7 +144,7 @@
 								<p class="h10">{{ $other_listing->city }}, {{ $other_listing->state }}</p>
 								<p class="h2">{{ $other_listing->name }}</p>
 								<p class="h11">@if($other_listing->property_type_id == 1) Private @else Public @endif <span>Fits {{ $other_listing->max_vehicle_length }}' RV or smaller</span></p>
-								<a href="" class="button listing">View</a>
+								<a href="{{ route('view-listing', ['id' => $other_listing->id]) }}" class="button listing">View</a>
 							</div>
 						</div>
 					</div>

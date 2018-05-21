@@ -17,7 +17,7 @@
                      <input type="hidden" name="id" value="{{ $listing->id }}">  
                     
                     <div class="one">
-                        <p class="h">Do you have any rules or guidelines that the traveller should know about before booking?</p>
+                        <p class="h">Do you have any rules or guidelines that the traveler should know about before booking?</p>
                         <p></p>
 
                         <textarea name="rules" placeholder="No running around the pool..." >{{ $listing->rules }}</textarea>

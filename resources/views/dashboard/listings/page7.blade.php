@@ -74,26 +74,47 @@
 @endsection
 
 @section('scripts')
+<style>
+	.removeFeature {
+    display: inline-block;
+    background-color: #3E5F75;
+    color: #fff;
+    padding: 10px;
+    border-radius: 10px;
+    cursor: pointer;
+        font-family: "Quicksand",sans-serif;
+}
+	</style>
 <script>
 	$(document).ready(function(){
 		$("#addScnt-l").click(
 		  function () {
-			 var someText = "<input type=\"text\"  name=\"nearby[]\" class=\"two\" placeholder=\"Another Park\" required> <input type=\"text\" name=\"location[]\" class=\"two\" placeholder=\"10 Miles Away\" required> <button class=\"removeFeature\"></button>";
+			 var someText = "<input type=\"text\"  name=\"nearby[]\" class=\"two\" placeholder=\"Another Park\" required> <input type=\"text\" name=\"location[]\" class=\"two\" placeholder=\"10 Miles Away\" required> <div class=\"removeFeature\">X</div>";
 			 var newDiv = $("<div>").append(someText);
 			 $('#conts').append(newDiv);
+			 
+			 $("div.removeFeature").click( function() {
+		// 	  event.preventDefault();
+		      //alert('hi');
+		      $(this).parent().remove();
+		    }); 
 		  }
 		); 
 		$("#addScnt-2").click(
 		  function () {
-			 var someText = "<input type=\"text\"  name=\"nearby2[]\" class=\"two\" placeholder=\"Dumping Station\" required> <input type=\"text\" name=\"location2[]\" class=\"two\" placeholder=\"10 Miles Away\" required> <button class=\"removeFeature\"></button>";
+			 var someText = "<input type=\"text\"  name=\"nearby2[]\" class=\"two\" placeholder=\"Dumping Station\" required> <input type=\"text\" name=\"location2[]\" class=\"two\" placeholder=\"10 Miles Away\" required> <div class=\"removeFeature\">X</div>";
 			 var newDiv = $("<div>").append(someText);
 			 $('#conts2').append(newDiv);
+			 
+			$("div.removeFeature").click( function() {
+		// 	  event.preventDefault();
+		      //alert('hi');
+		      $(this).parent().remove();
+		    }); 
 		  }
-		); 
-    $("#conts .removeFeature, #conts2 .removeFeature").click( function() {
-      console.log("above")
-      $(this).parent().remove();
-    });
+		);
 	});
+	
+	
 </script>
 @endsection

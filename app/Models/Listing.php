@@ -37,7 +37,14 @@ class Listing extends Model
 	
 	
 	// Functions
+ 
+   
+  
+  public function amenityList() {		
+    return 'hello'; //implode(',' array_column ($this->amenities , 'name' ));
+  }
 	
+  
 	public function getPrimaryImage()
 	{
 		$image = ListingImages::where('listing_id', '=', $this->id)

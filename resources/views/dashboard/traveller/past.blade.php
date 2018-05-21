@@ -5,7 +5,7 @@
 	<div class="grid">
 		<div class="content rv">		
 			@component('components.breadcrumbs.dashboard')
-				  Past Trips
+				  Previous Trips
 			@endcomponent
 			<h1 class="h6">Your Previous Trips</h1>
 	<div class="prop-list">

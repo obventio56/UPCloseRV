@@ -485,7 +485,9 @@ class ListingController extends Controller
         // Get the current exceptions
         $listingExceptions = ListingException::where('listing_id', '=', $id)->get();
         // Get the current bookings
-        $bookings = Booking::where('listing_id', '=', $id)->get();
+        $bookings = Booking::where('listing_id', '=', $id)
+			->whereNotNull('transaction_id')
+			->get();
         
         foreach($listingExceptions as $exception){
             if($exception->available){
@@ -639,7 +641,13 @@ class ListingController extends Controller
 	public function manageReservations($id)
 	{
 		$listing = Listing::find($id);
-		$bookings = Booking::where('listing_id', '=', $id)->leftJoin('transaction', 'transaction.id', '=', 'bookings.transaction_id')->get();
+		$bookings = Booking::select('*')
+			->addSelect('bookings.id as booking_id')
+			->where('listing_id', '=', $id)
+			->whereNotNull('transaction_id')
+			->leftJoin('transaction', 'transaction.id', '=', 'bookings.transaction_id')
+			->leftJoin('users', 'users.id', '=', 'bookings.traveller_id')
+			->get();
 		
 		
 		

@@ -228,7 +228,8 @@ class HomeController extends Controller
 			->leftJoin('listing_addresses', 'listing_addresses.id', '=', 'listings.id')
 			->leftJoin(DB::raw("(select url, listing_id 
 							from `listings_images` 
-							where `primary` = 1 LIMIT 1) as `list_images`"), 'list_images.listing_id', '=', 'listings.id')
+							where `primary` = 1) as `list_images`"), 'list_images.listing_id', '=', 'listings.id')
+			->orderBy('start_date')
 			->get();
 		
 		return view('dashboard.traveller.upcoming')
@@ -254,7 +255,7 @@ class HomeController extends Controller
 			->leftJoin('listing_addresses', 'listing_addresses.id', '=', 'listings.id')
 			->leftJoin(DB::raw("(select url, listing_id 
 							from `listings_images` 
-							where `primary` = 1 LIMIT 1) as `list_images`"), 'list_images.listing_id', '=', 'listings.id')
+							where `primary` = 1) as `list_images`"), 'list_images.listing_id', '=', 'listings.id')
 			->leftJoin(DB::raw("(select booking_id as review from `reviews`) as `listing_review`"), 'listing_review.review', '=', 'bookings.id')
 			->get();
 		

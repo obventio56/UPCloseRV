@@ -22,7 +22,7 @@
 					  @foreach($users as $user)
 				    <tr>
 				      <td data-label="Name">{{ $user->name }}</td>
-				      <td data-label="Email"><a href="mailto:{{ $user->email }}">{{ $user->email }}</a></td>
+				      <td data-label="Email"><a href="mailto:{{ $user->email }}"><img src="https://upclose.developingpixels.com//site/themes/upClose/img/mail.svg"></a></td>
 				      <td data-label="host">@if($user->stripe_acc) Yes @else No @endif</td>
 				      <td data-label="Actions">
 							@if($user->suspended)

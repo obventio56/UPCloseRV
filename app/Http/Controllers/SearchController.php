@@ -34,7 +34,6 @@ class SearchController extends Controller
     */
     public function search(Request $request)
     {
-		
     	$location = $this::geocode($request->search);
 		$rvTypes = RVTypes::all();
 		$amenities = Amenities::all();
@@ -104,6 +103,13 @@ class SearchController extends Controller
 				$listing->stars = round($listing->total_stars/$listing->total_reviews);
 			}
 		}
+    foreach($listings as $listing){
+      if (!is_null($listing->amenities)){
+        $listing->amenityList = implode(', ', $amenities->find((array_map('intval', json_decode($listing->amenities))))->pluck('name')->toArray());
+      } else {
+        $listing->amenityList = '';
+      }
+    }
       
 		
 		return view('search.index')

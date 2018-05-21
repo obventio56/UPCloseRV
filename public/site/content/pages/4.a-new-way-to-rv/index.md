@@ -4,7 +4,7 @@ c_builder:
     image_position: left
     background_color: tan
     section_title: Getting Up Close
-    section_content: 'The reason you have a RV is to travel and get close to the place you want to visit. '
+    section_content: 'The reason you have an RV is to travel and get close to the place you want to visit. '
     cta_text: FInd a property
     cta_link: https://upclose.developingpixels.com/for-travelers
     border_color: no-border

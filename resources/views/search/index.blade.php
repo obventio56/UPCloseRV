@@ -232,6 +232,7 @@ window.onload = function () {
     var locations = [
 		  @foreach($listings as $listings_index => $listing)
       {
+        'amenities': "{{ $listing->amenityList }}",
         'listingId': "{{$listing->listid}}",
         'listingsIndex': {{$listings_index}},
         'url': "{{ route('view-listing', ['id' => $listing->listid]) }}",

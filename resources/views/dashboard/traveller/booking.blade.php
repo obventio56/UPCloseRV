@@ -6,7 +6,7 @@
 	<div class="grid">
 		<div class="content rv">
 			@component('components.breadcrumbs.dashboard')
-				  Saved Listings
+				  Booking
 			@endcomponent
 			<h1 class="h6">{{ date('M d, Y', strtotime($booking->start_date)) }} - {{ date('M d, Y', strtotime($booking->end_date)) }}</h1>
 			<a href="{{ route('write', [$listing->user_id]) }}" class="button brown round">Message Host</a> 
@@ -54,8 +54,26 @@
 				<div class="about">
 					<h2 class="h10">About This Property</h2>
 					<p>{{ $listing->description }}</p>
-				</div>
+					
+				@if($listing->instruct_find)
+					<br /><br />
+					<h2 class="h10">Directions</h2>
+					<p>{{ $listing->instruct_find }}</p>
+				@endif
+					
+				@if($listing->instruct_parking)
+					<br /><br />
+					<h2 class="h10">Where to Park</h2>
+					<p>{{ $listing->instruct_parking }}</p>
+				@endif
 				
+					
+				@if($listing->checkin_rules)
+					<br /><br />
+					<h2 class="h10">Check-in</h2>
+					<p>{{ $listing->checkin_rules }}</p>
+				@endif
+				</div>
 				<div class="amenities">
 					<h3 class="h10">Property Amenities</h3>
 					<div class="grid">
@@ -208,7 +226,7 @@
                   }
               });
 		$.ajax({
-                  url: "{{ url('/dashboard/listing/favorite') }}",
+                  url: "{{ url('/account/listing/favorite') }}",
                   method: 'post',
                   data: {
                     // listing_id: {{ $listing->id }},
@@ -231,7 +249,7 @@
                   }
               });
 		$.ajax({
-                  url: "{{ url('/dashboard/listing/favorite') }}",
+                  url: "{{ url('/account/listing/favorite') }}",
                   method: 'post',
                   data: {
                      listing_id: {{ $listing->id }},

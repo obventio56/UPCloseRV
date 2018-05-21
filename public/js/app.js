@@ -43288,6 +43288,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ['listings', 'selectedIndex'],
@@ -43399,6 +43403,14 @@ var render = function() {
                               "' RV or smaller"
                           )
                         ])
+                      ]),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "amenities" }, [
+                        _vm._v(
+                          "\n                " +
+                            _vm._s(listing.amenities) +
+                            "\n              "
+                        )
                       ])
                     ]),
                     _vm._v(" "),

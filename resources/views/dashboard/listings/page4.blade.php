@@ -10,7 +10,7 @@
 			<br />
 			@component('components.menus.dashboard.listing', ['listing' => $listing]) @endcomponent	
             <h1 class="h2">Pricing</h1>
-            <p>Your property, your pricing. When setting your pricing, consider the value of your property (what's near by, what's available on your property, etc) as well as how much profit you'd like to make. You can set nightly and monthly rates as well as discounts below. </p>
+            <p>Your property, your pricing. When setting your pricing, consider the value of your property (what's near by, what's available on your property, etc) as well as how much profit you'd like to make. You can set nightly and monthly rates as well as discounts, below. </p>
              
                 <form class="style lister" method="POST" action="{{ route('store-listing-p4') }}">
                     {{ csrf_field() }}

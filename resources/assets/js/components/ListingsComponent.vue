@@ -19,6 +19,9 @@
 								</span>
 								<span>Fits {{ listing.max_vehicle_length }}' RV or smaller</span>
 							</p>
+              <div class="amenities">
+                {{listing.amenities}}
+              </div>
 						</div>
 						<div class="small-deats">
               <div v-if="listing.month_rental">
@@ -30,6 +33,7 @@
                 <stars-component v-bind:rating="listing.stars" v-bind:reviews="listing.reviews"></stars-component> 
 							<a v-bind:href="listing.url" class="button listing">View</a>
 						</div>
+           
 					</div>
           </div>
 				</div>

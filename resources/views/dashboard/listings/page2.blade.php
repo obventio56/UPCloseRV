@@ -32,7 +32,7 @@
                                      checked="checked"
                                    @endif
                                 >
-                            <label for="pt2">My property is available for travellers to enjoy</label>
+                            <label for="pt2">My property is available for travelers to enjoy</label>
                           </p>
                            @if ($errors->has('propertyType'))
                                 <span class="help-block">
@@ -60,7 +60,7 @@
                 </div>
 					
 				<div class="one">
-                        <p class="h">Are there any other items on the property that the traveller can make use of?</p>
+                        <p class="h">Are there any other items on the property that the traveler can make use of?</p>
 
                         <textarea name="otherAmenities" placeholder="We have a hot tub on the back..." >{{ $listing->other_amenities }}</textarea>
 
