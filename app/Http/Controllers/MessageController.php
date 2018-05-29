@@ -89,7 +89,7 @@ class MessageController extends Controller
       
       $message->message = $request->message;
       $message->to = $request->to;
-      $message->from = Auth::user()->id;
+      $message->from = Auth::user()->id; // No one should ever be sending a message on behalf of someone else.
       $message->save();
       
       $message->thread = $message->id;

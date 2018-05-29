@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-<section id="dash">
+<section id="dash" class="home-dash">
 	<div class="grid">
 		<div class="content rv">		
 			@component('components.breadcrumbs.dashboard')

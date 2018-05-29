@@ -9,8 +9,8 @@
 					<div class="grid">
 						<div class="titles">
 							<p><span>Guests:</span> <span>up to @if($booking->days < 30) {{ $listing->day_guests }} @else {{ $listing->month_guests }} @endif</span></p>
-							<p><span>Check In:</span> <span>{{ $listing->check_in }} - {{ date('M dS, Y', strtotime($booking->start_date)) }}</span></p>
-							<p><span>Check Out:</span> <span>{{ $listing->check_out }} - {{ date('M dS, Y', strtotime($booking->end_date)) }}</span></p>
+							<p><span>Check In:</span> <span>{{ $listing->check_in }} - {{ date('M jS, Y', strtotime($booking->start_date)) }}</span></p>
+							<p><span>Check Out:</span> <span>{{ $listing->check_out }} - {{ date('M jS, Y', strtotime($booking->end_date)) }}</span></p>
 							<h5 class="h10">Pricing</h5>
 							<p><span>Stay:</span> <span>{{ $booking->days }} nights x ${{ $booking->pricing }}/night</p>
 						

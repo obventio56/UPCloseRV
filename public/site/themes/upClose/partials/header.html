@@ -1,3 +1,5 @@
+
+
 <!DOCTYPE html>
 <!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
 <!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
@@ -10,10 +12,38 @@
 	<meta name="robots" content="noindex" />
 	<meta name="googlebot" content="noindex" />
 	<?php echo file_get_contents('https://upclose.developingpixels.com/ptemp/csrf'); ?>
+    {{ if current_uri == "/stemp/header"}}
+      {{ collection:laravel-app-seo relevant_path:match="{BuildRegex:generateRegex}" sort="relevant_path:desc" limit="1"}}
+  
+          <!-- Check it out: this will display our new meta description, or default to a fallback phrase -->
+          <meta name="description" content="{{ meta_description or "Find local property in your area to park your RV or camper! Become a host or traveler with UpClose RV today!" }}">
+          <title itemprop='name'>{{ seo_title }}</title>
+
+          <!-- Opengraph (for Facebook, LinkedIn, Pinterest, Slack, etc.) -->
+          <meta property="og:locale" content="en_US" />
+          <meta property="og:type" content="website" />
+           <!-- On Facebook, this will show the title of the entry, or default to my name -->
+          <meta property="og:title" content="{{ seo_title }}" />
+          <!-- Here's our entry-specific meta description again, plus fallback -->
+          <meta property="og:description" content="{{ meta_description or "Find local property in your area to park your RV or camper! Become a host or traveler with UpClose RV today!" }}" />
+          <meta property="og:url" content="{{ current_url l}}" />
+          <meta property="og:site_name" content="UpClose RV" />
+          <meta property="og:image" content="{{ assets:og_image }}{{ site_url }}{{ url }}{{ /assets:og_image }}" />
+
+          <!-- Twitter -->
+          <meta name="twitter:card" content="summary" />
+          <!-- We're taking the same approach on Twitter: show the custom value, or default to a back-up -->
+          <meta name="twitter:title" content="{{ seo_title }}" />
+          <meta name="twitter:description" content="{{ meta_description or "Find local property in your area to park your RV or camper! Become a host or traveler with UpClose RV today!" }}" />
+          <meta name="twitter:site" content="@upcloserv" />
+          <meta name="twitter:creator" content="@upcloserv" />
+          <meta name="twitter:image" content="{{ assets:og_image }}{{ site_url }}{{ url }}{{ /assets:og_image }}" />
+        {{ /collection:laravel-app-seo }}
+    {{else}}
     <!-- Check it out: this will display our new meta description, or default to a fallback phrase -->
      <meta name="description" content="{{ get_content from="{{ current_uri }}" }}{{ meta_description or "Find local property in your area to park your RV or camper! Become a host or traveler with UpClose RV today!" }}{{ /get_content }}">
     <title itemprop='name'>{{ get_content from="{{ current_uri }}" }} {{ seo_title }} {{ /get_content }}</title>
-
+    
     <!-- Opengraph (for Facebook, LinkedIn, Pinterest, Slack, etc.) -->
     <meta property="og:locale" content="en_US" />
     <meta property="og:type" content="website" />
@@ -33,7 +63,7 @@
     <meta name="twitter:site" content="@upcloserv" />
     <meta name="twitter:creator" content="@upcloserv" />
     <meta name="twitter:image" content="{{ get_content from="{{ current_uri }}" }}{{ assets:og_image }}{{ site_url }}{{ url }}{{ /assets:og_image }}{{ /get_content }}" />
-    
+    {{/if}}
 
     <meta name="viewport" content="width=device-width">
 	<link type="text/css" href="https://use.fontawesome.com/releases/v5.0.6/css/all.css" rel="stylesheet">
@@ -63,12 +93,22 @@
 	<script src="{{ site_url }}{{ theme:asset src="js/scripts.js" }}"></script>
 	<script src="{{ site_url }}{{ theme:asset src="js/dropzone.js" }}"></script>
 	<script src="//cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.1.6/owl.carousel.min.js"></script>
-	
+	<script>
+   (function(h,o,t,j,a,r){
+       h.hj=h.hj||function(){(h.hj.q=h.hj.q||[]).push(arguments)};
+       h._hjSettings={hjid:886271,hjsv:6};
+       a=o.getElementsByTagName('head')[0];
+       r=o.createElement('script');r.async=1;
+       r.src=t+h._hjSettings.hjid+j+h._hjSettings.hjsv;
+       a.appendChild(r);
+   })(window,document,'https://static.hotjar.com/c/hotjar-','.js?sv=');
+</script>
     
 </head>
 <div class="error-browser">You are seeing a condensed version of this website. Our developers spent countless hours developing this website with the latest industry trends. To fully appreciate this website, we recommend using <a href="https://www.mozilla.org/en-US/firefox/" target="_blank">FireFox</a> or <a href="https://www.google.com/chrome/" target="_blank">Chrome</a> as your main browser. (FYI: IE11 is old & only <a href="https://www.w3counter.com/globalstats.php" target="_blank">2.9% of the world</a> uses it!)</div>
 
 <body>
+	
 <header>
 	<div class="grid">
 		<div class="logo">
@@ -112,10 +152,10 @@
 <!-- Pushy Menu -->
 <nav class="pushy pushy-right">
     <div class="pushy-content">
-	    <img src="{{ site_url }}{{ theme:asset src="img/x.svg" }}" alt="x" class="pushy-link">
+<!-- 	    <img src="{{ site_url }}{{ theme:asset src="img/x.svg" }}" alt="x" class="pushy-link x"> -->
 
-            
-            <ul>
+            <a href="/"><img src="{{ main_globals:logo }}" alt="UpClose RV Logo"></a>
+            <ul class="main">
 				<li class="pushy-submenu">
                 <button>Travelers</button>
                 <ul>
@@ -127,7 +167,7 @@
 				<li class="pushy-submenu">
                 <button>Host</button>
 					<ul>
-						<li class="pushy-link"><a href="#" class="h8">Become A Host</a></li>
+						<li class="pushy-link"><a href="/account/register" class="h8">Become A Host</a></li>
 						<li class="pushy-link"><a href="/property-owners" class="h8">Host Resources</a></li>
 						<li class="pushy-link"><a href="/listing-your-property-is-easy" class="h8">Benefits of Hosting</a></li>
 					</ul>
@@ -136,6 +176,9 @@
 				<li class="pushy-link"><?php echo file_get_contents('https://upclose.developingpixels.com/ptemp/hlogin'); ?></li>
 				<li class="pushy-link"><a href="/support">Support</a></li>
 			</ul>
+			
+			<br/>
+			<a href="/account/login" class="button round green">Your Account</a>
     </div>
 </nav>
 

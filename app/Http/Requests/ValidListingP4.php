@@ -34,7 +34,9 @@ class ValidListingP4 extends FormRequest
             'maxStayLength' => 'numeric',
             'dayGuests' => 'numeric',
             'monthGuests' => 'numeric',
-			'weeknightDiscount' => 'required|numeric'
+			'weeknightDiscount' => 'required|numeric',
+			'dayPricing' => 'between:0,999.99',
+			'monthPricing' => 'between:0,9999.99'
         ];
     }
 }

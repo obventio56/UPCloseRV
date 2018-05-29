@@ -118,6 +118,7 @@
 					</p>
 				</div>
 				@endif
+				@if($listing->host_url && $listing->host_description)
 				<div class="about-owner">
 					<h4 class="h10">About The Owner</h4>
 					<div class="grid">
@@ -132,6 +133,7 @@
 						</div>
 					</div>
 				</div>
+				@endif
 				
 				@if($other_listings->count())
 				<div class="other-props">
@@ -207,7 +209,11 @@
 										<input type="hidden" id="checkout-date" name="checkout" required />
 										<input type="hidden" id="checkin-date" name="checkin" required />
 										<input type="hidden" name="listing" value="{{ $listing->id }}" />
-										<input type="submit" class="button blue round" value="Continue" />
+										<input type="submit" class="button blue round" value="Continue" 
+										@if( (isset(Auth::user()->id) && Auth::user()->id == $listing->user_id) || !$listing->published)	   
+										disabled
+										@endif
+											   />
 									</form>
 							    </div>
 							  </div> <!-- END tabz-content -->
@@ -447,6 +453,11 @@
 		  eventLimit: false, // allow "more" link when too many events
 		  selectable: true,
 		  selectOverlap: false,
+		header: {
+			  left: 'title',
+			  center: '',
+			  right: 'prev,next'
+			},
 		  dayClick: function(date, jsEvent, view) {
 			  var dateCompare = new Date(date);
 			  dateCompare.setHours(dateCompare.getHours()+4);
@@ -462,6 +473,9 @@
 			  if(!flag){
 				  $('#checkin-date').val(date.format());
 				  $('.checkin-date-view').html(date.format('MMMM Do Y')+',');
+				  $('#calendar-out').fullCalendar('gotoDate', date);
+				  $('#checkout-date').val('');
+				  $('.checkout-date-view').html('');
 			  }
 			},
 		  events: [
@@ -504,6 +518,11 @@
 		  eventLimit: true, // allow "more" link when too many events
 		  selectable: true,
 		  selectOverlap: false,
+		     header: {
+			  left: 'title',
+			  center: '',
+			  right: 'prev,next'
+			},
 		  dayClick: function(date, jsEvent, view) {
 			  var dateCompare = new Date(date);
 			  dateCompare.setHours(dateCompare.getHours()+4);
@@ -607,11 +626,12 @@
                   }});
 		
             });
+	
      });
      
      
      // Select all links with hashes
-$('a[href*="#"]')
+$('.rating a[href*="#"]')
   // Remove links that don't actually link to anything
   .not('[href="#"]')
   .not('[href="#0"]')
@@ -647,9 +667,14 @@ $('a[href*="#"]')
     }
   });
 
+	
 
     </script>
     <script async defer
     src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCyXHeiC9HRgVmhWkHPyBaM4bM7FC3TuGw&callback=initMap">
     </script>
+
+
+
+
 @endsection

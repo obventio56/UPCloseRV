@@ -1,4 +1,5 @@
-<?php echo file_get_contents('https://upclose.developingpixels.com/stemp/header'); ?>
+<?php 
+echo file_get_contents('https://upclose.developingpixels.com/stemp/header?uri=' . urlencode($_SERVER['REQUEST_URI'])); ?>
 
 <meta name="csrf-token" content="{{ csrf_token() }}">
     @yield('content')
@@ -44,3 +45,43 @@
 @yield('scripts')
 
 <?php echo file_get_contents('https://upclose.developingpixels.com/stemp/footer'); ?>
+@if(Session::has('error'))
+<script>
+	$(document).ready(function(){
+		// Toasts
+		$('#toast.error').fadeIn(1000);
+		$('#toast.error').click(function(){
+			$(this).fadeOut("slow");
+		});
+	});
+</script>
+	<div id="toast" class="error red" style="background-image: url(/img/rvicon.png);"><div id="desc">{{ Session::get('error') }}</div></div>
+@endif
+@if(Session::has('success'))
+<script>
+	$(document).ready(function(){
+		// Toasts
+		$('#toast.success').fadeIn(1000).delay(3000).fadeOut("slow");
+	});
+</script>
+	<div id="toast" class="success green" style="background-image: url(/img/rvicon.png);"><div id="desc">{{ Session::get('success') }}</div></div>
+@endif
+@if(!$errors->isEmpty())
+<script>
+	$(document).ready(function(){
+		// Toasts
+		$('#toast.errors').fadeIn(1000);
+		$('#toast.errors').click(function(){
+			$(this).fadeOut("slow");
+		});
+	});
+</script>
+	<div id="toast" class="errors red" style="background-image: url(/img/rvicon.png);">
+		<div id="desc">
+		Whoops! Some issues happened:<br />
+		@foreach($errors->all() as $message)
+		 {{ $message }} <br />
+		@endforeach
+		</div>
+	</div>
+@endif

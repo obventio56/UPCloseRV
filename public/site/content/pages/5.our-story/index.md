@@ -10,9 +10,9 @@ c_builder:
     section_content: >
       Thank you for your interest in our new business. We are truly excited about this new prospect as we
       enter a new chapter of our lives.
-    border_color: blue-border
-    cta_text: This is a test
-    cta_link: http://pixelandhammer.com/
+    border_color: no-border
+    cta_text: Join Us Today
+    cta_link: https://upclose.developingpixels.com/account/register
   - 
     type: wysiwyg_b
     bard: |

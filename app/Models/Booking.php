@@ -8,6 +8,7 @@ use Stripe\Stripe as StripeBase;
 use Stripe\Charge as StripeCharge;
 use Stripe\Refund as StripeRefund;
 use Auth;
+use Entrust;
 
 class Booking extends Model
 {

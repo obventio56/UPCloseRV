@@ -149,10 +149,6 @@ class AdminController extends Controller
 			}
 		}
         
-        // TODO: Cancel any future bookings they have
-        
-        // TODO: Cancel any future bookings their listings have
-        
         return Redirect::route('admin-users');
     }
     

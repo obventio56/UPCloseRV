@@ -42,3 +42,4 @@ redactor:
         - italic
 send_powered_by_header: true
 ensure_unique_ids: true
+yaml_parser: spyc

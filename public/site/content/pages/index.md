@@ -5,6 +5,7 @@ how_it_works: Explore the world!
 how_it_works_content: >
   Find locations to park your home on wheels, see cool places, go to awesome events, and live where
   you want when you want. The best part? They are close to where you want to go. Really close.
+seo_title: Home Page
 og_image: /assets/img/vw-rv.jpg
 c_builder:
   - 
@@ -16,7 +17,7 @@ c_builder:
       Do you live near a cool landmark, awesome event, amusement park, or in the suburbs of a city? List
       your property with UpCloseRV to share the fun with others!
     cta_text: List a Property
-    cta_link: '#'
+    cta_link: https://upclose.developingpixels.com/account/register
     border_color: blue-border
     polaroid_image:
       - /assets/img/Group.png

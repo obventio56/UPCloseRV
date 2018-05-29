@@ -6,6 +6,8 @@ use App\User;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\Welcome;
 use Mailchimp\Mailchimp;
 use Illuminate\Http\Request;
 use Illuminate\Auth\Events\Registered;
@@ -98,6 +100,8 @@ class RegisterController extends Controller
 		if(isset($data['redirectUrl'])){
 			$redirectTo = $data['redirectUrl'];
 		}
+		
+		 Mail::to($data['email'])->send(new Welcome());
 		
         return User::create([
             'name' => $data['name'],

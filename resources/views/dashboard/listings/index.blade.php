@@ -4,7 +4,7 @@
 <section id="dash">
 	<div class="grid">
 		<div class="content rv">		
-			<div class="cookie-crisp"><a href="">Dashboard <i class="fas fa-chevron-right"></i></a>  You Listings</div>	
+			<div class="cookie-crisp"><a href="">Dashboard <i class="fas fa-chevron-right"></i></a>  Your Listings</div>	
 			
 			<h1 class="h6" id="new-listing-inline">Your Listings</h1>
 			<a href="{{ route('add-listing') }}" id="add-new-listing">Add A New Listing!</a>

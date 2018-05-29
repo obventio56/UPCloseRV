@@ -124,7 +124,7 @@ class HomeController extends Controller
         	// They already have an account setup. 
         }
     
-    	return Redirect::route('home');
+    	return Redirect::route('view-own-listings');
  	}
   
 	/**

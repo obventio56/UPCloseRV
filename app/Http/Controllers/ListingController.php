@@ -83,10 +83,15 @@ class ListingController extends Controller
     */
     public function manage($id)
     {
-        $listing = Listing::where('user_id', '=', Auth::user()->id)
-            ->where('id', '=', $id)
-            ->first();
-        
+		
+		$listing = Listing::where('user_id', '=', Auth::user()->id)
+			->where('id', '=', $id)
+			->first();
+
+		if($listing->user_id != Auth::user()->id && !Auth::user()->ability('admin, client', 'edit-other-listings')){
+			return view('errors.403');
+		}
+
         return view('dashboard.listings.manage')
             ->with('listing', $listing);
     }
@@ -368,7 +373,9 @@ class ListingController extends Controller
         $listingAddress->zipcode = $request->zip;
         $listingAddress->save();
         
-        $listingAddress->geocodeAddress();
+        if(!$listingAddress->geocodeAddress()){
+			$request->session()->flash('error', 'The address you provided was invalid, please check everything and try again.');
+		}
         
         return Redirect::route('edit-listing-p5', [$request->id]);
     }
@@ -476,13 +483,16 @@ class ListingController extends Controller
     
     // Listing Calendar Availability
     // TODO: 
-    // -RESTRICT TO LISTING OWNER!!!
     // -Grab bookings
     public function availability($id)
     {
         
         $listing = Listing::find($id);
         // Get the current exceptions
+		if($listing->user_id != Auth::user()->id){
+			return view('errors.403');
+		}
+
         $listingExceptions = ListingException::where('listing_id', '=', $id)->get();
         // Get the current bookings
         $bookings = Booking::where('listing_id', '=', $id)
@@ -515,7 +525,13 @@ class ListingController extends Controller
     {
         // Check for an existing exception. We don't want more than one exception at once.
         $listing = Listing::find($request->id);
-        if(!$listing->hasException($request->startDate, $request->endDate) 
+
+		// Ensure proper auth
+		if($listing->user_id != Auth::user()->id){
+			return view('errors.403');
+		}
+
+        if(!$listing->hasException($request->startDate, $request->endDate, NULL) 
            && !$listing->hasBooking($request->startDate, $request->endDate))
         {
             $listingException = new ListingException();
@@ -530,10 +546,13 @@ class ListingController extends Controller
             }
         
             $listingException->save();
+			
+        	$request->session()->flash('success', 'Exception added successfully');
         } else {
             // Already an exception. NO MORE EXCEPTIONS. Toast it :D
+			 $request->session()->flash('error', 'There is a booking or another exception overlapping this exception. The booking must be cancelled before policy changes can be made.');
         }
-
+		
         return Redirect::route('listing-availability', [$request->id]);
     }
     
@@ -572,7 +591,7 @@ class ListingController extends Controller
                 
             } else {
                 // There's a booking, so this exception cannot be modified 
-                
+                 $request->session()->flash('error', 'There is a booking overlapping this exception. The booking must be cancelled before policy changes can be made.');
             }
             
         } else {
@@ -580,6 +599,8 @@ class ListingController extends Controller
             return view('errors.403');
         }
         
+		
+        $request->session()->flash('success', 'Exception updated successfully');
         return Redirect::route('listing-availability', [$exception->listing_id]);
             
     }
@@ -603,14 +624,14 @@ class ListingController extends Controller
                 $exception->delete();
             } else {
                 // There's a booking, so this exception cannot be removed 
-                
+                $request->session()->flash('error', 'There is a booking overlapping this exception. The booking must be cancelled before policy changes can be made.');
             }
             
         } else {
             // You're not the owner of that listing!!
             return view('errors.403');
         }
-        
+        $request->session()->flash('success', 'Exception removed successfully');
         return Redirect::route('listing-availability', [$exception->listing_id]);
             
     }
@@ -618,7 +639,13 @@ class ListingController extends Controller
 	// Publish Listing
 	public function publishListing(Request $request)
 	{
+		
 		$listing = Listing::find($request->id);
+		// Ensure proper auth
+		if($listing->user_id != Auth::user()->id){
+			return view('errors.403');
+		}
+		
 		$listing->published = 1;
 		$listing->save();
 		
@@ -630,6 +657,10 @@ class ListingController extends Controller
 	public function unpublishListing(Request $request)
 	{
 		$listing = Listing::find($request->id);
+		// Ensure proper auth
+		if($listing->user_id != Auth::user()->id){
+			return view('errors.403');
+		}
 		$listing->published = 0;
 		$listing->save();
 		
@@ -641,6 +672,11 @@ class ListingController extends Controller
 	public function manageReservations($id)
 	{
 		$listing = Listing::find($id);
+		
+		if($listing->user_id != Auth::user()->id){
+		  return view('errors.403');
+	  	}
+		
 		$bookings = Booking::select('*')
 			->addSelect('bookings.id as booking_id')
 			->where('listing_id', '=', $id)

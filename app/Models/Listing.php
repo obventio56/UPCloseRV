@@ -60,6 +60,35 @@ class Listing extends Model
 		return $q->where('listings.published', '=', '1')->get();
 	}
 	
+	public function isAvailable($startDate, $endDate)
+	{
+		if($this->hasBooking($startDate, $endDate))
+		{
+			return false;
+		} 
+	
+		$exception = ListingException::
+			   where( function($q) use ($startDate, $endDate) {
+
+					$q->where('start_date', '>=', $startDate)
+					  ->where('start_date', '<=', $endDate);
+				})
+				->orWhere( function($q) use ($startDate, $endDate) {
+					$q->where('end_date', '>', $startDate)
+					  ->where('end_date', '<=', $endDate);
+				})
+				->where('listing_id', '=', $this->id)
+				->where('available', '=', 0)
+				->whereNull('deleted_at')
+				->first();
+		
+        if($exception){
+            return false;
+        } else {
+            return true;
+        }
+		
+	}
 	
     // Check for an existing exception, optionally pass in an exception id to exclude
     public function hasException($startDate, $endDate, $exception_id)
@@ -84,13 +113,14 @@ class Listing extends Model
 		} else {
 			$exception = ListingException::
 			   where( function($q) use ($startDate, $endDate) {
-
-					$q->where('start_date', '>=', $startDate)
-					  ->where('start_date', '<=', $endDate);
-				})
-				->orWhere( function($q) use ($startDate, $endDate) {
-					$q->where('end_date', '>', $startDate)
-					  ->where('end_date', '<=', $endDate);
+				   $q->where( function($q) use ($startDate, $endDate) {
+						$q->where('start_date', '>=', $startDate)
+						  ->where('start_date', '<=', $endDate);
+					})
+					->orWhere( function($q) use ($startDate, $endDate) {
+						$q->where('end_date', '>', $startDate)
+						  ->where('end_date', '<=', $endDate);
+					});
 				})
 				->where('listing_id', '=', $this->id)
 				->whereNull('deleted_at')
@@ -106,7 +136,24 @@ class Listing extends Model
     
     public function hasBooking($startDate, $endDate)
     {
-        $booking = Booking::
+		
+		$booking = Booking::
+            where( function($q) use ($startDate, $endDate) {
+				$q->where( function($r) use ($startDate, $endDate){
+					$r->where('start_date', '>=', $startDate)
+                  	  ->where('start_date', '<=', $endDate);
+				})->orWhere( function($r) use ($startDate, $endDate) {
+				   $r->where('end_date', '>', $startDate)
+                  	 ->where('end_date', '<=', $endDate);
+				});
+                
+            })
+            ->where('listing_id', '=', $this->id)
+			->whereNull('canceled_at')
+			->whereNull('deleted_at')
+            ->first();
+        /* Flawed
+		$booking = Booking::
             where( function($q) use ($startDate, $endDate) {
 
                 $q->where('start_date', '>=', $startDate)
@@ -117,7 +164,9 @@ class Listing extends Model
                   ->where('end_date', '<=', $endDate);
             })
             ->where('listing_id', '=', $this->id)
-            ->first();
+			->whereNull('canceled_at')
+			->whereNull('deleted_at')
+            ->first();*/
         
         if($booking){
             return true;

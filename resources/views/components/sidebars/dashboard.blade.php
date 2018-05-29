@@ -1,4 +1,4 @@
-<div class="sidebar">
+<div class="sidebar" id="mobile-dash">
     {{ $slot }}
     <p class="h7">Manage Your Account @permission('admin')<a href="{{ route('admin-listings') }}">- Admin</a>@endpermission</p>
     <section id="generic-tabs" class="nav">

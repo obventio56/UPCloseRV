@@ -97,7 +97,7 @@
                                  checked="checked"
                                @endif
                          >
-                        <label for="cp1" class="tooltip">Strict <span class="tooltiptext">ong orem ipsum dolor sit amet, consectetur adipiscing elit. Quisque condimentum gravida urna et suscipit. Quisque placerat purus vel placerat elementum. Pellentesque id fringilla leo. Fusce pellentesque finibus urna. Sed et posuere purus, vel eleifend dolor. Proin ac </span></label>
+                        <label for="cp1" class="tooltip">Strict <span class="tooltiptext"> No refund will be applied for cancellations less than 7 days before check in. Full refund (minus fees) applied for cancellations at least 7 days before check in.</span></label>
                       </p>
                       <p class="labs">
                         <input type="radio" id="cp2" name="cancelPolicy" value="2"                                
@@ -105,7 +105,7 @@
                                  checked="checked"
                                @endif
                             >
-                        <label for="cp2" class="tooltip">Middle policy <span class="tooltiptext">two orem ipsum dolor sit amet, consectetur adipiscing elit. Quisque condimentum gravida urna et suscipit. Quisque placerat purus vel placerat elementum. Pellentesque id fringilla leo. Fusce pellentesque finibus urna. Sed et posuere purus, vel eleifend dolor. Proin ac </span></label>
+                        <label for="cp2" class="tooltip">Middle policy <span class="tooltiptext">No refund will be applied for cancellations less than 3 days before check in. Full refund (minus fees) applied for cancellations at least 3 days before check in.</span></label>
                       </p>
 					  <p class="labs">
                         <input type="radio" id="cp3" name="cancelPolicy" value="3"                                
@@ -113,7 +113,7 @@
                                  checked="checked"
                                @endif
                             >
-                        <label for="cp3" class="tooltip">Relaxed policy <span class="tooltiptext">three orem ipsum dolor sit amet, consectetur adipiscing elit. Quisque condimentum gravida urna et suscipit. Quisque placerat purus vel placerat elementum. Pellentesque id fringilla leo. Fusce pellentesque finibus urna. Sed et posuere purus, vel eleifend dolor. Proin ac </span></label>
+                        <label for="cp3" class="tooltip">Relaxed policy <span class="tooltiptext">No refund will be applied for cancellations less than 24 hours before check in. Full refund (minus fees) applied for cancellations at least 24 hours before check in.</span></label>
                       </p>
                        @if ($errors->has('cancelPolicy'))
                             <span class="help-block">

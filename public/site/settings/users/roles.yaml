@@ -3,3 +3,17 @@
   slug: super
   permissions:
     - super
+239cf2ee-0425-4a3c-98de-e201d448cdb7:
+  title: Editor
+  slug: editor
+  permissions:
+    - pages:view
+    - pages:edit
+    - collections:policies:view
+    - collections:policies:edit
+    - collections:press:view
+    - collections:press:edit
+    - collections:property-owners:view
+    - collections:property-owners:edit
+    - collections:travelers:view
+    - collections:travelers:edit

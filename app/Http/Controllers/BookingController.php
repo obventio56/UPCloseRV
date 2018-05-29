@@ -25,6 +25,10 @@ use Auth;
 use Redirect;
 use Entrust;
 
+
+use Illuminate\Support\Facades\Mail;
+use App\Mail\BookingConfirmation;
+
 class BookingController extends Controller
 {
 	
@@ -48,7 +52,7 @@ class BookingController extends Controller
 		$listing->nearby_conveniences = json_decode($listing->nearby_conveniences);
 		
 		// Ensure the listing is published/active.
-		if(!$listing->published && !Entrust::can('view-unpublished')){
+		if(!$listing->published && !Entrust::can('view-unpublished') && Auth::user()->id != $listing->user_id){
 			return view('errors.404');
 		}
 		
@@ -113,6 +117,16 @@ class BookingController extends Controller
     
 	public function start(ValidBooking $request)
 	{
+		// I don't have a good way to do this elsewhere so it's going here... 
+		// Check to make sure there are no blockages BETWEEN the checkin and checkout dates. 
+		$listing = Listing::where('id', '=', $request->listing)->first();
+		if(!$listing->isAvailable($request->checkin, $request->checkout)){
+	
+			$request->session()->flash('error', 'Whoops, looks like there is something blocking those dates from being reserved.');
+			
+			return Redirect::route('view-listing', ['id' => $request->listing]);
+		}
+		
 		$booking = new Booking();
 		$booking->start_date = strtotime($request->checkin);
 		$booking->end_date = strtotime($request->checkout);
@@ -195,6 +209,8 @@ class BookingController extends Controller
 		
 		$booking->transaction_id = $transaction->id;
 		$booking->save();
+		
+		Mail::to(Auth::user()->email)->send(new BookingConfirmation($listing, $booking, $transaction));
 			
 		return Redirect::route('upcoming-trips');	
 	}

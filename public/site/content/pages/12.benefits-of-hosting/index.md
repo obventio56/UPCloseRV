@@ -2,17 +2,6 @@ c_builder:
   - 
     type: polaroid
     polaroid_image:
-      - /assets/img/kayaking.png
-    image_position: right
-    background_color: tan
-    section_title: You have a beautiful property!
-    section_content: UpClose-RV is a way to show off your property and community while making a little income.
-  - 
-    type: wysiwyg_b
-    bard: '<p>You bought your home for many reasons, you love your home, your property, and your community. Those things you love that surround you are the same things that others love. Perhaps you live near an interesting site like Mt. Vernon near DC or a National Park like Yellowstone. Or, maybe you have a beautiful parcel in the apple orchards of Pennsylvania or wine country in Northern Virginia.<br></p>'
-  - 
-    type: polaroid
-    polaroid_image:
       - /assets/img/rushmore.png
     image_position: left
     background_color: blue

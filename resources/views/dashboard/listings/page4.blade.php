@@ -73,7 +73,7 @@
                     
                     
                     <div class="one">
-                        <p class="h">How much is your listing for 1 month? <span class="note">*Note, if your property does not allow for monthly rentals please leave this section blank.</span></p>
+                        <p class="h">How much is your listing for 1 month? <span class="note">*Note, if your property does not allow for monthly rentals please just enter zero in each field.</span></p>
                         <div class="grid">
 
                             <div class="two">

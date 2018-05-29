@@ -7,7 +7,9 @@
 		<div class="grid">
 			<div class="main-sec step wizy">
 				<h2>Payment</h2>
-				
+				<p>
+					You're almost done! Pay for your listing to finalize your booking.
+				</p>
 				
 				<form action="{{ route('finish-payment') }}" method="POST">
 					{{ csrf_field() }}
@@ -22,7 +24,6 @@
 					data-locale="auto">
 				  </script>
 				</form>
-				
 			</div>
 			
 			@component('components.sidebars.booking', ['booking' => $booking, 'listing' => $listing])

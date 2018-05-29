@@ -56,9 +56,9 @@
 					
 					<div class="filter-block" id="stay-length">
 						<select name="rentalType" onchange="this.form.submit()">
-						  <option value="0">Rental Type</option>
-						  <option value="1">Daily</option>
-						  <option value="2">Monthly</option>
+						  <option value="0" {{ ((isset($request->rentalType) && $request->rentalType == 0)? 'selected' : '') }}>Rental Type</option>
+						  <option value="1" {{ ((isset($request->rentalType) && $request->rentalType == 1)? 'selected' : '') }}>Daily</option>
+						  <option value="2" {{ ((isset($request->rentalType) && $request->rentalType == 2)? 'selected' : '') }}>Monthly</option>
 						</select>
 					</div>
 					

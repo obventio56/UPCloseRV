@@ -13,6 +13,9 @@
 			<h1 class="h6">Your Reservations</h1>
 
 			<div class="reservation-cards">
+				<div id="cal-mobile">
+	        	<p>Unfortunately this functionality is not yet available on mobile devices. Please edit your reservations via a desktop browser.</p>
+	        </div>
 			@foreach($bookings as $booking)
 				<div class="reservation">
 					<p class="dates">{{ date('M dS Y', strtotime($booking->start_date)) }} - {{ date('M dS Y', strtotime($booking->end_date)) }}</p>
@@ -28,13 +31,12 @@
 
 							<div class="pricing">
 								<p class="h10">Pricing:</p>
-								<p class="dets"><span>Stay:</span> <span>5 nights x $50/night = $200.00</span></p>
-								<p class="dets total"><span>Total (USD)</span> <span>{{ $booking->amount }}</span></p>
+								<p class="dets"><span>Total (USD)</span> <span>{{ number_format(($booking->amount*.85), 2) }}</span></p>
 							</div>
 						</div>
 
 						<a data-fancybox="" data-src="#cancel-{{ $booking->booking_id }}" data-modal="true" href="javascript:;" class="button brown round">Cancel Reservation</a>
-						<a href="{{ route('write', [$booking->user_id]) }}" class="button brown round">Message Traveller</a> 
+						<a href="{{ route('write', [$booking->user_id]) }}" class="button brown round">Message Traveler</a> 
 					</div>
 				</div>
 			@endforeach
@@ -55,7 +57,6 @@
 	<div id="cancel-{{ $booking->booking_id }}" class="p-5 fancybox-content" style="display: none;max-width: 900px;">
 		<a class="close" data-fancybox-close><img src="/img/x.svg"></a>
 		<p class="h4">Are you sure you want to cancel this reservation?</p>
-		<p>Pommy ipsum a diamond geezer chips some mothers do 'ave 'em beefeater oopsy-daisies plum pudding, a cuppa hadn't done it in donkey's years terribly bowler hat conkers pompous.</p>
 
 		<h2 class="h6">Send a message to your traveller.</h2>
 		<form class="style" method="POST" action="{{ route('cancel-booking') }}">

@@ -32,6 +32,29 @@ html, body {
                     <a href="#" class="brown button round">Save</a>
                 </div>
             </div>
+			
+			
+
+        </div>    
+	</div>
+</section> 
+
+	
+<section id="admin-dash">
+	<div class="grid">
+		<div class="content wizy">	
+            <div id="cal">
+                <div id="calendar2"></div>
+
+                <div class="key">
+                    <div class="grey">Reserved</div><div class="black">Unavailable</div><div class="teal">Selected</div>
+
+                    <a href="#" class="brown button round">Save</a>
+                </div>
+            </div>
+			
+			
+
         </div>    
 	</div>
 </section> 
@@ -55,12 +78,34 @@ $(function() {
       right: 'month,agendaWeek,agendaDay'
     },
     dayClick: function(date) {
+      $('#calendar2').fullCalendar('gotoDate', new Date(2012, 11));
+    },
+    select: function(startDate, endDate) {
+      alert('selected ' + startDate.format() + ' to ' + endDate.format());
+    }
+  });
+	
+	
+   $('#calendar2').fullCalendar({
+    selectable: true,
+    header: {
+      left: 'prev,next today',
+      center: 'title',
+      right: 'month,agendaWeek,agendaDay'
+    },
+    dayClick: function(date) {
       alert('clicked ' + date.format());
     },
     select: function(startDate, endDate) {
       alert('selected ' + startDate.format() + ' to ' + endDate.format());
     }
   });
+	
+	// On the fly change the dates... 
+	
+	// Any check in date change or update CLEARS the check out date and sets the second calendar to the same view month...
+	
+	
 
 });
     

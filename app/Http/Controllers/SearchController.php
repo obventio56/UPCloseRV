@@ -105,7 +105,8 @@ class SearchController extends Controller
 		}
     foreach($listings as $listing){
       if (!is_null($listing->amenities)){
-        $listing->amenityList = implode(', ', $amenities->find((array_map('intval', json_decode($listing->amenities))))->pluck('name')->toArray());
+        $amenityRecords = $amenities->find(array_map('intval', json_decode($listing->amenities)));
+        $listing->amenityList = implode(', ', array_slice($amenityRecords->pluck('name')->toArray(), 0, 9));
       } else {
         $listing->amenityList = '';
       }

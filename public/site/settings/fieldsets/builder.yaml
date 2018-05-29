@@ -44,6 +44,7 @@ fields:
               All links should include http:// (or https://)
               Example:
               http://www.pixelandhammer.com
+            validate: url
           border_color:
             type: radio
             display: Border Color
@@ -164,6 +165,7 @@ fields:
             instructions: |
               Full link of page you're linking too. Example:
               http://www.google.com
+            validate: url
           color:
             type: radio
             display: Color
