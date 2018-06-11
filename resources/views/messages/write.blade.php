@@ -5,7 +5,7 @@
     <div class="row">
         <div class="col-md-8 col-md-offset-2">
             <div class="panel panel-default">
-                <div class="panel-heading">Send Messages To {{ $user->name }}</div>
+                <div class="panel-heading">Send Message To {{ $user->name }}</div>
 
                 <div class="panel-body">
                     <form class="form-horizontal" method="POST" action="{{ route('send-message') }}">
@@ -15,9 +15,7 @@
                             <label for="message" class="col-md-4 control-label">Message</label>
 
                             <div class="col-md-6">
-                                <textarea id="message" class="form-control" name="message" required autofocus>
-                                  {{ old('message') }}
-                                </textarea>
+                                <textarea id="message" class="form-control" name="message" required autofocus>{{ old('message') }}</textarea>
                                 @if ($errors->has('message'))
                                     <span class="help-block">
                                         <strong>{{ $errors->first('message') }}</strong>

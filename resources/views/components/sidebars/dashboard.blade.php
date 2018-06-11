@@ -1,28 +1,25 @@
-<div class="sidebar">
+<div class="sidebar" id="mobile-dash">
     {{ $slot }}
-    <p class="h7">Manage Your Account</p>
+    <p class="h7">Manage Your Account @permission('admin')<a href="{{ route('admin-listings') }}">- Admin</a>@endpermission</p>
     <section id="generic-tabs" class="nav">
         <ul id="tabs">
-            <li><a title="Home" href="#first-tab">Your Account</a></li><!--
-            --><li><a title="Photos" href="#second-tab">For Hosts</a></li>
+            <li><a title="Home" href="#first-tab">Your Account</a></li><li><a title="Photos" href="#second-tab">For Hosts</a></li>
         </ul>
         <div id="first-tab" class="tab-content">        
-            <a href="{{ route('home') }}" class="h8" id="listingz">Your profile</a>
-            <a href="" class="h8" id="trips">Your upcoming trips</a>
-            <a href="" class="h8" id="previous">Previous Trips</a>
+            <a href="{{ route('home') }}" class="h8" id="listingz">Your Profile</a>
+            <a href="{{ route('upcoming-trips') }}" class="h8" id="trips">Your Upcoming Trips</a>
+            <a href="{{ route('past-trips') }}" class="h8" id="previous">Your Previous Trips</a>
             <a href="{{ route('favorited-listings') }}" class="h8" id="saved">Saved Listings</a>
             <a href="{{ route('messages') }}" class="h8" id="reviews">Messages</a>
-            <a href="" class="h8" id="support">Support</a>
+            <a href="{{ url('/') }}/support" class="h8" id="support">Support</a>
         </div>
 
-        <div id="second-tab" class="tab-content">        
-            
-            <a href="" class="h8" id="trips">Your Host Profile</a>
+        <div id="second-tab" class="tab-content">
+            <a href="{{ route('home') }}" class="h8" id="listingz">Your Profile</a>
             <a href="{{ route('view-own-listings') }}" class="h8" id="previous">Your Listings</a>
-            <a href="" class="h8" id="saved">Past Rentals</a>
-            <a href="{{ route('payment-dashboard') }}" class="h8" id="listingz">Payment Dashboard</a>
+            <a href="{{ route('payment-dashboard') }}" class="h8" id="payments">Payment Dashboard</a>
             <a href="{{ route('messages') }}" class="h8" id="reviews">Messages</a>
-            <a href="" class="h8" id="support">Support</a>
+            <a href="{{ url('/') }}/support" class="h8" id="support">Support</a>
         </div>
     </section>	
      <a href="{{ route('logout') }}" class="button listing"

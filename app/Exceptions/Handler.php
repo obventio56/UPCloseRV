@@ -5,6 +5,11 @@ namespace App\Exceptions;
 use Exception;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 
+use GuzzleHttp\Client;
+use Symfony\Component\Debug\Exception\FlattenException;
+use Symfony\Component\Debug\ExceptionHandler as SymfonyExceptionHandler;
+use Carbon\Carbon;
+
 class Handler extends ExceptionHandler
 {
     /**
@@ -36,6 +41,23 @@ class Handler extends ExceptionHandler
      */
     public function report(Exception $exception)
     {
+
+        //todo - add more data!
+      
+        $e = FlattenException::create($exception);
+        $handler = new SymfonyExceptionHandler();
+        $html = $handler->getHtml($e);
+        $client = new Client([
+          'base_uri' => 'http://workshop.developingpixels.com'
+        ]);
+        $result = $client->post('/api/exceptionLogger', [
+            'form_params' => [
+                'app' => env("APP_NAME", "Up-close"),
+                'reported_exception' => $html,
+                'reported_on' => Carbon::now()->toDateTimeString()
+            ]
+        ]);            
+      
         parent::report($exception);
     }
 

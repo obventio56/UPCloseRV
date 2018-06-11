@@ -6,11 +6,13 @@ use App\Models\Amenities;
 use App\Models\Listing;
 use App\Models\ListingAddress;
 use App\Models\ListingImages;
+use App\Models\Review;
 use App\Models\RVTypes;
 use App\Models\Favorite;
 use Illuminate\Http\Request;
 use DB;
 use Auth;
+use Entrust;
 
 class SearchController extends Controller
 {
@@ -32,8 +34,7 @@ class SearchController extends Controller
     */
     public function search(Request $request)
     {
-		
-        $location = $this::geocode($request->search);
+    	$location = $this::geocode($request->search);
 		$rvTypes = RVTypes::all();
 		$amenities = Amenities::all();
 		
@@ -43,7 +44,9 @@ class SearchController extends Controller
             ->leftJoin('listings', 'listing_addresses.id', '=', 'listings.id')
 			->leftJoin(DB::raw("(select * 
 							from `listings_images` 
-							where `primary` = 1 LIMIT 1) as `list_images`"), 'list_images.listing_id', '=', 'listings.id');
+							where `primary` = 1) as `list_images`"), 'list_images.listing_id', '=', 'listings.id')
+			->leftJoin(DB::raw("(select listing_id, COUNT(id) as total_reviews, SUM(stars) as total_stars 
+			from reviews GROUP BY listing_id) as review_totals"), 'review_totals.listing_id', '=', 'listings.id');
 		
 		// Do we need to filter by arrival & departure?
 		if(isset($request->arrival) && isset($request->departure)) {
@@ -91,11 +94,25 @@ class SearchController extends Controller
 		
 		// Go get it... 
 		$listings = $query->getPublished();
-		/*
-		echo '<pre>';
-		var_dump($listings);
-		echo '</pre>';
-		*/
+		
+		// Make any modifications necessary before sending off to the view
+		foreach($listings as $listing){
+			if($listing->total_reviews == 0){
+				$listing->stars = 0;
+			}  else {
+				$listing->stars = round($listing->total_stars/$listing->total_reviews);
+			}
+		}
+    foreach($listings as $listing){
+      if (!is_null($listing->amenities)){
+        $amenityRecords = $amenities->find(array_map('intval', json_decode($listing->amenities)));
+        $listing->amenityList = implode(', ', array_slice($amenityRecords->pluck('name')->toArray(), 0, 9));
+      } else {
+        $listing->amenityList = '';
+      }
+    }
+      
+		
 		return view('search.index')
 			->with('request', $request)
 			->with('listings', $listings)
@@ -116,58 +133,5 @@ class SearchController extends Controller
         return $location;
     }
 	
-	/**
-    * Display the listing with the option to book.
-	* 
-    *
-    * @return response
-    */
-	public function listing($id)
-	{
-		$listing = Listing::where('id', '=', $id)->first();
-		
-		// Ensure the listing is published/active.
-		if(!$listing->published){
-			return view('errors.404');
-		}
-		
-		$listing->images = ListingImages::where('listing_id', '=', $id)
-			->orderBy('primary')
-			->get();
-		
-		$amenities = Amenities::all();
-		$listing->amenities = json_decode($listing->amenities);
-		
-		if(isset($listing->amenities)){
-			foreach($amenities as $amenity){
-				if(in_array($amenity->id, $listing->amenities)){
-					$amenity->active = "yes";
-				}
-			}
-		}
-		if(isset(Auth::user()->id)){
-			$listing->favorite = Favorite::where('listing_id', '=', $id)
-							->where('user_id', '=', Auth::user()->id)
-							->first();
-		}
-		
-		// Grab the listing owner's other listings
-		$other_listings = Listing::where('user_id', '=', $listing->user_id)
-			  ->leftJoin(DB::raw("(select city, state, id as listing_id 
-							from `listing_addresses` LIMIT 1) as `list_address`"), 'list_address.listing_id', '=', 'listings.id')
-			  ->leftJoin(DB::raw("(select url, listing_id 
-							from `listings_images` 
-							where `primary` = 1 LIMIT 1) as `list_images`"), 'list_images.listing_id', '=', 'listings.id')
-			->getPublished();
-		
-		$reviews = Review::where('listing_id', '=', $listing->id)
-			->leftJoin('users', 'users.id', '=', 'reviews.user_id')
-			->get();
-		
-		return view('booking.listing')
-			->with('listing', $listing)
-			->with('amenities', $amenities)
-			->with('other_listings', $other_listings);
-	}
 	
 }

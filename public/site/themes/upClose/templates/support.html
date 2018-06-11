@@ -1,0 +1,39 @@
+<section class="text-hero blue">
+	<div class="container">
+		<h1 class="h1">{{title}}</h1>
+		<p class="h3">{{ preview_text }}</p>
+		{{if cta_one_link}}<div class="grid">
+			<a href="{{cta_one_link}}" class="button round brown">{{cta_one}}</a>
+			<a href="{{cta_two_link}}" class="button round brown">{{cta_two}}</a>
+		</div>{{/if}}
+	</div>
+</section>
+
+<section id="form">
+	<div class="container">
+		<div class="form-style">
+		{{ form:create in="support" }}
+		<h2>Tell us about yourself</h2>
+			<div class="grid">
+				<div class="two">
+					<label>First Name</label>
+					<input type="text" name="first_name" value="{{ old:first_name }}" placeholder="John" />
+				</div>
+				
+				<div class="two">
+					<label>Last Name</label>
+					<input type="text" name="last_name" value="{{ old:last_name }}" placeholder="Smith" />
+				</div>
+				
+				<div class="one">
+					<h3>Tell us how we can help you.</h3>
+					<textarea placeholder="This is my message..." name="message">{{ old:message }}</textarea>
+				</div>
+			</div>
+			
+			<button class="button brown round">Submit</button>
+				
+		{{ /form:create }}
+		</div>
+	</div>
+</section>

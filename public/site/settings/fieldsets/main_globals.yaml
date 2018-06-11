@@ -1,0 +1,19 @@
+taxonomies: false
+title: Main Globals
+fields:
+  logo:
+    type: assets
+    display: Logo
+    container: main
+    folder: /
+    restrict: false
+    max_files: 1
+  facebook_link:
+    type: text
+    display: Facebook Link
+  twitter_link:
+    type: text
+    display: Twitter Link
+  youtube_link:
+    type: text
+    display: YouTube Link

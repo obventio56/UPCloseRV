@@ -1,0 +1,29 @@
+taxonomies: false
+title: Partners
+fields:
+  title:
+    type: title
+    display: Title
+    localizable: true
+  partners:
+    type: grid
+    display: Partners
+    fields:
+      logo:
+        type: assets
+        display: Logo
+        container: main
+        folder: /
+        restrict: false
+        max_files: 1
+      blurb:
+        type: text
+        display: Blurb
+      website:
+        type: text
+        display: Website
+    mode: table
+  seo:
+    type: partial
+    display: Seo
+    fieldset: seo

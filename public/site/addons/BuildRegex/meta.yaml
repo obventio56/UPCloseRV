@@ -1,0 +1,5 @@
+name: BuildRegex
+version: "1.0"
+description: Builds a regex for urls
+developer: 'Pixel&Hammer'
+developer_url: pixelandhammer.com

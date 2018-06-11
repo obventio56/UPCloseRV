@@ -10,7 +10,8 @@
 			<br />
 			@component('components.menus.dashboard.listing', ['listing' => $listing]) @endcomponent	
             <h1 class="h2">Address & Directions</h1>
-            <p> </p>
+            <p>Are there any special instructions to help your visitors get to your property? Let them know below. Provide your address and explain where they should go when arriving.
+</p>
              
                 <form class="style lister" method="POST" action="{{ route('store-listing-p5') }}">
                     {{ csrf_field() }}
@@ -46,7 +47,7 @@
                     
                     
                     <div class="one">
-                        <p class="h">How can travellers find your property?</p>
+                        <p class="h">How can travelers find your property?</p>
                         <p></p>
 
                         <textarea name="drections" placeholder="Take a left off the Route 83 exit..." >{{ $listing->instruct_find }}</textarea>
@@ -62,7 +63,7 @@
 
                     
                     <div class="one">
-                        <p class="h">Where should travellers park upon arrival?</p>
+                        <p class="h">Where should travelers park upon arrival?</p>
                         <p></p>
 
                         <textarea name="parkingDirections" placeholder="Park on the left side beside the..." >{{ $listing->instruct_parking }}</textarea>
@@ -83,7 +84,7 @@
            </form>
         </div>    
         @component('components.sidebars.dashboard')
-			@component('components.sidebars.listings')
+			@component('components.sidebars.listings', ['listing' => $listing])
 		
 			@endcomponent  
         @endcomponent  

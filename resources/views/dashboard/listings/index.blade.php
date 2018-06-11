@@ -4,9 +4,10 @@
 <section id="dash">
 	<div class="grid">
 		<div class="content rv">		
-			<div class="cookie-crisp"><a href="">Dashboard <i class="fas fa-chevron-right"></i></a>  Your Page Title</div>	
+			<div class="cookie-crisp"><a href="">Dashboard <i class="fas fa-chevron-right"></i></a>  Your Listings</div>	
 			
-			<h1 class="h6">Your Listings</h1>
+			<h1 class="h6" id="new-listing-inline">Your Listings</h1>
+			<a href="{{ route('add-listing') }}" id="add-new-listing">Add A New Listing!</a>
 	<div class="prop-list">
 			
 		<div class="outer-prob">
@@ -16,7 +17,7 @@
 			</p>
 		@else 
 		@foreach($listings as $listing)
-		<div class="propb">
+		<div class="propb @if(!$listing->published) deactivated @endif">
 
 			<div class="grid">
 				<div class="prop-img" style="background-image: url({{ $listing->url }});"></div>
@@ -24,7 +25,7 @@
 					<p class="h10">{{ $listing->city }}, {{ $listing->state }}</p>
 					<p class="h2">{{ $listing->name }}</p>
 					<p class="h11">Privately Owned <span>Fits {{ $listing->max_vehicle_length }}' RV or smaller</span></p>
-					<p class="checkinout"></p>
+					<p class="deactivated-text">Deactived</p>
 				</div>
 				<div class="small-deats">
 				@if(isset($listing->day_pricing))
@@ -33,14 +34,15 @@
 				@if(isset($listing->month_pricing))
 					<p class="h8">${{ $listing->month_pricing }} per month</p>
 				@endif
-					<div class="rating"><span class="star"></span><span class="star"></span><span class="star"></span><span class="star"></span><span></span> 49</div>
+					<div class="rating">
+						@component('components.misc.rating', ['rating' => $listing->stars]) @endcomponent
+						{{ $listing->total_reviews }}
+					</div>
 					<a href="{{ route('manage-listing', ['id' => $listing->id]) }}" class="button listing">Manage</a>
 				</div>
 			</div>
 		</div>
 			
-
-		
 		@endforeach
 	@endif
 		</div>				

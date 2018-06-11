@@ -1,0 +1,12 @@
+routes:
+  /stemp/header:
+    template: stemp/header
+    layout: stemp
+  /stemp/footer:
+    template: stemp/footer
+    layout: stemp
+collections:
+  travelers: '/for-travelers/{slug}'
+  property-owners: '/property-owners/{slug}'
+  policies: '/policies/{slug}'
+  press: '/press/{slug}'

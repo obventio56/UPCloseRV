@@ -26,10 +26,14 @@ class ListingAddress extends Model
         $url = 'https://maps.googleapis.com/maps/api/geocode/json?address='.urlencode($address).'&key='.$this->geocodingKey;
         $data = file_get_contents($url);
         $loc = json_decode($data);
-        $this->lat = $loc->results['0']->geometry->location->lat;
-        $this->lng = $loc->results['0']->geometry->location->lng;
-        $this->save();
-        return true;
+		if(isset($loc->results['0']->geometry->location->lat) && isset($loc->results['0']->geometry->location->lng)){
+			$this->lat = $loc->results['0']->geometry->location->lat;
+			$this->lng = $loc->results['0']->geometry->location->lng;
+			$this->save();
+			return true;
+		} else {
+			return false;
+		}
     }
     
     

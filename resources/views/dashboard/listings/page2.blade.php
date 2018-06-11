@@ -10,7 +10,7 @@
 			<br />
 			@component('components.menus.dashboard.listing', ['listing' => $listing]) @endcomponent		
             <h1 class="h2">Amenities</h1>
-            <p> </p>
+            <p>Share what your property has to offer! What amenities do you have available? What makes your property unique? We've provided some prompts below for you to check off and space for you to provide additional details. </p>
              
                 <form class="style lister" method="POST" action="{{ route('store-listing-p2') }}">
                     {{ csrf_field() }}
@@ -32,7 +32,7 @@
                                      checked="checked"
                                    @endif
                                 >
-                            <label for="pt2">My property is available for travellers to enjoy</label>
+                            <label for="pt2">My property is available for travelers to enjoy</label>
                           </p>
                            @if ($errors->has('propertyType'))
                                 <span class="help-block">
@@ -60,7 +60,7 @@
                 </div>
 					
 				<div class="one">
-                        <p class="h">Are there any other items on the property that the traveller can make use of?</p>
+                        <p class="h">Are there any other items on the property that the traveler can make use of?</p>
 
                         <textarea name="otherAmenities" placeholder="We have a hot tub on the back..." >{{ $listing->other_amenities }}</textarea>
 
@@ -175,7 +175,7 @@
                 </form>
         </div>    
         @component('components.sidebars.dashboard')
-			@component('components.sidebars.listings')
+			@component('components.sidebars.listings', ['listing' => $listing])
 		
 			@endcomponent  
 		@endcomponent  

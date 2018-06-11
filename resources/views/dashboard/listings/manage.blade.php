@@ -11,6 +11,9 @@
 				<br />
 				@component('components.menus.dashboard.listing', ['listing' => $listing]) @endcomponent
 				
+<!--
+				
+				
 				<div class="main-sec dasher">
 				<div class="rating"><span class="star"></span><span class="star"></span><span class="star"></span><span class="star"></span><span></span> 49</div><br>
 				<h1 class="h3">Woodsy Lot in Carlisle</h1>@if($listing->verified)<span class="verified">Verified</span>@endif
@@ -195,7 +198,7 @@
 			</div>
 				
 				
-				
+				-->
 		</div><!-- END OF LEFT HAND SIDE -->
 		
       	@component('components.sidebars.dashboard')
