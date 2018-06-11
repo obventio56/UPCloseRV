@@ -14,21 +14,14 @@
 					<td>
 						<!-- A Real Hero (and a real human being) -->
 						<p><img src="{{ URL::to('/') }}/img/email.png" width="100%" height="auto" /></p><!-- /hero -->
-						<h2>Someone wants to talk to you!</h2>
-						<p class="lead">You have a new message from {{ Auth::user()->name }}.</p>
-
-						
+						<h2>You're booking has been cancelled...</h2>
+						<p class="lead"> The booking for {{ date('M jS Y', strtotime($booking->start_date)) }} at {{ $listing->name }} has been cancelled.</p>
 						<p>
-							Sign in to your account to reply!
-						</p>
-						<a href="{{ route('messages') }}" class="btn">Go to messages</a>
-												
+							For information about our cancellation policies, click <a href="https://upclose.developingpixels.com/policies/our-cancellation-policies">here</a>.
+						</p>					
 						<br/>
 						<br/>							
 												
-						
-					
-					
 					</td>
 				</tr>
 			</table>

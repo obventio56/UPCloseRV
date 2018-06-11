@@ -6,6 +6,7 @@
 	<div class="container">
 		<div class="grid">
 			<div class="main-sec">
+				<div class="ank"><a href="#bot" class="button green round">Book now</a><br/></div>
 			@guest
 			@else
 				@if(isset($listing->favorite))
@@ -176,7 +177,7 @@
 				
 			</div>
 			
-			<div class="sider">
+			<div class="sider" id="bot">
 				
 				<div class="main-block">
 					<a href="#" class="top cal-trigger">Reserve now <i class="fas fa-chevron-right"></i></a>
@@ -189,7 +190,21 @@
 							  </ul> <!-- END tabz-nav -->
 							  <div id="tabz-content">
 							    <div id="tab1" class="tab-content">
-								    
+								    <div class="calnav" style="
+    font-family: &quot;Quicksand&quot;,sans-serif;
+    font-weight: 500;
+    color: #4B473D;
+    font-size: 18px;
+    line-height: 40px;
+    padding: 10px 0 10px;
+    text-align: center;
+"><span style="
+    display: inline-block;
+    vertical-align: middle;
+    height: 20px;
+    width: 20px;
+    background-color: #FF7E7E;
+"></span> = unavailable date</div>
 							     <div id="calendar-in"></div>
 									
 								<p>
@@ -198,7 +213,21 @@
 								</p>
 							    </div>
 							    <div id="tab2" class="tab-content">
-								    
+								    <div class="calnav" style="
+    font-family: &quot;Quicksand&quot;,sans-serif;
+    font-weight: 500;
+    color: #4B473D;
+    font-size: 18px;
+    line-height: 40px;
+    padding: 10px 0 10px;
+    text-align: center;
+"><span style="
+    display: inline-block;
+    vertical-align: middle;
+    height: 20px;
+    width: 20px;
+    background-color: #FF7E7E;
+"></span> = unavailable date</div>
 							      <div id="calendar-out"></div>
 									<p>
 									 Check In: <span class="checkin-date-view"></span> {{ $listing->check_in }} <br />
@@ -631,7 +660,7 @@
      
      
      // Select all links with hashes
-$('.rating a[href*="#"]')
+$('.rating a[href*="#"], .ank [href*="#"]')
   // Remove links that don't actually link to anything
   .not('[href="#"]')
   .not('[href="#0"]')

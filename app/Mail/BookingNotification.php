@@ -11,14 +11,19 @@ class BookingNotification extends Mailable
 {
     use Queueable, SerializesModels;
 
+	
+	public $listing;
+	public $booking;
+
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct()
+    public function __construct(Listing $listing, Booking $booking)
     {
-        //
+        $this->listing = $listing;
+		$this->booking = $booking;
     }
 
     /**
@@ -29,7 +34,7 @@ class BookingNotification extends Mailable
     public function build()
     {
         return $this->from('noreply@upcloserv.com')
-					->subject('Welcome to upCLOSE-RV!')
-					->view('mail.welcome');
+					->subject('You have a new booking!')
+					->view('mail.booking.notification');
     }
 }

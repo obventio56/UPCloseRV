@@ -18,15 +18,15 @@
 	        </div>
 			@foreach($bookings as $booking)
 				<div class="reservation">
-					<p class="dates">{{ date('M dS Y', strtotime($booking->start_date)) }} - {{ date('M dS Y', strtotime($booking->end_date)) }}</p>
+					<p class="dates">{{ date('M jS Y', strtotime($booking->start_date)) }} - {{ date('M jS Y', strtotime($booking->end_date)) }}</p>
 					<div class="card">
 
 						<div class="grid">
 							<div class="details">
 								<p class="h10">Details:</p>
 								<p class="dets"><span>Rented By:</span> <span>{{ $booking->name }}</span></p>
-								<p class="dets"><span>Check in:</span> <span>{{ date('M dS Y', strtotime($booking->start_date)) }} {{ $listing->check_in }}</span></p>
-								<p class="dets"><span>Check out:</span> <span>{{ date('M dS Y', strtotime($booking->end_date)) }} {{ $listing->check_out }}</span></p>
+								<p class="dets"><span>Check in:</span> <span>{{ date('M jS Y', strtotime($booking->start_date)) }} {{ $listing->check_in }}</span></p>
+								<p class="dets"><span>Check out:</span> <span>{{ date('M jS Y', strtotime($booking->end_date)) }} {{ $listing->check_out }}</span></p>
 							</div>
 
 							<div class="pricing">

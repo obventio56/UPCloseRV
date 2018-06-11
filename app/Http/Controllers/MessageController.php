@@ -3,9 +3,12 @@
 namespace App\Http\Controllers;
 
 //use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Validator;
+
 use App\Http\Requests\ValidMessage;
 use App\User;
+use App\Mail\MessageNotification;
 use App\Models\Message;
 use Auth;
 use Redirect;
@@ -94,6 +97,10 @@ class MessageController extends Controller
       
       $message->thread = $message->id;
       $message->save();
+		
+	  // Email notification to the receiver
+	  $receiver = User::where('id', $request->to)->first();
+	  Mail::to($receiver->email)->send(new MessageNotification($request->message));
       
       return Redirect::route('messages')->with('success', 'Your message has been sent!');
     }
@@ -108,6 +115,10 @@ class MessageController extends Controller
       $message->thread = $request->thread;
       
       $message->save();
+		
+	  // Email notification to the receiver
+	  $receiver = User::where('id', $request->to)->first();
+	  Mail::to($receiver->email)->send(new MessageNotification($request->message));
       
       return Redirect::route('messages')->with('success', 'Your message has been sent!');
     }

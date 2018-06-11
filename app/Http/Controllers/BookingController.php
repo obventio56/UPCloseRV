@@ -12,6 +12,7 @@ use App\Models\ListingException;
 use App\Models\Message;
 use App\Models\Review;
 use App\Models\Transaction;
+use App\User;
 use Illuminate\Http\Request;
 use App\Http\Requests\ValidBooking;
 
@@ -28,6 +29,7 @@ use Entrust;
 
 use Illuminate\Support\Facades\Mail;
 use App\Mail\BookingConfirmation;
+use App\Mail\BookingCancellationNotification;
 
 class BookingController extends Controller
 {
@@ -121,11 +123,20 @@ class BookingController extends Controller
 		// Check to make sure there are no blockages BETWEEN the checkin and checkout dates. 
 		$listing = Listing::where('id', '=', $request->listing)->first();
 		if(!$listing->isAvailable($request->checkin, $request->checkout)){
-	
+
 			$request->session()->flash('error', 'Whoops, looks like there is something blocking those dates from being reserved.');
 			
 			return Redirect::route('view-listing', ['id' => $request->listing]);
 		}
+		
+				// Max Stay Length
+		$days = round( (strtotime($request->checkout) - strtotime($request->checkin)) / (60 * 60 *24));
+		if(isset($listing->max_stay_length) && $days > $listing->max_stay_length && $listing->max_stay_length != 0){
+			
+			$request->session()->flash('error', 'Whoops, this listing only allows a maximum stay of '.$listing->max_stay_length.' days.');
+			
+			return Redirect::route('view-listing', ['id' => $request->listing]);
+		} 
 		
 		$booking = new Booking();
 		$booking->start_date = strtotime($request->checkin);
@@ -200,6 +211,7 @@ class BookingController extends Controller
 			'currency' => 'usd',
 			'description' => $booking->id,
 			'source' => $token,
+			'transfer_group' => $booking->id,
 		]);
 		
 		$transaction->charge_id = $charge->id;
@@ -211,6 +223,7 @@ class BookingController extends Controller
 		$booking->save();
 		
 		Mail::to(Auth::user()->email)->send(new BookingConfirmation($listing, $booking, $transaction));
+		Mail::to($listing->user_id)->send(new BookingNotification($listing, $booking));
 			
 		return Redirect::route('upcoming-trips');	
 	}
@@ -220,6 +233,8 @@ class BookingController extends Controller
 	{
 		$booking = Booking::find($request->booking_id);
 		$listing = Listing::find($booking->listing_id);
+		$host = User::find($listing->user_id);
+		$traveller = User::find($booking->traveller_id);
 		
 		if( $booking->cancelBooking() ){
 			// Success
@@ -235,6 +250,9 @@ class BookingController extends Controller
 				  $message->thread = $message->id;
 				  $message->save();
 			}
+			
+			Mail::to($host->email)->send(new BookingCancellationNotification($booking, $listing));
+			Mail::to($traveller->email)->send(new BookingCancellationNotification($booking, $listing));
 		} else {
 			// Fail :(
 		}

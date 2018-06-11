@@ -24,12 +24,9 @@
 							Simply click on the link below and view your previous trips to rate your experience. 
 						</p>
 						<a href="{{ route('review-listing') }}" class="btn">Review your trip!</a>
-												
+
 						<br/>
-						<br/>							
-												
-						
-					
+						<br/>
 					
 					</td>
 				</tr>

@@ -10,6 +10,7 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
+Route::get('account/broken', 'BrokenController@broken');
 
 //Auth::routes();
 	Route::get('/account/login', 'Auth\LoginController@showLoginForm')->name('login');
@@ -153,3 +154,4 @@ Route::get('/ptemp/featured', 'BookingController@featuredListings');
 Route::get('account/test', function(){
 	return view('test.calendar');
 });
+

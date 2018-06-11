@@ -68,15 +68,16 @@ class Listing extends Model
 		} 
 	
 		$exception = ListingException::
-			   where( function($q) use ($startDate, $endDate) {
-
-					$q->where('start_date', '>=', $startDate)
-					  ->where('start_date', '<=', $endDate);
-				})
-				->orWhere( function($q) use ($startDate, $endDate) {
-					$q->where('end_date', '>', $startDate)
-					  ->where('end_date', '<=', $endDate);
-				})
+			  where( function($q) use($startDate, $endDate) {
+				   $q->where( function($q) use ($startDate, $endDate) {
+						$q->where('start_date', '>=', $startDate)
+						  ->where('start_date', '<=', $endDate);
+					})
+					->orWhere( function($q) use ($startDate, $endDate) {
+						$q->where('end_date', '>', $startDate)
+						  ->where('end_date', '<=', $endDate);
+					});
+			   })
 				->where('listing_id', '=', $this->id)
 				->where('available', '=', 0)
 				->whereNull('deleted_at')
@@ -88,6 +89,7 @@ class Listing extends Model
             return true;
         }
 		
+		return true;
 	}
 	
     // Check for an existing exception, optionally pass in an exception id to exclude

@@ -1,4 +1,4 @@
-<p class="h7">Your Listing</p>
+<p class="h7">Editing Listing: {{ $listing->name }}</p>
 <section id="hey-tabs" class="nav">
     <div id="ello-tab" class="tab-content">        
         <a href="{{ route('edit-listing-p1', [Request::segment(5)]) }}" class="h8" id="listingz">Basic Info</a>

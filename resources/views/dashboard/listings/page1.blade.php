@@ -145,7 +145,7 @@
         </div> 
 
         @component('components.sidebars.dashboard')
-			@component('components.sidebars.listings')
+			@component('components.sidebars.listings', ['listing' => $listing])
 		
 			@endcomponent  
 		@endcomponent  

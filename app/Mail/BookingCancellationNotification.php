@@ -7,18 +7,28 @@ use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Contracts\Queue\ShouldQueue;
 
+
+use App\Models\Booking;
+use App\Models\Listing;
+
 class BookingCancellationNotification extends Mailable
 {
     use Queueable, SerializesModels;
+	
+	public $booking;
+	
+	public $listing;
 
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct()
+    public function __construct(Booking $booking, Listing $listing)
     {
-        //
+        $this->booking = $booking;
+		
+		$this->listing = $listing;
     }
 
     /**
@@ -29,7 +39,11 @@ class BookingCancellationNotification extends Mailable
     public function build()
     {
         return $this->from('noreply@upcloserv.com')
-					->subject('Welcome to upCLOSE-RV!')
-					->view('mail.welcome');
+					->subject('Booking cancellation confirmation')
+					->view('mail.booking.cancellation')
+					->with([
+						'booking' => $this->booking,
+						'listing' => $this->listing
+						   ]);
     }
 }

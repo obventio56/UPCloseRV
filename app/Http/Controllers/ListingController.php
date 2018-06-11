@@ -226,10 +226,8 @@ class ListingController extends Controller
     $listing->save();
     
     $id = $listing->id;
-      
-      
-      
-   return Redirect::route('edit-listing-p2', [$id]);
+	
+	return Redirect::route('edit-listing-p2', [$id]);
     
   }
 	
@@ -316,7 +314,6 @@ class ListingController extends Controller
 	/**
     * Save pricing info about the listing
     * TODO:
-    * - Confirm listing ownership x.x
     *
     * @param Request request
     * @return response
@@ -345,7 +342,6 @@ class ListingController extends Controller
     /**
     * Geocode address and store address & directions listing page
     * TODO:
-    * - Confirm listing ownership x.x
     *
     * @param Request request
     * @return response
@@ -389,11 +385,11 @@ class ListingController extends Controller
             $uploadResult = $cloudder->getResult();
             $file_url = $uploadResult["url"];
             
-			$listing = ListingImages::where('listing_id', '=', $request->id)->where('primary', '=', 1)->get();
+			$listing = ListingImages::where('listing_id', '=', $request->id)->where('primary', '=', 1);
             $image = new ListingImages();
             $image->listing_id = $request->id;
             $image->url = $file_url;
-			if($listing->count = 0){
+			if($listing->count() == 0){
 				$image->primary = 1;
 			}
             $image->save();
