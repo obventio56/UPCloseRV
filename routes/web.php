@@ -118,9 +118,9 @@ Route::get('/getupclose/listing/{id}', 'BookingController@listing')->name('view-
 
 // Booking
 Route::post('/getupclose/listing/book', 'BookingController@start')->name('start-booking');
-Route::get('/getupclose/listing/policies/{id}', 'BookingController@policy')->name('listing-policies');
+Route::get('/getupclose/listing/policies/{booking}', 'BookingController@policy')->name('listing-policies');
 Route::post('/getupclose/listing/policies/confirm', 'BookingController@policyConfirm')->name('confirm-booking');
-Route::get('/getupclose/booking/pay/{id}', 'BookingController@pay')->name('pay-booking');
+Route::get('/getupclose/booking/pay/{booking}', 'BookingController@pay')->name('pay-booking');
 Route::post('/getupclose/booking/pay/', 'BookingController@finishPay')->name('finish-payment');
 Route::post('/account/booking/cancel/', 'BookingController@cancelBooking')->name('cancel-booking');
 

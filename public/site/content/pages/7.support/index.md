@@ -3,10 +3,11 @@ cta_one: Host Support
 cta_one_link: https://upclose.developingpixels.com/property-owners
 cta_two: Traveler FAQ
 cta_two_link: https://upclose.developingpixels.com/frequently-asked-questions
-seo_title: 'Support & Assistance | UpClose RV'
+seo_title: 'Support & Assistance | UpClose-RV'
 meta_description: >
   Please be sure to check out our resources. We’ve put together some great information that will
   help you.
+og_image: /assets/RV.jpg
 template: support
 title: Need assistance?
 fieldset: support

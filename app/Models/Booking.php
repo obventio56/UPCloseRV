@@ -94,10 +94,11 @@ class Booking extends Model
 		
 		$fee = 0;
 		$issueRefund = 0;
+        
 		// Check if we're authorized to cancel. Must be owner, traveller or admin.
 		$userId = Auth::user()->id;
 		if($userId != $listing->user_id && $userId != $this->traveller_id && !Entrust::can('cancel-bookings')){
-			echo 'Not Authorized';
+			
 			return false;
 		}
 		// Authorized, continue
@@ -105,7 +106,7 @@ class Booking extends Model
 		$timeToEndDate = strtotime($this->end_date) - time();
 		if($timeToEndDate <= 0){
 			// The booking is past the END date, it can't be cancelled.
-			echo 'Booking Ended';
+			
 			return false;
 		}
 		
@@ -128,7 +129,7 @@ class Booking extends Model
 			
 		} elseif($userId == $listing->user_id) {
 			
-			// Issue a full refund if the booking hasn't yet begun.
+			// Issue a full refund if the booking hasn't yet begun & the cancelling party is the host.
 			if($timeToStartDate > 0) {
 				$issueRefund = 1;
 			}
@@ -165,7 +166,6 @@ class Booking extends Model
 				
 			} else {
 				// The refund did not work properly, so don't cancel the booking.
-				echo 'Refund failed :(';
 				return false;
 				
 			}

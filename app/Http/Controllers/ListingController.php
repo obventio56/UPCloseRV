@@ -211,24 +211,23 @@ class ListingController extends Controller
   public function createListing(ValidListing $request)
   {
     $listing = new Listing();
-    
+
     $listing->name = $request->name;
     $listing->property_type_id = $request->propertyType;
     $listing->host_type_id = $request->hostType;
-	
-	$listing->rv_types = json_encode($request->rvTypes);
-    
-	$listing->max_vehicle_length = $request->vehicleLength;
+
+    $listing->rv_types = json_encode($request->rvTypes);
+
+    $listing->max_vehicle_length = $request->vehicleLength;
     $listing->description = $request->description;
-    
-	$listing->user_id = Auth::user()->id;
-	  
+
+    $listing->user_id = Auth::user()->id;
+
     $listing->save();
-    
+
     $id = $listing->id;
 	
-	return Redirect::route('edit-listing-p2', [$id]);
-    
+	  return Redirect::route('edit-listing-p2', [$id]);    
   }
 	
 	/**
@@ -278,6 +277,8 @@ class ListingController extends Controller
 		
 		$listing->sewer_hookup = $request->sewerHookup;
 		$listing->water_hookup = $request->waterHookup;
+    
+    $listing->parking_type_id = $request->parkingType;
 
 		$listing->save();
 		
@@ -679,6 +680,7 @@ class ListingController extends Controller
 			->whereNotNull('transaction_id')
 			->leftJoin('transaction', 'transaction.id', '=', 'bookings.transaction_id')
 			->leftJoin('users', 'users.id', '=', 'bookings.traveller_id')
+            ->whereNull('canceled_at')
 			->get();
 		
 		

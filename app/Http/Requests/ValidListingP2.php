@@ -34,7 +34,9 @@ class ValidListingP2 extends FormRequest
             'propertyType' => 'required',
             'waterHookup' => 'required|numeric',
             'sewerHookup' => 'required|numeric',
-			'electricHookup' => 'required|numeric'
+			      'electricHookup' => 'required|numeric',
+          	'parkingType' => 'required|numeric'
+
         ];
     }
 }

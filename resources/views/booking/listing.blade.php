@@ -250,7 +250,16 @@
 							
 							<a class="cancel">Cancel</a>
 							
-							<p class="rates">$50 per night <span>|</span> $300 per month</p>
+							<p class="rates">					@if($listing->day_rental)
+						${{ $listing->day_pricing }} per night 
+					@endif
+					@if($listing->day_rental && $listing->month_rental)
+					|
+					@endif
+					@if($listing->month_rental)
+						${{ $listing->month_pricing }} per month
+					@endif
+                        </p>
 						
 					</div>
 					

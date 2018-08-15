@@ -90,7 +90,7 @@ fields:
           list_title:
             type: text
             display: List Title
-        instructions: 'This will add a get started button and a custom title to the page. Example: http://upclose-front.developingpixels.com/assets/Screen-Shot-2018-04-20-at-9.38.05-AM.png'
+        instructions: This will add a get started button and a custom title to the page.
       video_section:
         display: Video
         fields:

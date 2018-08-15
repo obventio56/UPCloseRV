@@ -81,7 +81,7 @@
 					
 					
 					<div class="one">
-                    <p class="h">What types of RVs do you want to host?</p>
+                    <p class="h">What types of RVs do you want to accomodate?</p>
 
                         <div>
 							@foreach($rvtypes as $rvtype)

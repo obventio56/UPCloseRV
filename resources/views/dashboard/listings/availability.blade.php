@@ -9,8 +9,11 @@
 			@endcomponent
 			<br />
 			@component('components.menus.dashboard.listing', ['listing' => $listing]) @endcomponent
-           
-           
+			<br />
+			
+			<p>
+				To select multiple dates, click and drag your mouse over the dates.
+			</p>
            <div id="cal">
                 <div id="calendar"></div>
 

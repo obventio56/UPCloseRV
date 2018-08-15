@@ -2,6 +2,7 @@
 <a class="button-mobile-admin" href="#mobile-dash">Your Dashboard Menu</a>
 
 
+
 <script>
 	$('a.button-mobile-admin[href*="#"]')
   // Remove links that don't actually link to anything
@@ -38,5 +39,4 @@
       }
     }
   });
-
 </script>

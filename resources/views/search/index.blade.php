@@ -61,6 +61,14 @@
 						  <option value="2" {{ ((isset($request->rentalType) && $request->rentalType == 2)? 'selected' : '') }}>Monthly</option>
 						</select>
 					</div>
+          
+					<div class="filter-block" id="guest-count">
+						<div class="input">
+							<div class="result">Guests:
+								<input placeholder="1+" class="guests" onfocusout="this.form.submit()" name="guestCount" value="{{ (isset($request->guestCount)? $request->guestCount : '')}}">
+							</div>
+						</div>
+					</div>
 					
 					<div class="filter-block" id="lot-type">
 						<select onchange="this.form.submit()" name="lotType">
@@ -83,6 +91,12 @@
 		</div>
 		
 			<div class="property-list">
+                    @if(!$location)
+
+       <p>
+            We could not find that location, please try again.
+    </p>
+    @endif
 		        <listings-component v-bind:listings="locations" v-bind:selected-index="selectedIndex">
 		        </listings-component>
 			</div>
@@ -246,6 +260,7 @@ window.onload = function () {
         'month_pricing': '{{$listing->month_pricing}}',
         'day_rental': {{$listing->day_rental}},
         'day_pricing': '{{$listing->day_pricing}}',
+        'accommodates': '{{max($listing->day_guests, $listing->month_guests)}}',
         'stars': {{ $listing->stars }},
         @if(isset($listing->total_reviews))
         'reviews': {{ $listing->total_reviews }},

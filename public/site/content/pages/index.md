@@ -5,7 +5,10 @@ how_it_works: Explore the world!
 how_it_works_content: >
   Find locations to park your home on wheels, see cool places, go to awesome events, and live where
   you want when you want. The best part? They are close to where you want to go. Really close.
-seo_title: Home Page
+seo_title: "Book & Host Property for RV's | UPCloseRV, Central PA"
+meta_description: >
+  Find locations to park your home on wheels, see cool places, go to awesome events, and live where
+  you want when you want. The best part? They are close to where you want to go. Really close.
 og_image: /assets/img/vw-rv.jpg
 c_builder:
   - 
@@ -21,6 +24,9 @@ c_builder:
     border_color: blue-border
     polaroid_image:
       - /assets/img/Group.png
+  - 
+    type: image_block
+    image: /assets/img/vw-rv.jpg
 builder:
   - 
     type: polaroid

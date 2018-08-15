@@ -1,3 +1,4 @@
+<!--
 <section class="search mobile-only">
 	<div class="container">
 		<div class="grid">
@@ -8,11 +9,18 @@
 		</div>
 	</div>
 </section>
+-->
 
 <section id="home-hero">
-	<div style="background-image: url({{ asset:hero_image }}{{ url }}{{ /asset:hero_image }})"></div>
+	<div class="divr" style="background-image: url({{ asset:hero_image }}{{ url }}{{ /asset:hero_image }})">
+		<div class="new-head">
+			<h1 class="h1">Book & Host Property for Your Next RV Trip today! How it works, search here:</h1>
+		<?php echo file_get_contents('https://upclose.developingpixels.com/ptemp/search'); ?>
+		</?php>
+	</div>
 </section>
 
+<!--
 <section class="search no-mobile">
 	<div class="container">
 		<div class="grid">
@@ -23,6 +31,7 @@
 		</div>
 	</div>
 </section>
+-->
 
 <section id="introduction">
 	<div class="container">
@@ -56,7 +65,7 @@
 	<div class="container">
 		<div class="grid">
 			<div class="grid-offset-two">
-				<h1 class="h1">Get Up Close</h1>
+				<h1 class="h1">Get up close.</h1>
           <?php echo file_get_contents('https://upclose.developingpixels.com/ptemp/search'); ?>
 			</div>
 		</div>

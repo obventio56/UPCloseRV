@@ -165,6 +165,33 @@
                                 </span>
                            @endif
                     </div>
+                  <div class="one">
+                    <p class="h">Type of parking area</p>
+                      <p class="labs">
+                        <input type="radio" id="pat1" name="parkingType" value="0"
+                               @if($listing->parking_type_id == 0) 
+                                 checked="checked"
+                               @endif
+                            >
+                        <label for="pat1">Gravel</label>
+                      </p>
+                      <p class="labs">
+                        <input type="radio" id="pat2" name="parkingType" value="1"
+                               @if($listing->parking_type_id == 1) 
+                                 checked="checked"
+                               @endif
+                            >
+                        <label for="pat2">Cement/Asphalt</label>
+                      </p>
+                      <p class="labs">
+                        <input type="radio" id="pat3" name="parkingType" value="2"
+                               @if($listing->parking_type_id == 2) 
+                                 checked="checked"
+                               @endif
+                            >
+                        <label for="pat3">Land/Yard</label>
+                      </p>
+                 </div>
 					
                     
                   <div class="one">  

@@ -58,7 +58,7 @@ class LoginController extends Controller
 			if(isset($request->redirectUrl)){
 				return redirect($request->redirectUrl);
 			}
-            return redirect()->intended('home');
+            return redirect()->intended('account');
         }
         else
         {

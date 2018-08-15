@@ -4,8 +4,7 @@
 <section id="dash">
 	<div class="grid">
 		<div class="content rv">		
-			<div class="cookie-crisp"><a href="">Dashboard <i class="fas fa-chevron-right"></i></a>  Messages</div>	
-			
+
 			<h1 class="h6">Your Messages</h1>
             <pre>
             <!--{{ var_dump($threads) }} -->

@@ -45,6 +45,7 @@ meta_description: >
   Is your property close to a cool attraction or fun town? Listing your property with us gives
   travelers the opportunity to share awesome experiences. It only takes about 15 minutes to get your
   property listed.
+og_image: /assets/img/vw-rv.jpg
 template: host
 fieldset: hosting
 id: bd17e9ad-d3a3-4164-84bf-9d8d268eb08a
