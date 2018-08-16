@@ -1,0 +1,11 @@
+taxonomies: false
+title: Default
+fields:
+  builder:
+    type: partial
+    display: Builder
+    fieldset: builder
+  seo:
+    type: partial
+    display: Seo
+    fieldset: seo

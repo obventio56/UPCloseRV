@@ -5,11 +5,19 @@ namespace App\Http\Controllers;
 //use Illuminate\Http\Request;
 
 use App\Http\Requests\ValidListing;
+use App\Http\Requests\ValidListingP1;
+use App\Http\Requests\ValidListingP2;
+use App\Http\Requests\ValidListingP3;
+use App\Http\Requests\ValidListingP4;
+use App\Http\Requests\ValidListingP5;
+use App\Http\Requests\ValidListingP6;
+use App\Http\Requests\ValidListingP7;
 use App\Models\Listing;
 use App\Models\ListingAddress;
 use App\Models\ListingImages;
 use App\Models\ListingException;
 use App\Models\Booking;
+use App\Models\Review;
 use App\Models\RVTypes;
 use App\Models\Amenities;
 use Cloudder;
@@ -43,16 +51,28 @@ class ListingController extends Controller
     */
     public function index()
     {
+		// Ensure we're only pulling the logged in user's listings
           $listings = Listing::where('user_id', '=', Auth::user()->id)
 			  ->leftJoin(DB::raw("(select city, state, id as listing_id 
-							from `listing_addresses` LIMIT 1) as `list_address`"), 'list_address.listing_id', '=', 'listings.id')
+							from `listing_addresses`) as `list_address`"), 'list_address.listing_id', '=', 'listings.id')
 			  ->leftJoin(DB::raw("(select url, listing_id 
 							from `listings_images` 
-							where `primary` = 1 LIMIT 1) as `list_images`"), 'list_images.listing_id', '=', 'listings.id')
+							where `primary` = 1) as `list_images`"), 'list_images.listing_id', '=', 'listings.id')
+			  ->leftJoin(DB::raw("(select listing_id, COUNT(id) as total_reviews, SUM(stars) as total_stars from reviews GROUP BY listing_id) as review_totals"), 'review_totals.listing_id', '=', 'listings.id')
 			  ->get();
 		
 		$listings->count = Listing::where('user_id', '=', Auth::user()->id)->count('id');
-          return view('dashboard.listings.index')->with('listings', $listings);
+		
+		foreach($listings as $listing){
+			if($listing->total_reviews == 0){
+				$listing->stars = 0;
+			} else {
+				$listings->stars = round($listing->total_stars/$listing->total_reviews);
+			}
+		}
+
+		
+        return view('dashboard.listings.index')->with('listings', $listings);
     }
 
     /**
@@ -63,10 +83,15 @@ class ListingController extends Controller
     */
     public function manage($id)
     {
-        $listing = Listing::where('user_id', '=', Auth::user()->id)
-            ->where('id', '=', $id)
-            ->first();
-        
+		
+		$listing = Listing::where('user_id', '=', Auth::user()->id)
+			->where('id', '=', $id)
+			->first();
+
+		if($listing->user_id != Auth::user()->id && !Auth::user()->ability('admin, client', 'edit-other-listings')){
+			return view('errors.403');
+		}
+
         return view('dashboard.listings.manage')
             ->with('listing', $listing);
     }
@@ -83,9 +108,12 @@ class ListingController extends Controller
   }
 
   // Editing Section 1: Basic Info
-  public function editListing($id)
+  public function editListing(Listing $listing)
   {
-      $listing = Listing::find($id);
+	  if($listing->user_id != Auth::user()->id && !Auth::user()->ability('admin, client', 'edit-other-listings')){
+		  return view('errors.403');
+	  }
+	  
 	  $rvtypes = RVTypes::all();
 	  if(isset($listing->rv_types)){
 		$listing->rv_types = json_decode($listing->rv_types);
@@ -95,9 +123,12 @@ class ListingController extends Controller
   }
 
   // Editing Section 2: Amenities
-  public function editPage2($id)
+  public function editPage2(Listing $listing)
   {
-    $listing = Listing::find($id);
+    if($listing->user_id != Auth::user()->id && !Auth::user()->ability('admin, client', 'edit-other-listings')){
+		  return view('errors.403');
+	}
+	  
 	$amenities = Amenities::all();
 	if(isset($listing->amenities)){
 		$listing->amenities = json_decode($listing->amenities);
@@ -107,17 +138,21 @@ class ListingController extends Controller
   }
 
   // Editing Section 3: Rules & policies
-  public function editPage3($id)
+  public function editPage3(Listing $listing)
   {
-    $listing = Listing::find($id);
+    if($listing->user_id != Auth::user()->id && !Auth::user()->ability('admin, client', 'edit-other-listings')){
+		return view('errors.403');
+	}
     
     return view('dashboard.listings.page3')->with('listing', $listing);
   }
 
   // Editing Section 4: Pricing
-  public function editPage4($id)
+  public function editPage4(Listing $listing)
   {
-    $listing = Listing::find($id);
+    if($listing->user_id != Auth::user()->id && !Auth::user()->ability('admin, client', 'edit-other-listings')){
+		return view('errors.403');
+	}
     
     return view('dashboard.listings.page4')->with('listing', $listing);
   }
@@ -128,10 +163,13 @@ class ListingController extends Controller
     * @param int $id
     * @return response
     */
-    public function editPage5($id)
+    public function editPage5(Listing $listing)
     {
-        $listing = Listing::find($id);
-        $listingAddress = ListingAddress::find($id);
+        if($listing->user_id != Auth::user()->id && !Auth::user()->ability('admin, client', 'edit-other-listings')){
+			return view('errors.403');
+		}
+		
+        $listingAddress = ListingAddress::find($listing->id);
 
         return view('dashboard.listings.page5')
             ->with('listing', $listing)
@@ -139,48 +177,57 @@ class ListingController extends Controller
     }
   
   // Editing Section 6: Photos/Media
-  public function editPage6($id)
+  public function editPage6(Listing $listing)
   {
-      $listing = Listing::find($id);
+	if($listing->user_id != Auth::user()->id && !Auth::user()->ability('admin, client', 'edit-other-listings')){
+		return view('errors.403');
+	}
       
-      $images = ListingImages::where('listing_id', '=', $id)->get();
+      $images = ListingImages::where('listing_id', '=', $listing->id)->get();
     
-      return view('dashboard.listings.page6')->with('listing', $listing)->with('images', $images); 
+      return view('dashboard.listings.page6')
+		  ->with('listing', $listing)
+		  ->with('images', $images); 
   }
   
   // Editing Section 7: Nearby Stuffs
-  public function editPage7($id)
-  {
-    $listing = Listing::find($id);
-    
-    return view('dashboard.listings.page7')->with('listing', $listing);   
-  }
+	public function editPage7(Listing $listing)
+	{
+	if($listing->user_id != Auth::user()->id && !Auth::user()->ability('admin, client', 'edit-other-listings')){
+			return view('errors.403');
+		}
+
+		$attractions = json_decode($listing->nearby_attractions);
+		$conveniences = json_decode($listing->nearby_conveniences);
+
+		return view('dashboard.listings.page7')
+			->with('listing', $listing)
+			->with('attractions', $attractions)
+			->with('conveniences', $conveniences);
+	}
   
   // aaaand here comes the storage functions...
   // Store the initial listing. 
   public function createListing(ValidListing $request)
   {
     $listing = new Listing();
-    
+
     $listing->name = $request->name;
     $listing->property_type_id = $request->propertyType;
     $listing->host_type_id = $request->hostType;
-	
-	$listing->rv_types = json_encode($request->rvTypes);
-    
-	$listing->max_vehicle_length = $request->vehicleLength;
+
+    $listing->rv_types = json_encode($request->rvTypes);
+
+    $listing->max_vehicle_length = $request->vehicleLength;
     $listing->description = $request->description;
-    
-	$listing->user_id = Auth::user()->id;
-	  
+
+    $listing->user_id = Auth::user()->id;
+
     $listing->save();
-    
+
     $id = $listing->id;
-      
-      
-      
-   return Redirect::route('edit-listing-p1', [$id]);
-    
+	
+	  return Redirect::route('edit-listing-p2', [$id]);    
   }
 	
 	/**
@@ -191,7 +238,7 @@ class ListingController extends Controller
     * @param Request request
     * @return response
     */
-	public function storePage1(Request $request)
+	public function storePage1(ValidListingP1 $request)
 	{
 		$listing = Listing::find($request->id);
 		
@@ -217,7 +264,7 @@ class ListingController extends Controller
     * @param Request request
     * @return response
     */
-	public function storePage2(Request $request)
+	public function storePage2(ValidListingP2 $request)
 	{
 		$listing = Listing::find($request->id);
 		
@@ -230,6 +277,8 @@ class ListingController extends Controller
 		
 		$listing->sewer_hookup = $request->sewerHookup;
 		$listing->water_hookup = $request->waterHookup;
+    
+    $listing->parking_type_id = $request->parkingType;
 
 		$listing->save();
 		
@@ -244,7 +293,7 @@ class ListingController extends Controller
     * @param Request request
     * @return response
     */
-	public function storePage3(Request $request)
+	public function storePage3(ValidListingP3 $request)
 	{
 		$listing = Listing::find($request->id);
 		
@@ -266,12 +315,11 @@ class ListingController extends Controller
 	/**
     * Save pricing info about the listing
     * TODO:
-    * - Confirm listing ownership x.x
     *
     * @param Request request
     * @return response
     */
-	public function storePage4(Request $request)
+	public function storePage4(ValidListingP4 $request)
 	{
 		$listing = Listing::find($request->id);
 		
@@ -295,12 +343,11 @@ class ListingController extends Controller
     /**
     * Geocode address and store address & directions listing page
     * TODO:
-    * - Confirm listing ownership x.x
     *
     * @param Request request
     * @return response
     */
-    public function storePage5(Request $request)
+    public function storePage5(ValidListingP5 $request)
 	{
         // Grab the listing
         $listing = Listing::find($request->id);
@@ -323,13 +370,15 @@ class ListingController extends Controller
         $listingAddress->zipcode = $request->zip;
         $listingAddress->save();
         
-        $listingAddress->geocodeAddress();
+        if(!$listingAddress->geocodeAddress()){
+			$request->session()->flash('error', 'The address you provided was invalid, please check everything and try again.');
+		}
         
         return Redirect::route('edit-listing-p5', [$request->id]);
     }
     
     // Storing Section 6: Photos
-    public function storePage6(Request $request){
+    public function storePage6(ValidListingP6 $request){
         \Debugbar::disable();
         $file_url = "http://yourdomain/defaultimage.png";
         if ($request->hasFile('file') && $request->file('file')->isValid()){
@@ -337,11 +386,16 @@ class ListingController extends Controller
             $uploadResult = $cloudder->getResult();
             $file_url = $uploadResult["url"];
             
+			$listing = ListingImages::where('listing_id', '=', $request->id)->where('primary', '=', 1);
             $image = new ListingImages();
             $image->listing_id = $request->id;
             $image->url = $file_url;
+			if($listing->count() == 0){
+				$image->primary = 1;
+			}
             $image->save();
         }
+		
         return response()->json(['file_url' => $file_url], 200);
     }
 	
@@ -377,20 +431,70 @@ class ListingController extends Controller
 		
 		return Redirect::route('edit-listing-p6', [$request->listing_id]);
 	}
+	
+	
+	/**
+    * Store what's nearby
+    * TODO:
+    * - Confirm listing ownership x.x
+    *
+    * @param Request request
+    * @return response
+    */
+    public function storePage7(ValidListingP7 $request)
+	{
+        // Grab the listing
+        $listing = Listing::find($request->id);
+        
+        // Attractions
+		$attractions;
+		$i = 0;
+		foreach($request->nearby as $whocares){
+			
+			$attractions[$i]['attraction'] = $request->nearby[$i];
+			$attractions[$i]['location'] = $request->location[$i];
+			
+			$i++;
+		}
+		
+		$conveniences;
+		$i = 0;
+		foreach($request->nearby2 as $whocares){
+			
+			$conveniences[$i]['attraction'] = $request->nearby2[$i];
+			$conveniences[$i]['location'] = $request->location2[$i];
+			
+			$i++;
+		}
+		
+		
+        $listing->nearby_attractions = json_encode($attractions);
+        $listing->nearby_conveniences = json_encode($conveniences);
+        $listing->save();
+        
+        return Redirect::route('edit-listing-p7', [$request->id])
+			->with('attractions', $request);
+    }
+	
     
     
     // Listing Calendar Availability
     // TODO: 
-    // -RESTRICT TO LISTING OWNER!!!
     // -Grab bookings
     public function availability($id)
     {
         
         $listing = Listing::find($id);
         // Get the current exceptions
+		if($listing->user_id != Auth::user()->id){
+			return view('errors.403');
+		}
+
         $listingExceptions = ListingException::where('listing_id', '=', $id)->get();
         // Get the current bookings
-        $bookings = Booking::where('listing_id', '=', $id)->get();
+        $bookings = Booking::where('listing_id', '=', $id)
+			->whereNotNull('transaction_id')
+			->get();
         
         foreach($listingExceptions as $exception){
             if($exception->available){
@@ -418,7 +522,13 @@ class ListingController extends Controller
     {
         // Check for an existing exception. We don't want more than one exception at once.
         $listing = Listing::find($request->id);
-        if(!$listing->hasException($request->startDate, $request->endDate) 
+
+		// Ensure proper auth
+		if($listing->user_id != Auth::user()->id){
+			return view('errors.403');
+		}
+
+        if(!$listing->hasException($request->startDate, $request->endDate, NULL) 
            && !$listing->hasBooking($request->startDate, $request->endDate))
         {
             $listingException = new ListingException();
@@ -433,10 +543,13 @@ class ListingController extends Controller
             }
         
             $listingException->save();
+			
+        	$request->session()->flash('success', 'Exception added successfully');
         } else {
             // Already an exception. NO MORE EXCEPTIONS. Toast it :D
+			 $request->session()->flash('error', 'There is a booking or another exception overlapping this exception. The booking must be cancelled before policy changes can be made.');
         }
-
+		
         return Redirect::route('listing-availability', [$request->id]);
     }
     
@@ -475,7 +588,7 @@ class ListingController extends Controller
                 
             } else {
                 // There's a booking, so this exception cannot be modified 
-                
+                 $request->session()->flash('error', 'There is a booking overlapping this exception. The booking must be cancelled before policy changes can be made.');
             }
             
         } else {
@@ -483,6 +596,8 @@ class ListingController extends Controller
             return view('errors.403');
         }
         
+		
+        $request->session()->flash('success', 'Exception updated successfully');
         return Redirect::route('listing-availability', [$exception->listing_id]);
             
     }
@@ -506,15 +621,72 @@ class ListingController extends Controller
                 $exception->delete();
             } else {
                 // There's a booking, so this exception cannot be removed 
-                
+                $request->session()->flash('error', 'There is a booking overlapping this exception. The booking must be cancelled before policy changes can be made.');
             }
             
         } else {
             // You're not the owner of that listing!!
             return view('errors.403');
         }
-        
+        $request->session()->flash('success', 'Exception removed successfully');
         return Redirect::route('listing-availability', [$exception->listing_id]);
             
     }
+	
+	// Publish Listing
+	public function publishListing(Request $request)
+	{
+		
+		$listing = Listing::find($request->id);
+		// Ensure proper auth
+		if($listing->user_id != Auth::user()->id){
+			return view('errors.403');
+		}
+		
+		$listing->published = 1;
+		$listing->save();
+		
+		return Redirect::route('manage-listing', [$request->id]);
+	}
+	
+	
+	// Unpublish Listing
+	public function unpublishListing(Request $request)
+	{
+		$listing = Listing::find($request->id);
+		// Ensure proper auth
+		if($listing->user_id != Auth::user()->id){
+			return view('errors.403');
+		}
+		$listing->published = 0;
+		$listing->save();
+		
+		return Redirect::route('manage-listing', [$request->id]);
+	}
+	
+	
+	// Manage reservations
+	public function manageReservations($id)
+	{
+		$listing = Listing::find($id);
+		
+		if($listing->user_id != Auth::user()->id){
+		  return view('errors.403');
+	  	}
+		
+		$bookings = Booking::select('*')
+			->addSelect('bookings.id as booking_id')
+			->where('listing_id', '=', $id)
+			->whereNotNull('transaction_id')
+			->leftJoin('transaction', 'transaction.id', '=', 'bookings.transaction_id')
+			->leftJoin('users', 'users.id', '=', 'bookings.traveller_id')
+            ->whereNull('canceled_at')
+			->get();
+		
+		
+		
+		return view('dashboard.listings.reservations')
+			->with('listing', $listing)
+			->with('bookings', $bookings);
+	}
 }

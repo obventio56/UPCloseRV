@@ -16,11 +16,11 @@
 			<div class="propb">
 				
 				<div class="grid">
-					<div class="prop-img" style="background-image: url(http://upclose-front.developingpixels.com/front-end/assets/img/vw-rv.jpg);"></div>
+					<div class="prop-img" style="background-image: url({{ $listing->url }});"></div>
 					<div class="big-deats">
-						<p class="h10">Carlisle, Pennsylvania</p>
+						<p class="h10">{{ $listing->city }}, {{ $listing->state }}</p>
 						<p class="h2">{{ $listing->name }}</p>
-						<p class="h11">Privately Owned <span>Fits {{ $listing->max_vehicle_length }}' RV or smaller</span></p>
+						<p class="h11">@if($listing->property_type_id == 1) Private @else Public @endif <span>Fits {{ $listing->max_vehicle_length }}' RV or smaller</span></p>
 						<p class="checkinout"></p>
 					</div>
 					<div class="small-deats">
@@ -30,7 +30,10 @@
                     @if(isset($listing->month_pricing))
                         <p class="h8">${{ $listing->month_pricing }} per month</p>
                     @endif
-						<div class="rating"><span class="star"></span><span class="star"></span><span class="star"></span><span class="star"></span><span></span> 49</div>
+					<div class="rating">
+						@component('components.misc.rating', ['rating' => $listing->stars]) @endcomponent
+						{{ $listing->total_reviews }}
+					</div>
 						<a href="{{ route('view-listing', $listing->id) }}" class="button listing">View</a>
 					</div>
 				</div>

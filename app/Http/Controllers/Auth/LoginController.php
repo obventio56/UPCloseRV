@@ -28,7 +28,7 @@ class LoginController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = '/home';
+    protected $redirectTo = '/account';
 
     /**
      * Create a new controller instance.
@@ -53,9 +53,12 @@ class LoginController extends Controller
             'suspended' => 0
         );
 
-        if (Auth::attempt($credentials)) 
+        if (Auth::attempt($credentials, true)) 
         {
-            return redirect()->intended('home');
+			if(isset($request->redirectUrl)){
+				return redirect($request->redirectUrl);
+			}
+            return redirect()->intended('account');
         }
         else
         {

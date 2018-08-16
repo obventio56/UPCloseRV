@@ -3,9 +3,12 @@
 namespace App\Http\Controllers;
 
 //use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Validator;
+
 use App\Http\Requests\ValidMessage;
 use App\User;
+use App\Mail\MessageNotification;
 use App\Models\Message;
 use Auth;
 use Redirect;
@@ -31,7 +34,9 @@ class MessageController extends Controller
           ->get([
               'messages.*',
               'toUser.name as toName',
-              'fromUser.name as fromName'
+              'fromUser.name as fromName',
+			  'toUser.traveller_photo as toUrl',
+			  'fromUser.traveller_photo as fromUrl'
           ]);
         
         // reorganize ALL the things. 
@@ -87,11 +92,15 @@ class MessageController extends Controller
       
       $message->message = $request->message;
       $message->to = $request->to;
-      $message->from = Auth::user()->id;
+      $message->from = Auth::user()->id; // No one should ever be sending a message on behalf of someone else.
       $message->save();
       
       $message->thread = $message->id;
       $message->save();
+		
+	  // Email notification to the receiver
+	  $receiver = User::where('id', $request->to)->first();
+	  Mail::to($receiver->email)->send(new MessageNotification($request->message));
       
       return Redirect::route('messages')->with('success', 'Your message has been sent!');
     }
@@ -106,6 +115,10 @@ class MessageController extends Controller
       $message->thread = $request->thread;
       
       $message->save();
+		
+	  // Email notification to the receiver
+	  $receiver = User::where('id', $request->to)->first();
+	  Mail::to($receiver->email)->send(new MessageNotification($request->message));
       
       return Redirect::route('messages')->with('success', 'Your message has been sent!');
     }

@@ -6,6 +6,7 @@
 	<div class="container">
 		<div class="grid">
 			<div class="main-sec">
+				<div class="ank"><a href="#bot" class="button green round">Book now</a><br/></div>
 			@guest
 			@else
 				@if(isset($listing->favorite))
@@ -14,24 +15,29 @@
 					<a class="button love favorite-listing"> Save for later </a>
 				@endif
 			@endguest
-				<div class="rating"><span class="star"></span><span class="star"></span><span class="star"></span><span class="star"></span><span></span> 49</div><br/>
+				<div class="rating">
+					<a href="#review-section">
+					@component('components.misc.rating', ['rating' => $listing->rating]) @endcomponent
+					{{ $listing->reviews }}
+					</a>
+				</div><br/>
 				<h1 class="h3">{{ $listing->name }}</h1>@if($listing->verified)<span class="verified">Verified</span>@endif
 				<p class="h11">
 					@if($listing->day_rental)
 						${{ $listing->day_pricing }} per night 
 					@endif
 					@if($listing->day_rental && $listing->month_rental)
-					|
+					
 					@endif
 					@if($listing->month_rental)
-						${{ $listing->month_pricing }} per month
+						<span class="barz">${{ $listing->month_pricing }} per month</span>
 					@endif
 				</p>
 				
 				<div class="slide-cont">
 				  <div class="owl-carousel">
 					  @foreach($listing->images as $image)
-				    <div><img src="{{ $image->url }}"></div>
+				    <div class="slid" style="background-image: url({{ $image->url }})"></div>
 					  @endforeach
 				  </div>
 				</div>
@@ -76,12 +82,17 @@
 						<div>
 							<p id="electric">
 								Electric Hookup:
-								<span>{{ $listing->electric_hookup }}</span>
-							</p>
-							
-							<p id="parking">
-								Parking Area: 
-								<span>Yard/grass</span>
+								<span>
+									@if(!isset($listing->electric_hookup))
+									 No
+									@elseif($listing->electric_hookup == 1)
+									 110 V
+									@elseif($listing->electric_hookup == 2)
+									 30 AMP
+									@elseif($listing->electric_hookup == 3)
+									 50 AMP
+									@endif
+								</span>
 							</p>
 						</div>
 						
@@ -100,70 +111,73 @@
 						</div>
 					</div>
 				</div>
-				
+				@if($listing->other_amenities)
 				<div class="unique-list wizy">
 					<h3 class="h10">Unique To This Property</h3>
 					<p>
 						{{ $listing->other_amenities }}
 					</p>
 				</div>
-				
+				@endif
+				@if($listing->host_url && $listing->host_description)
 				<div class="about-owner">
 					<h4 class="h10">About The Owner</h4>
 					<div class="grid">
 						<div class="g">
-							<div class="profile-pic" style="background-image: url(/img/vw-rv.jpg);"></div>
-							<p class="name h11">Holly Tritt</p>
-							<a class="message h12" href="#">Message Owner</a>
+							<div class="profile-pic" style="background-image: url({{ $listing->host_url }});"></div>
+							<p class="name h11">{{ $listing->host_name }}</p>
+							<a class="message h12" href="{{ route('write', ['to' => $listing->host_id]) }}">Message Owner</a>
 						</div>
 						
 						<div class="g">
-							<p>We love living in central PA. Our house is sandwiched between a corn field and a large creek. Enjoy! We love living in central PA. Our house is sandwiched between a corn field and a large creek. Enjoy! </p>
+							<p>{{ $listing->host_description }}</p>
 						</div>
 					</div>
 				</div>
+				@endif
 				
-				@if(isset($other_listings))
+				@if($other_listings->count())
 				<div class="other-props">
 					<h4 class="h10">See other properties owned by this person</h4>
-					@foreach($other_listings as $listing)
+					@foreach($other_listings as $other_listing)
 					<div class="propss">
 						<div class="grid">
-							<div class="ft-img" style="background-image: url({{ $listing->url }});"></div>
+							<div class="ft-img" style="background-image: url({{ $other_listing->url }});"></div>
 							<div class="prop-det">
-								<p class="h10">Carlisle, Pennsylvania</p>
-								<p class="h2">{{ $listing->name }}</p>
-								<p class="h11">Privately Owned <span>Fits 45' RV or smaller</span></p>
-								<a href="" class="button listing">View</a>
+								<p class="h10">{{ $other_listing->city }}, {{ $other_listing->state }}</p>
+								<p class="h2">{{ $other_listing->name }}</p>
+								<p class="h11">@if($other_listing->property_type_id == 1) Private @else Public @endif <span>Fits {{ $other_listing->max_vehicle_length }}' RV or smaller</span></p>
+								<a href="{{ route('view-listing', ['id' => $other_listing->id]) }}" class="button listing">View</a>
 							</div>
 						</div>
 					</div>
 					@endforeach
 				</div>
 				@endif
-				<div class="reviews">
+				
+				
+				
+				@if($reviews->count())
+				<div class="reviews" id="review-section">
 					<h5 class="h10">Reviews</h5>
 					
-					@if(isset($reviews))
 						@foreach($reviews as $review)
 							<div class="review">
-								<div class="rating"><span class="star"></span><span class="star"></span><span class="star"></span><span class="star"></span><span></span></div>
+								<div class="rating">
+									@component('components.misc.rating', ['rating' => $review->stars]) @endcomponent
+								</div>
 								<p class="rev-content">{{ $review->review }}<span>-{{ $review->name }}</span></p>
 							</div>
 						@endforeach
-					@else
-					<p>
-						 This property does not currently have any reviews.
-					</p>
-					@endif
+
 					
 					<!--<a class="button listing more" id="loadMore">More</a>-->
 				</div>
-				
+				@endif
 				
 			</div>
 			
-			<div class="sider">
+			<div class="sider" id="bot">
 				
 				<div class="main-block">
 					<a href="#" class="top cal-trigger">Reserve now <i class="fas fa-chevron-right"></i></a>
@@ -176,25 +190,59 @@
 							  </ul> <!-- END tabz-nav -->
 							  <div id="tabz-content">
 							    <div id="tab1" class="tab-content">
-								    
+								    <div class="calnav" style="
+    font-family: &quot;Quicksand&quot;,sans-serif;
+    font-weight: 500;
+    color: #4B473D;
+    font-size: 18px;
+    line-height: 40px;
+    padding: 10px 0 10px;
+    text-align: center;
+"><span style="
+    display: inline-block;
+    vertical-align: middle;
+    height: 20px;
+    width: 20px;
+    background-color: #FF7E7E;
+"></span> = unavailable date</div>
 							     <div id="calendar-in"></div>
 									
 								<p>
-									<span class="checkin-date-view">___</span> {{ $listing->check_in }} to <span class="checkout-date-view">___</span> {{ $listing->check_out }}
-									</p>
+									Check In: <span class="checkin-date-view"></span> {{ $listing->check_in }} <br />
+									Check Out: <span class="checkout-date-view"></span> {{ $listing->check_out }}
+								</p>
 							    </div>
 							    <div id="tab2" class="tab-content">
-								    
+								    <div class="calnav" style="
+    font-family: &quot;Quicksand&quot;,sans-serif;
+    font-weight: 500;
+    color: #4B473D;
+    font-size: 18px;
+    line-height: 40px;
+    padding: 10px 0 10px;
+    text-align: center;
+"><span style="
+    display: inline-block;
+    vertical-align: middle;
+    height: 20px;
+    width: 20px;
+    background-color: #FF7E7E;
+"></span> = unavailable date</div>
 							      <div id="calendar-out"></div>
 									<p>
-									<span class="checkin-date-view">___</span> {{ $listing->check_in }} to <span class="checkout-date-view">___</span> {{ $listing->check_out }}
+									 Check In: <span class="checkin-date-view"></span> {{ $listing->check_in }} <br />
+									 Check Out: <span class="checkout-date-view"></span> {{ $listing->check_out }}
 									</p>
 									<form method="POST" action="{{ route('start-booking') }}">
 										{{ csrf_field() }}
 										<input type="hidden" id="checkout-date" name="checkout" required />
 										<input type="hidden" id="checkin-date" name="checkin" required />
 										<input type="hidden" name="listing" value="{{ $listing->id }}" />
-										<input type="submit" class="button blue round" value="Continue" />
+										<input type="submit" class="button blue round" value="Continue" 
+										@if( (isset(Auth::user()->id) && Auth::user()->id == $listing->user_id) || !$listing->published)	   
+										disabled
+										@endif
+											   />
 									</form>
 							    </div>
 							  </div> <!-- END tabz-content -->
@@ -202,34 +250,56 @@
 							
 							<a class="cancel">Cancel</a>
 							
-							<p class="rates">$50 per night <span>|</span> $300 per month</p>
+							<p class="rates">					@if($listing->day_rental)
+						${{ $listing->day_pricing }} per night 
+					@endif
+					@if($listing->day_rental && $listing->month_rental)
+					|
+					@endif
+					@if($listing->month_rental)
+						${{ $listing->month_pricing }} per month
+					@endif
+                        </p>
 						
 					</div>
 					
 					<div class="nearby wizy">
 						<p class="h11">What's nearby:</p>
 						<ul>
-							<li>40 miles to Hershey Park</li>
-							<li>7 miles to Carlisle Fairgrounds</li>
-							<li>2 miles to Gas Station</li>
+						@if(isset($listing->nearby_attractions))
+							@foreach($listing->nearby_attractions as $item)
+							<li>{{ $item->location }} from {{ $item->attraction }}</li>
+							@endforeach
+						@endif
+						@if(isset($listing->nearby_conveniences))
+							@foreach($listing->nearby_conveniences as $item)
+							<li>{{ $item->location }} from {{ $item->attraction }}</li>
+							@endforeach
+						@endif
 						</ul>
 					</div>
 					
 					<div class="lot-det">
 						<div class="grid">
-							<p>
-								Lost size:
-								<span>1 acre</span>
-							</p>
 							
 							<p>
 								Lot type:
-								<span>Private</span>
+								<span>
+									@if($listing->property_type_id == 1)
+									Private
+									@else
+									Public
+									@endif
+								</span>
 							</p>
 							
 							<p>
 								Stay term:
-								<span>Short & Long</span>
+								<span>
+									@if($listing->day_rental == 1) Short @endif 
+									@if($listing->day_rental == 1 && $listing->month_rental == 1) & @endif 
+									@if($listing->month_rental == 1) Long @endif
+								</span>
 							</p>
 						</div>
 					</div>
@@ -237,8 +307,8 @@
 					
 					<div class="lot-det">
 						<p>
-							Accommodates RV sizes:
-							<span>35'</span>
+							Accommodates RV sizes:<br/>
+							<span>{{ $listing->max_vehicle_length }}'</span>
 						</p>
 					</div>
 				</div>
@@ -248,7 +318,7 @@
 				
 				<div class="map">
 					<div id="map"></div>
-					<p class="city-state">Carlisle, PA</p>
+					<p class="city-state">{{ $listing->city }}, {{ $listing->state }}</p>
 				</div>
 				
 			</div>
@@ -264,12 +334,13 @@
 <script>
       function initMap() {
         var locations = [
-      ['Bondi Beach', -33.890542, 151.274856, 4]
+       ['{{ $listing->name }}', {{ $listing->lat }}, {{ $listing->lng }}]
+	  
     ];
 
     var map = new google.maps.Map(document.getElementById('map'), {
       zoom: 12,
-      center: new google.maps.LatLng(-33.890542, 151.274856),
+      center: new google.maps.LatLng({{ $listing->lat }}, {{ $listing->lng }}),
       mapTypeId: google.maps.MapTypeId.ROADMAP, 
       styles: [
     {
@@ -366,7 +437,7 @@
     });
     
     
-    var iconBase = 'http://upclose-front.developingpixels.com/assets/img/';
+    var iconBase = 'https://upclose.developingpixels.com/img/';
 
     var infowindow = new google.maps.InfoWindow();
 
@@ -394,6 +465,159 @@
 	// Move to the general scripts... 
 	
 	$(document).ready(function(){
+		
+		// for checking against to prevent clicking a blocked off day
+		var events = [
+			@foreach($listingExceptions as $exception)
+			{
+
+				start  : new Date('{{ $exception->start_date }}'),
+				end    : new Date('{{ $exception->end_date }}')
+			},
+			@endforeach
+			@foreach($bookings as $booking)
+			{
+				start  : new Date('{{ $booking->start_date }}'),
+				end    : new Date('{{ $booking->end_date }}')
+			},
+			  
+			@endforeach
+		];
+		
+		
+		// https://momentjs.com/docs/#/displaying/format/
+		$('#calendar-in').fullCalendar({
+		  editable: false,
+		  eventLimit: false, // allow "more" link when too many events
+		  selectable: true,
+		  selectOverlap: false,
+		header: {
+			  left: 'title',
+			  center: '',
+			  right: 'prev,next'
+			},
+		  dayClick: function(date, jsEvent, view) {
+			  var dateCompare = new Date(date);
+			  dateCompare.setHours(dateCompare.getHours()+4);
+			  var flag = 0;
+			  events.forEach(function(datepair){
+				  console.log(datepair['start']);
+				  console.log(dateCompare);
+				  if(dateCompare < datepair['end'] && dateCompare >= datepair['start']){
+					  flag = 1;
+				  }
+			  });
+			  console.log(flag);
+			  if(!flag){
+				  $('#checkin-date').val(date.format());
+				  $('.checkin-date-view').html(date.format('MMMM Do Y')+',');
+				  $('#calendar-out').fullCalendar('gotoDate', date);
+				  $('#checkout-date').val('');
+				  $('.checkout-date-view').html('');
+			  }
+			},
+		  events: [
+			@foreach($listingExceptions as $exception)
+			{
+				title  : '{{ $exception->title }}',
+				type   : 'condition',
+				@if($exception->title == 'Special Price')
+				className : 'price',
+				@else
+				className : 'availability',
+				@endif
+				id	   : '{{ $exception->id }}',
+				start  : '{{ $exception->start_date }}',
+				end    : '{{ $exception->end_date }}',
+				allDay : true,
+			  	rendering: 'background',
+			   backgroundColor: 'red',
+			},
+			@endforeach
+			@foreach($bookings as $booking)
+			{
+				title  : 'Not available',
+				type   : 'booking',
+				className : 'booking',
+				id	   : '{{ $booking->id }}',
+				start  : '{{ $booking->start_date }}',
+				end    : '{{ $booking->end_date }}',
+				allDay : true,
+			    rendering: 'background',
+			  backgroundColor: 'red',
+			},
+			  
+			@endforeach
+		  ],
+		});
+
+		$('#calendar-out').fullCalendar({
+		  editable: true,
+		  eventLimit: true, // allow "more" link when too many events
+		  selectable: true,
+		  selectOverlap: false,
+		     header: {
+			  left: 'title',
+			  center: '',
+			  right: 'prev,next'
+			},
+		  dayClick: function(date, jsEvent, view) {
+			  var dateCompare = new Date(date);
+			  dateCompare.setHours(dateCompare.getHours()+4);
+			  var flag = 0;
+			  events.forEach(function(datepair){
+				  console.log(datepair['start']);
+				  console.log(dateCompare);
+				  if(dateCompare < datepair['end'] && dateCompare >= datepair['start']){
+					  flag = 1;
+				  }
+			  });
+			  console.log(flag);
+			  if(!flag){
+				  $('#checkout-date').val(date.format());
+				  $('.checkout-date-view').html(date.format('MMMM Do Y')+',');
+			  }
+			},
+			events: [
+			@foreach($listingExceptions as $exception)
+			{
+				title  : '{{ $exception->title }}',
+				type   : 'condition',
+				@if($exception->title == 'Special Price')
+				className : 'price',
+				@else
+				className : 'availability',
+				@endif
+				id	   : '{{ $exception->id }}',
+				start  : '{{ $exception->start_date }}',
+				end    : '{{ $exception->end_date }}',
+				allDay : true,
+			  	rendering: 'background',
+			   backgroundColor: 'red',
+			},
+			@endforeach
+			@foreach($bookings as $booking)
+			{
+				title  : 'Not available',
+				type   : 'booking',
+				className : 'booking',
+				id	   : '{{ $booking->id }}',
+				start  : '{{ $booking->start_date }}',
+				end    : '{{ $booking->end_date }}',
+				allDay : true,
+			    rendering: 'background',
+			  backgroundColor: 'red',
+			},
+			  
+			@endforeach
+		  ],
+		});
+		
+		
+		
+		
+		
+		
 		// Save listing is all ajaxy!!
         $('.favorite-listing').click(function(e){
                e.preventDefault();
@@ -403,10 +627,10 @@
                   }
               });
 		$.ajax({
-                  url: "{{ url('/dashboard/listing/favorite') }}",
+                  url: "{{ url('/account/listing/favorite') }}",
                   method: 'post',
                   data: {
-                    // listing_id: {{ $listing->id }},
+                  listing_id: {{ $listing->id }},
 					_token: '{{ csrf_token() }}'
                   },
                   success: function(result){
@@ -426,7 +650,7 @@
                   }
               });
 		$.ajax({
-                  url: "{{ url('/dashboard/listing/favorite') }}",
+                  url: "{{ url('/account/listing/favorite') }}",
                   method: 'post',
                   data: {
                      listing_id: {{ $listing->id }},
@@ -440,10 +664,55 @@
                   }});
 		
             });
+	
      });
+     
+     
+     // Select all links with hashes
+$('.rating a[href*="#"], .ank [href*="#"]')
+  // Remove links that don't actually link to anything
+  .not('[href="#"]')
+  .not('[href="#0"]')
+  .click(function(event) {
+    // On-page links
+    if (
+      location.pathname.replace(/^\//, '') == this.pathname.replace(/^\//, '') 
+      && 
+      location.hostname == this.hostname
+    ) {
+      // Figure out element to scroll to
+      var target = $(this.hash);
+      target = target.length ? target : $('[name=' + this.hash.slice(1) + ']');
+      // Does a scroll target exist?
+      if (target.length) {
+        // Only prevent default if animation is actually gonna happen
+        event.preventDefault();
+        $('html, body').animate({
+          scrollTop: target.offset().top
+        }, 1000, function() {
+          // Callback after animation
+          // Must change focus!
+          var $target = $(target);
+          $target.focus();
+          if ($target.is(":focus")) { // Checking if the target was focused
+            return false;
+          } else {
+            $target.attr('tabindex','-1'); // Adding tabindex for elements not focusable
+            $target.focus(); // Set focus again
+          };
+        });
+      }
+    }
+  });
+
+	
 
     </script>
     <script async defer
     src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCyXHeiC9HRgVmhWkHPyBaM4bM7FC3TuGw&callback=initMap">
     </script>
+
+
+
+
 @endsection

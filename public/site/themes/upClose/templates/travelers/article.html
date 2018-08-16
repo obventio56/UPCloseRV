@@ -1,0 +1,35 @@
+<section class="text-hero blue">
+	<div class="container">
+		<h1 class="h1">{{ title }}</h1>
+		<div class="share">
+			<p class="h3">Share: <a target="popup" onclick="window.open('https://www.facebook.com/sharer/sharer.php?u={{ current_url }}','popup','width=600,height=600'); return false;" class="fab fa-facebook-f"></a> <a target="popup" onclick="window.open('https://twitter.com/intent/tweet?text={{ current_url }}&source=webclient','popup','width=600,height=600'); return false;" class="fab fa-twitter"></a> <a href="https://pinterest.com/pin/create/button/?url={{ current_url }}&media={{ assets:og_image }}{{ site_url }}{{ url }}{{ /assets:og_image }}&description={{ meta_description or "Find local property in your area to park your RV or camper! Become a host or traveler with UpClose RV today!" }}" target="popup" class="fab fa-pinterest-p"></a></p>
+		</div>
+	</div>
+</section>
+
+
+				
+{{ partial:cb }}
+
+
+
+<section id="read-more">
+	<div class="container">
+		<h4 class="h4">More Guides</h4>
+		<div class="grid">
+			{{ collection:travelers url:isnt="{ url }" taxonomy:tags="{ tags }" limit:"3" }}
+			
+			<div class="article">
+				<div class="feat-img" style="background-image: url({{ assets:og_image }}{{ url }}{{ /assets:og_image }});"></div>
+				<h2 class="h3">{{ title }}</h2>
+<!-- 				<p>{{ preview_text }}</p> -->
+				<a href="{{ url }}" class="button listing">View</a>
+			</div>
+				      
+	      {{ /collection:travelers }}
+	      
+			
+			
+		</div>
+	</div>
+</section>

@@ -1,0 +1,45 @@
+license_key: d79d6052-754e-4b33-b096-87bdb10ce3a1
+locales:
+  en:
+    name: English
+    full: en_US
+    url: https://upclose.developingpixels.com/
+timezone: UTC
+date_format: F jS, Y
+default_extension: md
+filesystems:
+  content:
+    driver: local
+    root: site/content
+  storage:
+    driver: local
+    root: site/storage
+  users:
+    driver: local
+    root: site/users
+  themes:
+    driver: local
+    root: site/themes
+    url: /site/themes
+app_key: 4xIUidph44gCDdluKaYKTE9DWIHW0sv2
+redactor:
+  - 
+    name: Standard
+    settings:
+      buttons:
+        - formatting
+        - bold
+        - italic
+        - link
+        - unorderedlist
+        - orderedlist
+        - html
+  - 
+    name: Basic
+    settings:
+      buttons:
+        - bold
+        - italic
+send_powered_by_header: true
+ensure_unique_ids: true
+yaml_parser: spyc

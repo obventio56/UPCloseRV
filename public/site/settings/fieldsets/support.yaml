@@ -1,0 +1,35 @@
+taxonomies: false
+title: Support
+create_title: ""
+fields:
+  preview_text:
+    type: textarea
+    display: Preview Text
+  cta_one:
+    type: text
+    display: CTA One
+    width: 50
+  cta_one_link:
+    type: text
+    display: CTA One Link
+    width: 50
+    instructions: |
+      All links should include http:// (or https://)
+      Example:
+      http://www.pixelandhammer.com
+  cta_two:
+    type: text
+    display: CTA Two
+    width: 50
+  cta_two_link:
+    type: text
+    display: CTA Two Link
+    width: 50
+    instructions: |
+      All links should include http:// (or https://)
+      Example:
+      http://www.pixelandhammer.com
+  seo:
+    type: partial
+    display: Seo
+    fieldset: seo

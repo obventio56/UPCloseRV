@@ -1,39 +1,50 @@
 @extends('layouts.app')
 
 @section('content')
-<section id="listing-page">
-	<div class="grid no-gap">
-		<div class="map">
-			<div id="map"></div>
-		</div>
-		
-		<div class="property-list">
-			<div class="filter">
+
+<div class="new-filter">
+	<div class="wrap">
+	<h2 class="h3">Filter By:</h2>
 				<form class="filt" id="filter-form" method="GET">
-					<input type="text" name="search" placeholder="Search by city, zip code" value="{{ $request->search }}"><br />
-					<div class="filter-block date-picker">
-						<div class="input">
-							<div class="result">Arrival: <input class="date" onupdate="this.form.submit()" name="arrival" type="text" value="{{ (isset($request->arrival)? $request->arrival : '')}}"/></div>
-						</div>
-						<div class="calendar"></div>
-					</div>
+					<input type="hidden" name="search" placeholder="Search by city, zip code" value="{{ $request->search }}"><br />
+					
+					
 					
 					<div class="filter-block date-picker">
-						<div class="input">
-							<div class="result">Departure: <input class="date" onupdate="this.form.submit()" name="departure" type="text" value="{{ (isset($request->departure)? $request->departure : '')}}" /></div>
+						<div class="input arr">
+							<div class="result">Arrival: <input id="arrival" name="arrival" type="text" value="{{ (isset($request->arrival)? $request->arrival : "")}}"/>
+								
+							</div>
 						</div>
-						<div class="calendar"></div>
+						<div class="calendar ar"></div>
 					</div>
+					
+					
+					
+					
+					
+					<div class="filter-block date-picker">
+						<div class="input dpp">
+							<div class="result">Departure: <input id="departure" name="departure" type="text" value="{{ (isset($request->departure)? $request->departure : "") }}"/>
+					
+							</div>
+						</div>
+						<div class="calendar dp"></div>
+					</div>
+					
+					
+					
 					
 					<div class="filter-block">
 						<select name="rvTypes" onchange="this.form.submit()">
-						  <option value="">Vehicle Type</option>
+						  <option value="">Any Vehicle Type</option>
 							@foreach($rvTypes as $rvType)
-						  <option value="{{ $rvType->id }}">{{ $rvType->name }}</option>
+						  <option value="{{ $rvType->id }}" {{ ((isset($request->rvTypes) && $request->rvTypes == $rvType->id)? 'selected' : '') }}>{{ $rvType->name }}</option>
 							@endforeach
 						</select>
 					</div>
 					
+<!--
 					<div class="filter-block short" id="price">
 						<div class="input">
 							<div class="result">Price:
@@ -41,22 +52,22 @@
 							</div>
 						</div>
 					</div>
-					
-					<div class="filter-block short" id="amenities">
-						<select name="amenities" onchange="location.reload()">
-						  <option value="">Amenities</option>
-						@foreach($amenities as $amenity)
-							<option value="{{ $amenity->id }}">{{ $amenity->name }}</option>
-						@endforeach
-						</select>
-					</div>
+-->
 					
 					<div class="filter-block" id="stay-length">
 						<select name="rentalType" onchange="this.form.submit()">
-						  <option value="0">Rental Type</option>
-						  <option value="1">Daily</option>
-						  <option value="2">Monthly</option>
+						  <option value="0" {{ ((isset($request->rentalType) && $request->rentalType == 0)? 'selected' : '') }}>Rental Type</option>
+						  <option value="1" {{ ((isset($request->rentalType) && $request->rentalType == 1)? 'selected' : '') }}>Daily</option>
+						  <option value="2" {{ ((isset($request->rentalType) && $request->rentalType == 2)? 'selected' : '') }}>Monthly</option>
 						</select>
+					</div>
+          
+					<div class="filter-block" id="guest-count">
+						<div class="input">
+							<div class="result">Guests:
+								<input placeholder="1+" class="guests" onfocusout="this.form.submit()" name="guestCount" value="{{ (isset($request->guestCount)? $request->guestCount : '')}}">
+							</div>
+						</div>
 					</div>
 					
 					<div class="filter-block" id="lot-type">
@@ -69,59 +80,38 @@
 					</div>
 					
 				</form>
-			</div><!-- Filter -->
-			
-			
-			<div class="prop-list">
-				@foreach($listings as $listing)
-				<div class="prop">
-					<div class="grid">
-						<div class="prop-img" style="background-image: url({{ (isset($listing->url)? $listing->url : '') }});"></div>
-						<div class="big-deats">
-							<p class="h10">{{ $listing->city }}, {{ $listing->state }}</p>
-							<p class="h2">{{ $listing->name }}</p>
-							<p class="h11">
-								@if($listing->property_type_id == 1)
-									Privately Owned
-								@elseif($listing->property_type_id == 2)
-									Public Park
-								@else
-									Commercially Owned
-								@endif
-								<span>Fits {{ $listing->max_vehicle_length }}' RV or smaller</span>
-							</p>
-							<a href="" class="button love">Save for later</a>
-						</div>
-						<div class="small-deats">
-							@if($listing->month_rental)
-								<p class="h8">${{ $listing->month_pricing }} per month</p>
-							@endif
-							@if($listing->day_rental)
-								<p class="h8">${{ $listing->day_pricing }} per night</p>
-							@endif
-							<div class="rating"><span class="star"></span><span class="star"></span><span class="star"></span><span class="star"></span><span></span> 49</div>
-							<a href="{{ route('view-listing', ['id' => $listing->listid]) }}" class="button listing">View</a>
-						</div>
-					</div>
 				</div>
-				@endforeach
-   
-			</div>
-			
+</div><!-- Filter -->
+
+
+<section id="listing-page">
+	<div class="grid no-gap">
+		<div class="map">
+			<div id="map"></div>
 		</div>
-	</div>
+		
+			<div class="property-list">
+                    @if(!$location)
+
+       <p>
+            We could not find that location, please try again.
+    </p>
+    @endif
+		        <listings-component v-bind:listings="locations" v-bind:selected-index="selectedIndex">
+		        </listings-component>
+			</div>
+		</div>
 </section>
 @endsection
 
 
 @section('scripts')
+<script src="//cdnjs.cloudflare.com/ajax/libs/jqueryui/1.11.2/jquery-ui.min.js"></script>
 <script>
-      function initMap() {
-        var locations = [
-		@foreach($listings as $listing)
-      		['{{ $listing->name }}', {{ $listing->lat }}, {{ $listing->lng }}, 1],
-		@endforeach
-    ];
+	
+
+  
+  function initMap(locations, listingsApp) {
 
     var map = new google.maps.Map(document.getElementById('map'), {
       zoom: 10,
@@ -231,24 +221,108 @@
 
     for (i = 0; i < locations.length; i++) {  
       marker = new google.maps.Marker({
-        position: new google.maps.LatLng(locations[i][1], locations[i][2]),
+        position: new google.maps.LatLng(locations[i].lat, locations[i].lng),
         map: map, 
-        icon: iconBase + 'map-icon.svg'
+        icon: iconBase + 'map-icon.svg',
+        listIndex: i
       });
 
       google.maps.event.addListener(marker, 'click', (function(marker, i) {
         return function() {
-          infowindow.setContent(locations[i][0]);
+          console.log("clicked")
+          listingsApp.selectedIndex = i
+          infowindow.setContent(locations[i].name);
           infowindow.open(map, marker);
         }
       })(marker, i));
     }       
     
      
-        
+}  
+  
+  
+window.onload = function () {
+    
+    var locations = [
+		  @foreach($listings as $listings_index => $listing)
+      {
+        'amenities': "{{ $listing->amenityList }}",
+        'listingId': "{{$listing->listid}}",
+        'listingsIndex': {{$listings_index}},
+        'url': "{{ route('view-listing', ['id' => $listing->listid]) }}",
+        'image_url': '{{ $listing->url }}',
+        'city': '{{$listing->city}}',
+        'state': '{{$listing->state}}',
+        'name': "{!! $listing->name !!}",
+        'property_type_id': {{$listing->property_type_id}},
+        'max_vehicle_length': '{{$listing->max_vehicle_length}}',
+        'month_rental': {{$listing->month_rental}},
+        'month_pricing': '{{$listing->month_pricing}}',
+        'day_rental': {{$listing->day_rental}},
+        'day_pricing': '{{$listing->day_pricing}}',
+        'accommodates': '{{max($listing->day_guests, $listing->month_guests)}}',
+        'stars': {{ $listing->stars }},
+        @if(isset($listing->total_reviews))
+        'reviews': {{ $listing->total_reviews }},
+        @endif
+        'lat': {{$listing->lat}},
+        'lng': {{$listing->lng}}
+      },
+		  @endforeach
+    ];
+  
+  
+    const listingsApp = new Vue({
+      el: '#listing-page',
+      data: {
+        locations: locations, 
+        selectedIndex: -1
       }
+    }); 
+  
+    initMap(locations, listingsApp);  
+}
+$(document).ready(function(){
+	$(function() {
+	  $( ".calendar.dp" ).datepicker({
+			dateFormat: 'mm/dd/yy',
+			firstDay: 1
+		});
+
+		$(document).on('click', '.date-picker .input.dpp', function(e){
+			var $me = $(this),
+			$parent = $me.parents('.date-picker');
+			$parent.toggleClass('open');
+		});
+
+
+		$(".calendar.dp").on("change",function(){
+			$('input[name="departure"]').val($(this).val());
+			$('#filter-form').submit();
+		});
+
+	  $( ".calendar.ar" ).datepicker({
+			dateFormat: 'mm/dd/yy',
+			firstDay: 1
+		});
+
+		$(document).on('click', '.date-picker .input.arr', function(e){
+			var $me = $(this),
+					$parent = $me.parents('.date-picker');
+			$parent.toggleClass('open');
+		});
+
+
+		$(".calendar.ar").on("change",function(){
+			$('input[name="arrival"]').val($(this).val());
+			$('#filter-form').submit();
+		});
+	});
+});
+
+
     </script>
     <script async defer
-    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCyXHeiC9HRgVmhWkHPyBaM4bM7FC3TuGw&callback=initMap">
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCyXHeiC9HRgVmhWkHPyBaM4bM7FC3TuGw">
     </script>
 @endsection

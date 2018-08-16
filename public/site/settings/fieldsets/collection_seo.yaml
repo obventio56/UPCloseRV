@@ -1,0 +1,20 @@
+taxonomies: false
+title: SEO
+fields:
+  relevant_path:
+    type: text
+    display: URI
+  seo_title:
+    type: text
+    display: Seo Title
+  meta_description:
+    type: textarea
+    display: Meta Description
+  og_image:
+    type: assets
+    display: OG Image
+    instructions: 'This image is used for display on all Facebook, Twitter, Linkedin, Pinterest, and Slack profiles. '
+    container: main
+    folder: img
+    restrict: false
+    max_files: 1

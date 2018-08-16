@@ -9,7 +9,12 @@
 			@endcomponent
 			<br />
 			@component('components.menus.dashboard.listing', ['listing' => $listing]) @endcomponent
-            <div id="cal">
+			<br />
+			
+			<p>
+				To select multiple dates, click and drag your mouse over the dates.
+			</p>
+           <div id="cal">
                 <div id="calendar"></div>
 
                 <div class="key">
@@ -18,7 +23,11 @@
                     <a href="#" class="brown button round">Save</a>
                 </div>
             </div>
-        </div>    
+            
+             <div id="cal-mobile">
+	        	<p>Unfortunately this functionality is not yet available on mobile devices. Please edit your availability via a desktop browser.</p>
+	        </div>  
+        </div>  
         @component('components.sidebars.dashboard')
 		
 		@endcomponent  
@@ -26,7 +35,7 @@
 </section> 
 
 
- <div id="test-calendar"></div>
+<!--  <div id="test-calendar"></div> -->
 
 @endsection
 
@@ -34,11 +43,11 @@
 <script>
 $(function() {
     $('#calendar').fullCalendar({
-		    selectable: true,
+	selectable: true,
     header: {
-      left: 'prev,next today',
+      left: 'month',
       center: 'title',
-      right: 'month,agendaWeek,agendaDay'
+      right: 'prev,next today'
     },
     dayClick: function(date) {
       

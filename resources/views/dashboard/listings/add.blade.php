@@ -10,13 +10,13 @@
 			<br />
 			
             <h1 class="h2">Basic Info</h1>
-            <p> </p>
+            <p>Here you will share some basic information about your property regarding type and size. You will also provide a description of what your property is like.  </p>
              
                 <form class="style lister" method="POST" action="{{ route('create-listing') }}">
                     {{ csrf_field() }}
                     
                 <div class="one">
-                    <label>Property name</label>
+					<p class="h">Property Name</p>
 		            <input type="text" class="two" name="name" placeholder="Wood Creek, Carlisle PA" value="{{ old('name') }}">
                         @if ($errors->has('name'))
                             <span class="help-block">
@@ -81,7 +81,7 @@
 					
 					
 					<div class="one">
-                    <p class="h">What types of RVs do you want to host?</p>
+                    <p class="h">What types of RVs do you want to accomodate?</p>
 
                         <div>
 							@foreach($rvtypes as $rvtype)
@@ -99,8 +99,9 @@
 					
                     
                    <div class="one">
-                        <label>What length of vehicle do you want to allow on your property?</label>
-                        <input type="text" class="two" name="vehicleLength" placeholder="45" value="{{ old('vehicleLength') }}">
+                        <p class="h">What length of vehicle do you want to allow on your property?</p>
+                        <label>Enter the number of feet only, we'll take care of the rest</label>
+                        <input type="text" class="two" name="vehicleLength" placeholder="45" value="{{ old('vehicleLength') }}" maxlength="3">
                             @if ($errors->has('vehicleLength'))
                                 <span class="help-block">
                                     <strong>{{ $errors->first('vehicleLength') }}</strong>
@@ -112,7 +113,7 @@
 
                     <div class="one">
                         <p class="h">Describe your property</p>
-                        <p>Tips: make sure to explain what a renter could expect when renting from you.</p>
+                        <label>Make sure to explain what a renter could expect when renting from you.</label>
 
                         <textarea name="description" placeholder="This is my message..." required>{{ old('description') }}</textarea>
 
@@ -124,7 +125,7 @@
                     </div>
                     
                   <div class="one">  
-                    <button class="button round brown">Save</button>
+                    <button class="button round brown">Continue</button>
                   </div> 
                     
                     
@@ -132,9 +133,7 @@
         </div> 
 
         @component('components.sidebars.dashboard')
-			@component('components.sidebars.listings')
-		
-			@endcomponent  
+
 		@endcomponent  
 	</div>
 </section> 

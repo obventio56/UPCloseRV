@@ -1,0 +1,22 @@
+taxonomies: false
+title: FAQ
+create_title: ""
+fields:
+  title:
+    type: title
+    display: Title
+  qna:
+    type: grid
+    display: QnA
+    fields:
+      question:
+        type: text
+        display: question
+      answer:
+        type: textarea
+        display: answer
+    mode: table
+  seo:
+    type: partial
+    display: Seo
+    fieldset: seo

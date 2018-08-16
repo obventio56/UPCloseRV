@@ -50,28 +50,7 @@ else
 });
 
 
-//Tabs functionality
-        //Firstly hide all content divs
-        $('#generic-tabs div').hide();
-        //Then show the first content div
-        $('#generic-tabs div:first').show();
-        //Add active class to the first tab link
-        $('#generic-tabs ul#tabs li:first').addClass('active');
-        //Functionality when a tab is clicked
-        $('#generic-tabs ul#tabs li a').click(function(){
-        	//Firstly remove the current active class
-            $('#generic-tabs ul#tabs li').removeClass('active');
-            //Apply active class to the parent(li) of the link tag
-            $(this).parent().addClass('active');
-            //Set currentTab to this link
-            var currentTab = $(this).attr('href');
-            //Hide away all tabs
-            $('#generic-tabs div').hide();            
-            //show the current tab
-            $(currentTab).show();
-            //Stop default link action from happening
-            return false;
-        });
+
         
 
 
@@ -215,6 +194,7 @@ $('#myInput').keyup(function() {
 
  $(".owl-carousel").owlCarousel({    
     items: 1,
+    loop: true,
     nav: true,
       navText: ['<i class="fa fa-chevron-left"></i>','<i class="fa fa-chevron-right"></i>'],
   });
@@ -273,27 +253,7 @@ $('#calendar').fullCalendar({
   eventLimit: true, // allow "more" link when too many events
 });*/
 
-	// https://momentjs.com/docs/#/displaying/format/
-$('#calendar-in').fullCalendar({
-  editable: true,
-  eventLimit: true, // allow "more" link when too many events
-  selectable: true,
-  dayClick: function(date, jsEvent, view) {
-	  
-      $('#checkin-date').val(date.format());
-	  $('.checkin-date-view').html(date.format('MMMM Do Y'));
-    }
-});
 
-$('#calendar-out').fullCalendar({
-  editable: true,
-  eventLimit: true, // allow "more" link when too many events
-  selectable: true,
-  dayClick: function(date, jsEvent, view) {
-      $('#checkout-date').val(date.format());
-	  $('.checkout-date-view').html(date.format('MMMM Do Y'));
-    }
-});
    
 
 
@@ -305,7 +265,7 @@ $("#addScnt").click(
   }
 ) 
 
-
+/*
 
 $("#addScnt-l").click(
   function () {
@@ -313,7 +273,7 @@ $("#addScnt-l").click(
      var newDiv = $("<div>").append(someText);
      $('#conts').append(newDiv);
   }
-) 
+) */
 
 /*
 
@@ -351,8 +311,7 @@ $('#tabz-nav li').click(function(){
 $(document).on("click", ".cal-trigger", function(event){
     event.preventDefault();
     $(this).hide(500);
-    $(".check-in-out").toggle(800);
-    
+    $(".check-in-out").toggle(800); 
 });
 
 
@@ -360,8 +319,9 @@ $(document).on("click", ".cancel", function(event){
     event.preventDefault();
     $(".check-in-out").toggle(800);
     $(".cal-trigger").show(500);
-    
 });
+
+
    
 
 });

@@ -1,0 +1,73 @@
+<!--
+<section class="search mobile-only">
+	<div class="container">
+		<div class="grid">
+			<div class="grid-offset-two">
+				<h1 class="h1">Get Up Close</h1>
+				<?php echo file_get_contents('https://upclose.developingpixels.com/ptemp/search'); ?>
+			</div>
+		</div>
+	</div>
+</section>
+-->
+
+<section id="home-hero">
+	<div class="divr" style="background-image: url({{ asset:hero_image }}{{ url }}{{ /asset:hero_image }})">
+		<div class="new-head">
+			<h1 class="h1">Book & Host Property for Your Next RV Trip today! How it works, search here:</h1>
+		<?php echo file_get_contents('https://upclose.developingpixels.com/ptemp/search'); ?>
+		</?php>
+	</div>
+</section>
+
+<!--
+<section class="search no-mobile">
+	<div class="container">
+		<div class="grid">
+			<div class="grid-offset-two">
+				<h1 class="h1">Get Up Close</h1>
+				<?php echo file_get_contents('https://upclose.developingpixels.com/ptemp/search'); ?>
+			</div>
+		</div>
+	</div>
+</section>
+-->
+
+<section id="introduction">
+	<div class="container">
+		<div class="grid">
+			<div class="grid-offset-one">
+				<p class="h5">How it works</p>
+				<h2 class="h1">{{ how_it_works }}</h2>
+				<p class="h3">{{ how_it_works_content }}</p>
+			</div>
+		</div>
+	</div>
+</section>
+
+{{ partial:cb }}
+
+<section id="listings">
+	<div class="container">
+		<h4 class="h1">Explore</h4>
+		<div class="grid">
+			
+			<?php echo file_get_contents('https://upclose.developingpixels.com/ptemp/featured'); ?>
+
+			
+
+		</div>
+	</div>
+</section>
+
+
+<section class="search">
+	<div class="container">
+		<div class="grid">
+			<div class="grid-offset-two">
+				<h1 class="h1">Get up close.</h1>
+          <?php echo file_get_contents('https://upclose.developingpixels.com/ptemp/search'); ?>
+			</div>
+		</div>
+	</div>
+</section>

@@ -2,8 +2,11 @@
 
 namespace App\Exceptions;
 
+//these are included by default
 use Exception;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+
+use Pixelandhammer\ExceptionLogger\ExceptionLoggerFacade as ExceptionLogger;
 
 class Handler extends ExceptionHandler
 {
@@ -36,6 +39,16 @@ class Handler extends ExceptionHandler
      */
     public function report(Exception $exception)
     {
+      
+      /*
+        if (app()->bound('sentry') && $this->shouldReport($exception)) {
+          app('sentry')->captureException($exception);
+        }
+      */
+
+        ExceptionLogger::log($exception);  
+
+      
         parent::report($exception);
     }
 

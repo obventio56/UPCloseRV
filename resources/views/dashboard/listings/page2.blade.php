@@ -10,7 +10,7 @@
 			<br />
 			@component('components.menus.dashboard.listing', ['listing' => $listing]) @endcomponent		
             <h1 class="h2">Amenities</h1>
-            <p> </p>
+            <p>Share what your property has to offer! What amenities do you have available? What makes your property unique? We've provided some prompts below for you to check off and space for you to provide additional details. </p>
              
                 <form class="style lister" method="POST" action="{{ route('store-listing-p2') }}">
                     {{ csrf_field() }}
@@ -32,7 +32,7 @@
                                      checked="checked"
                                    @endif
                                 >
-                            <label for="pt2">My property is available for travellers to enjoy</label>
+                            <label for="pt2">My property is available for travelers to enjoy</label>
                           </p>
                            @if ($errors->has('propertyType'))
                                 <span class="help-block">
@@ -60,7 +60,7 @@
                 </div>
 					
 				<div class="one">
-                        <p class="h">Are there any other items on the property that the traveller can make use of?</p>
+                        <p class="h">Are there any other items on the property that the traveler can make use of?</p>
 
                         <textarea name="otherAmenities" placeholder="We have a hot tub on the back..." >{{ $listing->other_amenities }}</textarea>
 
@@ -165,6 +165,33 @@
                                 </span>
                            @endif
                     </div>
+                  <div class="one">
+                    <p class="h">Type of parking area</p>
+                      <p class="labs">
+                        <input type="radio" id="pat1" name="parkingType" value="0"
+                               @if($listing->parking_type_id == 0) 
+                                 checked="checked"
+                               @endif
+                            >
+                        <label for="pat1">Gravel</label>
+                      </p>
+                      <p class="labs">
+                        <input type="radio" id="pat2" name="parkingType" value="1"
+                               @if($listing->parking_type_id == 1) 
+                                 checked="checked"
+                               @endif
+                            >
+                        <label for="pat2">Cement/Asphalt</label>
+                      </p>
+                      <p class="labs">
+                        <input type="radio" id="pat3" name="parkingType" value="2"
+                               @if($listing->parking_type_id == 2) 
+                                 checked="checked"
+                               @endif
+                            >
+                        <label for="pat3">Land/Yard</label>
+                      </p>
+                 </div>
 					
                     
                   <div class="one">  
@@ -175,7 +202,7 @@
                 </form>
         </div>    
         @component('components.sidebars.dashboard')
-			@component('components.sidebars.listings')
+			@component('components.sidebars.listings', ['listing' => $listing])
 		
 			@endcomponent  
 		@endcomponent  

@@ -1,0 +1,4 @@
+title: Travelers
+order: number
+template: travelers/article
+fieldset: for_travelers

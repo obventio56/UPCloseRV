@@ -1,0 +1,158 @@
+{{ c_builder }}
+	{{ if type == "polaroid" }}
+		
+		{{ if image_position == "right" }}
+		<section class="list right {{ if background_color == "blue" }}blue{{ /if }} {{ border_color }}">
+			<div class="grid no-gap">
+				<div class="content">
+					<h2 class="h1">{{ section_title }}</h2>
+					<p class="h3">{{ section_content }}</p>
+					{{ if cta_text }}<a href="{{ cta_link }}" class="button brown round">{{ cta_text }}</a>{{/if}}
+				</div>
+				
+				<div class="old-school-photos">
+					<img src="{{ asset:polaroid_image }}{{ url }}{{ /asset:polaroid_image }}" alt="UpClose RV">
+				</div>
+			</div>
+		</section>
+		
+		{{ else }}
+		<section class="list {{ if background_color == "blue" }}blue{{ /if }} {{ border_color }}">
+			<div class="grid no-gap">
+				<div class="old-school-photos">
+					<img src="{{ asset:polaroid_image }}{{ url }}{{ /asset:polaroid_image }}" alt="UpClose RV">
+				</div>
+				<div class="content">
+					<h3 class="h1">{{ section_title }}</h3>
+					<p class="h3">{{ section_content }}</p>
+					{{ if cta_text }}<a href="{{ cta_link }}" class="button brown round">{{ cta_text }}</a>{{/if}}
+				</div>
+			</div>
+		</section>
+		{{ /if }}
+		
+		
+		{{ elseif type == "hero_section" }}
+		<section class="hero-img">
+			<div style="background-image: url({{image}})"></div>
+		</section>
+		
+		
+		{{ elseif type == "search-section" }}
+		<section class="search">
+			<div class="container">
+				<div class="grid">
+					<div class="grid-offset-two">
+						<h1 class="h1">{{ search_title }}</h1>
+						<form action="">
+							<input type="text" placeholder="Where to? Search by city or zip.">
+							<button></button>
+						</form>
+					</div>
+				</div>
+			</div>
+		</section>
+		
+		{{ elseif type == "button_block" }}
+		<section class="wizy cb button_block">
+			<div class="container">
+				<div class="grid">
+					<div class="grid-offset-two">
+						
+						<a href="{{link}}" class="button round {{color}}">{{text}}</a>
+						
+					</div>
+				</div>
+			</div>
+		</section>
+		
+		
+		{{ elseif type == "three_col" }}
+		<section class="three-col">
+			<div class="container">
+				<div class="grid">
+					{{cols}}
+					<div>
+						<p class="h2">{{top}}</p>
+						<p>{{content}}</p>
+					</div>
+					{{/cols}}
+				</div>
+			</div>
+		</section>
+		
+		{{ elseif type == "list_section" }}
+		<section class="search list-section">
+			<div class="container">
+				<div class="grid">
+					<div class="grid-offset-two">
+						<h1 class="h1">{{list_title}}</h1>
+						<a href="" class="button blue round">Get Started</a>
+					</div>
+				</div>
+			</div>
+		</section>
+		
+		
+		
+		
+		{{ elseif type == "image_block" }}
+		<section class="wizy cb">
+			<div class="container">
+				<div class="grid">
+					<div class="grid-offset-two">
+						
+						<img src="{{ asset:image }}{{ url }}{{ /asset:image }}" alt="UpClose RV">
+						
+					</div>
+				</div>
+			</div>
+		</section>
+			
+			
+			
+		{{ elseif type == "wysiwyg_b" }}
+			<section class="wizy cb">
+				<div class="container">
+					<div class="grid">
+						<div class="grid-offset-two">
+							
+							{{ bard }}
+							
+						</div>
+					</div>
+				</div>
+			</section>
+			
+			
+		{{ elseif type == "team_members" }}
+		<section id="team">
+			<div class="container">
+				<h4 class="h4">Our Team</h4>
+				<div class="grid">
+					{{ team }}
+					<div class="item">
+						<div class="featured-image" style="background-image: url({{profile_pic}});">
+							<img class="mobile-only" src="{{profile_pic}}" alt="{{full_name}} - {{position}}">
+							<div class="tagline"><p>{{full_name}}<span>{{position}}</span></p></div>
+						</div>
+					</div>
+					{{ /team }}
+				</div>
+			</div>
+		</section>
+				
+			
+		{{ elseif type == "video_section" }}
+		<section class="wizy cb">
+			<div class="container">
+				<div class="grid">
+					<div class="grid-offset-two">
+						<a data-fancybox="" href="https://www.youtube.com/watch?v={{ youtube_code }}&amp;autoplay=1&amp;rel=0&amp;controls=0&amp;showinfo=0"><div class="video-thumb"><img src="{{ video_thumb }}" alt="Video Thumbnail"></div></a>
+					</div>
+				</div>
+			</div>
+		</section>	
+		
+	{{ /if }}
+{{ /c_builder }}

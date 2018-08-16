@@ -1,0 +1,31 @@
+taxonomies: false
+title: Hosting
+create_title: ""
+fields:
+  title:
+    type: title
+    display: Title
+    localizable: true
+  sub_title:
+    type: textarea
+    display: Sub Title
+  cta_text_one:
+    type: text
+    display: CTA Text One
+  cta_link_one:
+    type: text
+    display: CTA Link One
+  cta_text_two:
+    type: text
+    display: CTA Text Two
+  cta_link_two:
+    type: text
+    display: CTA Link Two
+  builder:
+    type: partial
+    display: Builder
+    fieldset: builder
+  seo:
+    type: partial
+    display: SEO
+    fieldset: seo

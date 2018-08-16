@@ -10,14 +10,14 @@
 			<br />
 			@component('components.menus.dashboard.listing', ['listing' => $listing]) @endcomponent	
             <h1 class="h2">Rules & Policies</h1>
-            <p> </p>
+            <p>We give you the opportunity to make your own rules so you can control your property the way you'd like. Set guidelines for your travelers, check in and check out times, pet policies and how cancelation works.  </p>
              
                 <form class="style lister" method="POST" action="{{ route('store-listing-p3') }}">
                     {{ csrf_field() }}
                      <input type="hidden" name="id" value="{{ $listing->id }}">  
                     
                     <div class="one">
-                        <p class="h">Do you have any rules or guidelines that renter should know about before booking?</p>
+                        <p class="h">Do you have any rules or guidelines that the traveler should know about before booking?</p>
                         <p></p>
 
                         <textarea name="rules" placeholder="No running around the pool..." >{{ $listing->rules }}</textarea>
@@ -36,12 +36,12 @@
 
                             <div class="two">
                                 <label>Check In</label>
-                                <input type="text" name="checkin" value="{{ $listing->check_in }}" placeholder="3:00pm">
+                                <input type="text" name="checkin" value="{{ $listing->check_in }}" placeholder="EX: 3:00pm">
                             </div>
 
                             <div class="two">
                                 <label>Check Out</label>
-                                <input type="text" name="checkout" value="{{ $listing->check_out }}" placeholder="11:00am">
+                                <input type="text" name="checkout" value="{{ $listing->check_out }}" placeholder="EX: 11:00am">
                             </div>
                         </div>
                     </div>
@@ -96,8 +96,8 @@
                                @if($listing->cancel_policy == 1) 
                                  checked="checked"
                                @endif
-                            >
-                        <label for="cp1">Strict</label>
+                         >
+                        <label for="cp1" class="tooltip">Strict <span class="tooltiptext"> No refund will be applied for cancellations less than 7 days before check in. Full refund (minus fees) applied for cancellations at least 7 days before check in.</span></label>
                       </p>
                       <p class="labs">
                         <input type="radio" id="cp2" name="cancelPolicy" value="2"                                
@@ -105,7 +105,7 @@
                                  checked="checked"
                                @endif
                             >
-                        <label for="cp2">Middle policy</label>
+                        <label for="cp2" class="tooltip">Middle policy <span class="tooltiptext">No refund will be applied for cancellations less than 3 days before check in. Full refund (minus fees) applied for cancellations at least 3 days before check in.</span></label>
                       </p>
 					  <p class="labs">
                         <input type="radio" id="cp3" name="cancelPolicy" value="3"                                
@@ -113,7 +113,7 @@
                                  checked="checked"
                                @endif
                             >
-                        <label for="cp3">Relaxed policy</label>
+                        <label for="cp3" class="tooltip">Relaxed policy <span class="tooltiptext">No refund will be applied for cancellations less than 24 hours before check in. Full refund (minus fees) applied for cancellations at least 24 hours before check in.</span></label>
                       </p>
                        @if ($errors->has('cancelPolicy'))
                             <span class="help-block">
@@ -129,7 +129,7 @@
            </form>
         </div>    
         @component('components.sidebars.dashboard')
-			@component('components.sidebars.listings')
+			@component('components.sidebars.listings', ['listing' => $listing])
 		
 			@endcomponent  
         @endcomponent  
