@@ -1,4 +1,4 @@
-seo_title: For Property Owners
+seo_title: Tips For Property Owners | upClose-RV, Central PA
 meta_description: 'Tips & tricks'
 og_image: /assets/img/redwood-north-ridge-trail.jpg
 template: property-owners/index

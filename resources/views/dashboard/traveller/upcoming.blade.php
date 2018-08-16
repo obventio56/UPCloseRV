@@ -11,6 +11,7 @@
 	<div class="prop-list">
 			
 		<div class="outer-prob">
+      
 			@if($listings->count())
 
 			@else
@@ -34,12 +35,11 @@
 					</div>
 					<div class="small-deats">
                     @if(isset($listing->day_pricing))
-						<p class="h8">${{ $listing->day_pricing }} per night</p>
+						<p class="h8">${{ $listing->day_pricing }} per night for up to {{ $listing->day_guests }} guests</p>
                     @endif
-                    @if(isset($listing->month_pricing))
-                        <p class="h8">${{ $listing->month_pricing }} per month</p>
+                    @if(isset($listing->month_pricing) && $listing->month_pricing != 0)
+                        <p class="h8">${{ $listing->month_pricing }} per month for up to {{ $listing->month_guests }} guests</p>
                     @endif
-
 						<a href="{{ route('view-booking', $listing->booking_id) }}" class="button listing">View</a>
 					</div>
 				</div>

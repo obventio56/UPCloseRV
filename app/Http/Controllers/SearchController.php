@@ -35,6 +35,7 @@ class SearchController extends Controller
     public function search(Request $request)
     {
     	$location = $this::geocode($request->search);
+
 		$rvTypes = RVTypes::all();
 		$amenities = Amenities::all();
 		
@@ -73,6 +74,18 @@ class SearchController extends Controller
 			}
 		
 		}
+      
+    if(isset($request->guestCount)){
+      if(isset($request->rentalType)){
+        if ($request->rentalType == 1){
+          $query = $query->where('day_guests', '>=', $request->guestCount);
+        } elseif($request->rentalType == 2){
+          $query = $query->where('month_guests', '>=', $request->guestCount);
+        }
+      }
+      $query = $query->where('day_guests', '>=', $request->guestCount)
+         ->orWhere('month_guests', '>=', $request->guestCount);
+    }
 		
 		// Filter by lot type
 		if(isset($request->lotType) && $request->lotType != ''){
@@ -127,10 +140,15 @@ class SearchController extends Controller
         $url = 'https://maps.googleapis.com/maps/api/geocode/json?address='.urlencode($query).'&key=AIzaSyCyXHeiC9HRgVmhWkHPyBaM4bM7FC3TuGw';
         $data = file_get_contents($url);
         $loc = json_decode($data);
-        $location['lat'] = $loc->results['0']->geometry->location->lat;
-        $location['lng'] = $loc->results['0']->geometry->location->lng;
-        
-        return $location;
+        if(isset($loc->results['0']->geometry->location->lat) && isset($loc->results['0']->geometry->location->lng)){
+            $location['lat'] = $loc->results['0']->geometry->location->lat;
+            $location['lng'] = $loc->results['0']->geometry->location->lng;
+            return $location;
+        } else {
+            return false;
+        }
+
+
     }
 	
 	

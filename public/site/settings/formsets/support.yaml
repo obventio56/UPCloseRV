@@ -6,6 +6,12 @@ fields:
     display: Last Name
   message:
     display: Message
+columns:
+  - first_name
+  - last_name
+  - message
 email:
   - 
     to: levi@pixelandhammer.com
+  - 
+    to: admin@upclose-rv.com

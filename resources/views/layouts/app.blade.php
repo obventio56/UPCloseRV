@@ -4,7 +4,6 @@ echo file_get_contents('https://upclose.developingpixels.com/stemp/header?uri=' 
 <meta name="csrf-token" content="{{ csrf_token() }}">
     @yield('content')
 
-
 <!-- <a data-fancybox="" data-src="#areyousure" data-modal="true" href="javascript:;"></a> -->
 <div id="trueModal" class="p-5 fancybox-content" style="display:none;max-width: 900px;">
 	<a class="close" data-fancybox-close><img src="/img/x.svg"></a>

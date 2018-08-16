@@ -271,8 +271,8 @@
 @section('popup')
 <div id="cancel" class="p-5 fancybox-content" style="display: none;max-width: 900px;">
 	<a class="close" data-fancybox-close><img src="/img/x.svg"></a>
-	<p class="h4">Are you sure you want to cancel this reservation?</p>
-	<p>Pommy ipsum a diamond geezer chips some mothers do 'ave 'em beefeater oopsy-daisies plum pudding, a cuppa hadn't done it in donkey's years terribly bowler hat conkers pompous.</p>
+	<p class="h4">Are you sure you want to cancel?</p>
+	<p>We are sorry that your plans have changed and you need to cancel your reservation. We look forward to seeing you in the future and helping you with your vacation and needs. Please leave your host a message below. Thanks your loyal support and remember to “Get Up Close”! </p>
 	
 	<h2 class="h6">Send a message to your host.</h2>
 	<form class="style" method="POST" action="{{ route('cancel-booking') }}">

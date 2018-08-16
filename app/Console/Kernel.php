@@ -42,6 +42,7 @@ class Kernel extends ConsoleKernel
 		
 		// Transfer funds to hosts... 
 		$schedule->call(function(){
+			StripeBase::setApiKey(config('services.stripe.secret'));	
 			
 			$transfers = DB::table('bookings')
 				->leftJoin('transaction', 'bookings.transaction_id', '=', 'transaction.id')
@@ -63,7 +64,7 @@ class Kernel extends ConsoleKernel
 				));
 				
 				$transaction = Transaction::find($transfer->transaction_id);
-				$transaction->paid_to_host = $amount;
+				$transaction->paid_to_host = ($amount/100);
 				$transaction->host_transfer = $stripe->id;
 				$transaction->save();
 	

@@ -1,19 +1,13 @@
 title: Our Partners
 partners:
   - 
-    logo: /assets/youtube.png
-    blurb: >
-      Youtube has been an amazing partner in the launch of this company, agreeing to host all of our
-      videos, for free!
-    website: http://www.youtube.com
+    blurb: "Tanya's Cookie Boutique! Official baker Harrisburg Symphony Orchestra"
+    website: "https://www.facebook.com/search/top/?q=tanya's%20cookie%20boutique"
+    logo: /assets/img/partnerimages/Tanya.jpg
   - 
-    logo: /assets/original.jpg
-    blurb: Giant donated a one veggie and one fruit tray. Thanks.
-    website: http://www.giant.com
-  - 
-    logo: /assets/chips.png
-    blurb: "Tostitos knows that when you're on the road, you can never have enough snacks."
-    website: https://www.tostitos.com/
+    logo: /assets/img/partnerimages/motorgirlstudios.jpg
+    blurb: Great Camper Art by Noelle Dumas
+    website: https://monstermotorgirl.artstorefronts.com/camper
 seo_title: Our Loyal Partners | Upclose RV
 meta_description: Partners of up-close.
 og_image: /assets/img/black-bear-cubs.jpg

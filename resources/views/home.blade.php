@@ -46,7 +46,7 @@
 					
 					<div class="two">
 						<label>Your RV Size in feet</label>
-						<input type="text" name="rvSize" value="{{ Auth::user()->traveller_rv_size }}" />
+						<input type="number" name="rvSize" placeholder="45" value="{{ Auth::user()->traveller_rv_size }}" />
 					</div>
 					
 					<div class="one">

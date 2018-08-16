@@ -1,6 +1,6 @@
-<a href="{{ route('home') }}">Your Account</a>
+<a href="{{ route('login') }}">Your Account</a>
 
 <ul>
-	<li><a href="{{ route('home') }}">Dashboard</a></li>
+	<li><a href="{{ route('login') }}">Dashboard</a></li>
 
 </ul>

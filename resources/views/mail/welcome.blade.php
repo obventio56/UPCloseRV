@@ -18,9 +18,18 @@
 						<h2>
 							Welcome to the upCLOSE-RV family.
 						</h2>
-						<p>--Letter from Mike--</p>
+						<p>People from all walks of life and generations are discovering the joys of vacationing, living, and traveling in Recreational Vehicles. Whether Guest or Host we are glad 
+							that you have decided to join our ever growing family. If you have questions, please check out our helpful resource pages for 
+							<a href="{{ URL::to('/') }}property-owners">hosts</a> or 
+							<a href="{{ URL::to('/') }}for-travelers">travelers</a>. </p>
+						<p>
+							We look forward to seeing you on the road!
+						</p>
+						<p>
+							As always, celebrate life and get upCLOSE.
+						</p>
 						<p class="lead">
-							Mike
+							Mike Lockwood, CEO
 						</p>
 	
 						<h3>What now?</h3>

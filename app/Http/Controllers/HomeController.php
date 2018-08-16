@@ -276,7 +276,7 @@ class HomeController extends Controller
 		
 		$listing = Listing::where('id', '=', $booking->listing_id)			
 			->leftJoin(DB::raw("(select traveller_photo as host_url, name as host_name, host_description, id as host_id
-							from `users` LIMIT 1) as `host`"), 'host.host_id', '=', 'listings.user_id')
+							from `users`) as `host`"), 'host.host_id', '=', 'listings.user_id')
 			->leftJoin(DB::raw("(select id as address_id, city, state, lat, lng
 							from `listing_addresses`) as `address`"), 'address.address_id', '=', 'listings.id')
 			->first();
@@ -312,10 +312,10 @@ class HomeController extends Controller
 		$other_listings = Listing::where('user_id', '=', $listing->user_id)
 			  ->where('id', '!=', $listing->id)
 			  ->leftJoin(DB::raw("(select city, state, id as listing_id 
-							from `listing_addresses` LIMIT 1) as `list_address`"), 'list_address.listing_id', '=', 'listings.id')
+							from `listing_addresses` ) as `list_address`"), 'list_address.listing_id', '=', 'listings.id')
 			  ->leftJoin(DB::raw("(select url, listing_id 
 							from `listings_images` 
-							where `primary` = 1 LIMIT 1) as `list_images`"), 'list_images.listing_id', '=', 'listings.id')
+							where `primary` = 1) as `list_images`"), 'list_images.listing_id', '=', 'listings.id')
 			->limit('3')
 			->getPublished();
 		
